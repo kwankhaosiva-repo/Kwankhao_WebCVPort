@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kwankhao Sivasomboon | AI Engineer Portfolio & Web CV</title>
+  <meta name="description" content="AI Engineer specializing in Computer Vision, GenAI / RAG, Autonomous Multi-Agent Systems, and Backend Cloud Engineering. Graduate of Chulalongkorn University (B.Eng. Survey Engineering).">
+  <meta name="author" content="Kwankhao Sivasomboon">
+  <meta name="keywords" content="AI Engineer, Computer Vision, YOLOv11, OpenVINO, GenAI, RAG, Gemini, LangChain, FastAPI, Docker, GCP, Kwankhao Sivasomboon, Chulalongkorn University">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kwankhao Sivasomboon | AI Engineer Portfolio">
+  <meta property="og:description" content="Computer Vision, GenAI / RAG, Multi-Agent Systems, Edge AI & Cloud Engineering Portfolio.">
+  <meta property="og:image" content="assets/NDVI_Pic.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Animated Canvas -->
+  <canvas id="neural-canvas"></canvas>
+
+  <!-- Sticky Glass Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo" aria-label="Kwankhao Home">
+        <span class="brand-badge">KS</span>
+        <div class="brand-text">
+          <span class="brand-name">Kwankhao S.</span>
+          <span class="brand-role"><span class="pulse-dot"></span> AI Engineer</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="#about" class="nav-item">About</a>
+        <a href="#skills" class="nav-item">Skills Matrix</a>
+        <a href="#projects" class="nav-item">Projects <span class="nav-badge" id="project-count-badge">12</span></a>
+        <a href="#experience" class="nav-item">Experience</a>
+        <a href="#education" class="nav-item">Education</a>
+        <a href="#contact" class="nav-item">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle Theme">
+          <i class="fa-solid fa-moon theme-icon-dark"></i>
+          <i class="fa-solid fa-sun theme-icon-light"></i>
+        </button>
+        <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-sm btn-primary download-cv-btn" id="nav-download-cv">
+          <i class="fa-solid fa-file-arrow-down"></i> <span>Download CV</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open mobile menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <span class="brand-name">Navigation</span>
+      <button class="close-drawer-btn" id="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-drawer-links">
+      <a href="#about" class="mobile-nav-link"><i class="fa-solid fa-user"></i> About</a>
+      <a href="#skills" class="mobile-nav-link"><i class="fa-solid fa-microchip"></i> Skills Matrix</a>
+      <a href="#projects" class="mobile-nav-link"><i class="fa-solid fa-diagram-project"></i> Projects</a>
+      <a href="#experience" class="mobile-nav-link"><i class="fa-solid fa-briefcase"></i> Experience</a>
+      <a href="#education" class="mobile-nav-link"><i class="fa-solid fa-graduation-cap"></i> Education</a>
+      <a href="#contact" class="mobile-nav-link"><i class="fa-solid fa-envelope"></i> Contact</a>
+      <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download class="mobile-nav-link highlight-link"><i class="fa-solid fa-file-pdf"></i> Download Resume PDF</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="about">
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge animate-fade-in">
+            <span class="badge-icon"><i class="fa-solid fa-sparkles"></i></span>
+            <span>AI Engineer · Computer Vision · GenAI/RAG · Edge AI</span>
+          </div>
+
+          <h1 class="hero-title animate-fade-up">
+            Hi, I'm <span class="gradient-text">Kwankhao Sivasomboon</span><br>
+            Building Production AI from Edge to Cloud
+          </h1>
+
+          <p class="hero-subtitle animate-fade-up delay-1">
+            Specialized in real-time computer vision (YOLOv11, OpenVINO FP16, InsightFace), enterprise Hybrid RAG pipelines (Dense + BM25 + Reciprocal Rank Fusion), autonomous multi-agent systems, and deployable cloud microservices with FastAPI, Docker & GCP.
+          </p>
+
+          <!-- Contact Quick Badges -->
+          <div class="hero-contact-row animate-fade-up delay-2">
+            <a href="mailto:Kwankhaosiva@gmail.com" class="contact-pill" title="Send Email">
+              <i class="fa-solid fa-envelope"></i> Kwankhaosiva@gmail.com
+            </a>
+            <a href="tel:+66959596921" class="contact-pill" title="Call">
+              <i class="fa-solid fa-phone"></i> (+66) 95-959-6921
+            </a>
+            <a href="https://linkedin.com/in/kwankhao-sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-pill" title="LinkedIn Profile">
+              <i class="fa-brands fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://github.com/Kwankhao-Sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-pill" title="GitHub Profile">
+              <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            <span class="contact-pill location-pill">
+              <i class="fa-solid fa-location-dot"></i> Bangkok, Thailand
+            </span>
+          </div>
+
+          <!-- Hero Action CTAs -->
+          <div class="hero-cta-group animate-fade-up delay-3">
+            <a href="#projects" class="btn btn-lg btn-primary">
+              <i class="fa-solid fa-rocket"></i> Explore Projects
+            </a>
+            <button class="btn btn-lg btn-secondary" id="open-resume-modal-btn">
+              <i class="fa-solid fa-file-lines"></i> View Resume
+            </button>
+            <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-lg btn-glass">
+              <i class="fa-solid fa-download"></i> PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero KPI Metrics Grid -->
+        <div class="hero-stats-grid animate-fade-up delay-3">
+          <div class="stat-card" data-tilt>
+            <div class="stat-icon-wrap cv-icon"><i class="fa-solid fa-camera-viewfinder"></i></div>
+            <div class="stat-number"><span class="counter" data-target="20">0</span>+</div>
+            <div class="stat-label">AI & Engineering Projects</div>
+            <div class="stat-sub">Computer Vision, GenAI, Agents & Backend</div>
+          </div>
+
+          <div class="stat-card" data-tilt>
+            <div class="stat-icon-wrap rag-icon"><i class="fa-solid fa-brain-circuit"></i></div>
+            <div class="stat-number">~<span class="counter" data-target="90">0</span>%</div>
+            <div class="stat-label">LPR Province OCR Accuracy</div>
+            <div class="stat-sub">3-Stage Deep Learning Pipeline</div>
+          </div>
+
+          <div class="stat-card" data-tilt>
+            <div class="stat-icon-wrap edge-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="stat-number">&lt; <span class="counter" data-target="45">0</span>ms</div>
+            <div class="stat-label">Edge Inference Latency</div>
+            <div class="stat-sub">OpenVINO FP16 + YOLOv11-Pose</div>
+          </div>
+
+          <div class="stat-card" data-tilt>
+            <div class="stat-icon-wrap cloud-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="stat-number"><span class="counter" data-target="94">0</span>%</div>
+            <div class="stat-label">Hybrid RAG Groundedness</div>
+            <div class="stat-sub">Dense + BM25 + RRF Evaluation</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL SKILLS MATRIX -->
+    <section class="section-container" id="skills">
+      <div class="section-header">
+        <div class="section-tag"><i class="fa-solid fa-microchip"></i> Core Competencies</div>
+        <h2 class="section-title">Technical Skills & Technology Matrix</h2>
+        <p class="section-desc">Interactive tech stack deployed across production systems, research prototypes, and scalable microservices. Click any skill to filter relevant projects.</p>
+      </div>
+
+      <div class="skills-grid" id="skills-matrix-container">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS SHOWCASE -->
+    <section class="section-container" id="projects">
+      <div class="section-header">
+        <div class="section-tag"><i class="fa-solid fa-layer-group"></i> Portfolio Showcase</div>
+        <h2 class="section-title">Featured Engineering Projects</h2>
+        <p class="section-desc">Deep technical implementations spanning Edge Computer Vision, Multi-Agent QA, Hybrid RAG, Financial AI Agents, and Geospatial Intelligence.</p>
+      </div>
+
+      <!-- Controls: Category Filters & Real-time Search -->
+      <div class="projects-control-bar">
+        <div class="category-filters" id="category-filters-container">
+          <!-- Dynamically rendered via app.js -->
+        </div>
+
+        <div class="search-box-wrapper">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="project-search-input" class="project-search-input" placeholder="Search by technology, algorithm, or keyword (e.g. YOLO, RAG, OpenVINO, Gemini, Docker)...">
+          <button id="search-clear-btn" class="search-clear-btn" title="Clear search"><i class="fa-solid fa-circle-xmark"></i></button>
+        </div>
+      </div>
+
+      <!-- Results Indicator -->
+      <div class="results-info-bar">
+        <span id="results-count-text">Showing all projects</span>
+        <button id="reset-filter-btn" class="btn btn-xs btn-outline hidden">Reset Filters</button>
+      </div>
+
+      <!-- Projects Card Grid -->
+      <div class="projects-grid" id="projects-grid-container">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </section>
+
+    <!-- WORK EXPERIENCE TIMELINE -->
+    <section class="section-container" id="experience">
+      <div class="section-header">
+        <div class="section-tag"><i class="fa-solid fa-briefcase"></i> Career Journey</div>
+        <h2 class="section-title">Professional Experience</h2>
+        <p class="section-desc">Track record in developing AI platforms, real-time edge processing systems, QA automation, and geospatial deep learning.</p>
+      </div>
+
+      <div class="timeline-container" id="experience-timeline-container">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </section>
+
+    <!-- EDUCATION & ACHIEVEMENTS -->
+    <section class="section-container" id="education">
+      <div class="section-header">
+        <div class="section-tag"><i class="fa-solid fa-graduation-cap"></i> Academic Background</div>
+        <h2 class="section-title">Education & Competitions</h2>
+        <p class="section-desc">Engineering foundation from Chulalongkorn University and hackathon achievements.</p>
+      </div>
+
+      <div class="education-grid" id="education-grid-container">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </section>
+
+    <!-- CONTACT & HIRE ME SECTION -->
+    <section class="section-container contact-section" id="contact">
+      <div class="contact-card">
+        <div class="contact-glow"></div>
+        <div class="contact-content">
+          <div class="section-tag"><i class="fa-solid fa-paper-plane"></i> Get In Touch</div>
+          <h2 class="contact-title">Let's Build Something Extraordinary</h2>
+          <p class="contact-desc">
+            Open to AI Engineer, Computer Vision Engineer, Machine Learning Engineer, and Full-Stack AI roles. Ready to deliver scalable, high-impact intelligent systems.
+          </p>
+
+          <div class="contact-channels-grid">
+            <div class="contact-channel-box" onclick="navigator.clipboard.writeText('Kwankhaosiva@gmail.com'); showToast('Email copied to clipboard!');">
+              <div class="channel-icon"><i class="fa-solid fa-envelope"></i></div>
+              <div class="channel-info">
+                <span class="channel-name">Direct Email</span>
+                <span class="channel-value">Kwankhaosiva@gmail.com</span>
+              </div>
+              <button class="channel-action-btn" title="Copy email"><i class="fa-solid fa-copy"></i></button>
+            </div>
+
+            <div class="contact-channel-box" onclick="navigator.clipboard.writeText('(+66) 95-959-6921'); showToast('Phone number copied to clipboard!');">
+              <div class="channel-icon"><i class="fa-solid fa-phone"></i></div>
+              <div class="channel-info">
+                <span class="channel-name">Phone / WhatsApp</span>
+                <span class="channel-value">(+66) 95-959-6921</span>
+              </div>
+              <button class="channel-action-btn" title="Copy phone"><i class="fa-solid fa-copy"></i></button>
+            </div>
+
+            <a href="https://linkedin.com/in/kwankhao-sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-channel-box">
+              <div class="channel-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+              <div class="channel-info">
+                <span class="channel-name">LinkedIn Profile</span>
+                <span class="channel-value">linkedin.com/in/kwankhao-sivasomboon</span>
+              </div>
+              <span class="channel-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </a>
+
+            <a href="https://github.com/Kwankhao-Sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-channel-box">
+              <div class="channel-icon"><i class="fa-brands fa-github"></i></div>
+              <div class="channel-info">
+                <span class="channel-name">GitHub Repositories</span>
+                <span class="channel-value">github.com/Kwankhao-Sivasomboon</span>
+              </div>
+              <span class="channel-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </a>
+          </div>
+
+          <div class="contact-actions">
+            <a href="mailto:Kwankhaosiva@gmail.com?subject=AI%20Engineer%20Opportunity%20-%20Kwankhao%20Sivasomboon" class="btn btn-lg btn-primary">
+              <i class="fa-solid fa-envelope-open-text"></i> Send Email Inquiries
+            </a>
+            <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-lg btn-secondary">
+              <i class="fa-solid fa-file-pdf"></i> Download Official Resume
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-logo">Kwankhao Sivasomboon</span>
+        <span class="footer-tagline">AI Engineer · Computer Vision · GenAI · Distributed Cloud</span>
+      </div>
+      <div class="footer-center">
+        <span>© 2026 Kwankhao Sivasomboon. All Rights Reserved.</span>
+      </div>
+      <div class="footer-right">
+        <a href="#about" class="back-to-top-btn" title="Back to top"><i class="fa-solid fa-arrow-up"></i> Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PROJECT DEEP-DIVE MODAL -->
+  <div class="modal-backdrop" id="project-modal" aria-hidden="true">
+    <div class="modal-dialog project-modal-dialog">
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="badge" id="modal-category-badge">Category</span>
+          <span class="badge badge-sub" id="modal-badge-tag">Badge</span>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body" id="modal-body-content">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUME PREVIEW MODAL -->
+  <div class="modal-backdrop" id="resume-modal" aria-hidden="true">
+    <div class="modal-dialog resume-modal-dialog">
+      <div class="modal-header">
+        <div class="resume-modal-title-wrap">
+          <i class="fa-solid fa-file-user"></i>
+          <h3>Official Curriculum Vitae · Kwankhao Sivasomboon</h3>
+        </div>
+        <div class="resume-modal-actions">
+          <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-sm btn-primary">
+            <i class="fa-solid fa-download"></i> Download PDF
+          </a>
+          <button class="modal-close-btn" id="resume-modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <div class="modal-body resume-modal-body" id="resume-modal-body">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- DATA & APP LOGIC -->
+  <script src="portfolio_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
