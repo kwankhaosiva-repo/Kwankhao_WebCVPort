@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const particles = [];
-    const particleCount = Math.min(Math.floor(window.innerWidth / 20), 65);
+    const particleCount = Math.min(Math.floor(window.innerWidth / 22), 60);
     const mouse = { x: null, y: null, radius: 140 };
 
     window.addEventListener('mousemove', (e) => {
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
         size: Math.random() * 2 + 1
       });
     }
@@ -378,6 +378,12 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = filtered.map(project => `
       <div class="project-card" data-id="${project.id}">
         <div>
+          ${project.image ? `
+            <div class="project-card-image-wrap">
+              <img src="${project.image}" alt="${project.title}" class="project-card-image" loading="lazy" onerror="this.parentElement.style.display='none'">
+            </div>
+          ` : ''}
+
           <div class="project-card-header">
             <div class="project-card-badges">
               <span class="badge">${project.categoryLabel || project.category}</span>
@@ -446,8 +452,14 @@ document.addEventListener('DOMContentLoaded', () => {
         <p class="modal-project-impact" style="margin-top: 6px;"><i class="fa-solid fa-bolt"></i> ${project.impact}</p>
       </div>
 
+      ${project.image ? `
+        <div>
+          <img src="${project.image}" alt="${project.title}" class="modal-image-preview">
+        </div>
+      ` : ''}
+
       <div>
-        <h4 class="modal-section-title"><i class="fa-solid fa-align-left"></i> Overview & Problem-Solution</h4>
+        <h4 class="modal-section-title"><i class="fa-solid fa-align-left"></i> Overview & Implementation Summary</h4>
         <p style="color: var(--text-secondary); line-height: 1.7;">${project.fullDescription}</p>
       </div>
 
@@ -477,7 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ${project.innovations && project.innovations.length > 0 ? `
         <div>
-          <h4 class="modal-section-title"><i class="fa-solid fa-lightbulb"></i> Key Technical Innovations</h4>
+          <h4 class="modal-section-title"><i class="fa-solid fa-lightbulb"></i> Engineering Notes & Key Solutions</h4>
           <ul class="modal-innovations-list">
             ${project.innovations.map(inn => `
               <li>${inn.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>
@@ -504,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ` : ''}
 
       <div>
-        <h4 class="modal-section-title"><i class="fa-solid fa-cubes"></i> Complete Tech Stack</h4>
+        <h4 class="modal-section-title"><i class="fa-solid fa-cubes"></i> Technologies Used</h4>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           ${(project.techStack || []).map(t => `
             <span class="skill-tag" style="cursor: default;">${t}</span>
@@ -572,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="edu-institution">${edu.institution}</div>
         <div class="edu-period">${edu.period}</div>
         ${edu.coursework ? `
-          <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-muted); margin-top: 10px;">Key Coursework:</div>
+          <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-muted); margin-top: 10px;">Relevant Coursework:</div>
           <div class="coursework-list">
             ${edu.coursework.map(c => `<span class="course-badge">${c}</span>`).join('')}
           </div>
