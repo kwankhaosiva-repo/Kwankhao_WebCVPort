@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       {
         key: 'genai_rag',
         title: 'GenAI, LLMs & Hybrid RAG',
-        icon: 'fa-brain-circuit',
+        icon: 'fa-brain',
         skills: state.resume.skills.genai_rag
       },
       {
@@ -245,12 +245,24 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.classList.remove('active');
           state.searchQuery = '';
           document.getElementById('project-search-input').value = '';
+          const clearBtn = document.getElementById('search-clear-btn');
+          if (clearBtn) clearBtn.style.display = 'none';
         } else {
           container.querySelectorAll('.skill-tag').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           state.selectedSkill = skill;
           state.searchQuery = skill;
-          document.getElementById('project-search-input').value = skill;
+          
+          // Auto-reset category to 'all' so skill search isn't blocked by previous category tab
+          state.activeCategory = 'all';
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-category') === 'all');
+          });
+
+          const input = document.getElementById('project-search-input');
+          if (input) input.value = skill;
+          const clearBtn = document.getElementById('search-clear-btn');
+          if (clearBtn) clearBtn.style.display = 'block';
         }
         renderProjects();
         // Scroll smoothly to projects section
@@ -350,9 +362,36 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================================== */
   function extractSearchTokens(rawQuery) {
     if (!rawQuery) return [];
-    // Strip punctuation, parentheses, brackets, slashes
-    return rawQuery
-      .toLowerCase()
+    const normalized = rawQuery.toLowerCase().trim();
+
+    // Map common multi-word skills to high-recall search triggers
+    const aliasMap = {
+      'groq whisper': ['whisper', 'groq', 'audio', 'speech'],
+      'google gemini': ['gemini', 'vlm'],
+      'hybrid rag': ['hybrid', 'rag', 'rrf', 'bm25'],
+      'structured outputs': ['pydantic', 'schema', 'structured'],
+      'llm evaluation': ['evaluation', 'judge', 'eval'],
+      'reciprocal rank fusion (rrf)': ['reciprocal', 'rrf', 'bm25', 'fusion'],
+      'ctc loss': ['ctc'],
+      'resnet-crnn': ['crnn', 'resnet'],
+      'yolo11-pose': ['yolo', 'pose'],
+      'openvino (fp16)': ['openvino'],
+      'insightface / arcface': ['insightface', 'arcface'],
+      'contour analysis': ['contour', 'crack'],
+      'satellite remote sensing (ndvi / evi)': ['satellite', 'remote sensing', 'ndvi', 'spectral', 'crop'],
+      'drone aerial imagery': ['drone', 'aerial', 'crack'],
+      'lidar analysis': ['lidar', 'geospatial'],
+      'three.js 3d web': ['three.js', '3d', 'room'],
+      'open3d / trimesh': ['open3d', 'trimesh', 'mesh', '3d'],
+      'esp32 ble iot': ['esp32', 'raspberry pi', 'iot']
+    };
+
+    if (aliasMap[normalized]) {
+      return aliasMap[normalized];
+    }
+
+    // Default: split punctuation and parentheses
+    return normalized
       .replace(/[()\/,+&._-]/g, ' ')
       .split(/\s+/)
       .filter(token => token.length > 1 && !['1.5', '2.5', 'fp16', 'v11', 'v8'].includes(token));

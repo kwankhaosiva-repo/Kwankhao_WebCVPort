@@ -1336,7 +1336,7 @@ window.PORTFOLIO_DATA = {
     {
       "id": "genai-rag",
       "label": "GenAI, LLMs & Retrieval",
-      "icon": "fa-brain-circuit"
+      "icon": "fa-brain"
     },
     {
       "id": "data-automation",

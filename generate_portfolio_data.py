@@ -740,7 +740,7 @@ def main():
         "categories": [
             {"id": "all", "label": "All Categories", "count": len(ALL_PROJECTS)},
             {"id": "cv-edge", "label": "Computer Vision & Edge AI", "icon": "fa-eye"},
-            {"id": "genai-rag", "label": "GenAI, LLMs & Retrieval", "icon": "fa-brain-circuit"},
+            {"id": "genai-rag", "label": "GenAI, LLMs & Retrieval", "icon": "fa-brain"},
             {"id": "data-automation", "label": "Automation & Testing", "icon": "fa-robot"},
             {"id": "backend-cloud", "label": "Backend & Cloud Systems", "icon": "fa-server"},
             {"id": "geospatial-3d", "label": "Geospatial & 3D Analytics", "icon": "fa-earth-americas"}
