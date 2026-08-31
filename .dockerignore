@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Big raw assets not needed in web server bundle
+images/
+repomix/
+*.md
+!README.md
+
+# Python cache & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db

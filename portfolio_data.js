@@ -136,7 +136,7 @@ window.PORTFOLIO_DATA = {
   "projects": [
     {
       "id": "stafflenz-ai-worker-monitor",
-      "title": "StaffLenz AI: Workplace Computer Vision & Activity Monitor",
+      "title": "StaffLenz AI: Workplace Activity & Desk Zone Monitor",
       "folder": "yourhome-monitor-worker-activity",
       "category": "cv-edge",
       "categoryLabel": "Computer Vision & Edge AI",
@@ -210,7 +210,6 @@ window.PORTFOLIO_DATA = {
       "categoryLabel": "Computer Vision & Edge AI",
       "badge": "OCR & Classification",
       "impact": "3-Stage deep learning pipeline achieving ~90% province classification on Thai plates",
-      "image": "assets/crack_detection_output.png",
       "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for Thai province classification.",
       "fullDescription": "A 3-stage deep learning pipeline built to recognize Thai license plates (which feature Thai script characters, numerals, and 77 distinct provincial names in small text). Uses YOLO11 for bounding box localization, ResNet-CRNN with Connectionist Temporal Classification (CTC Loss) for variable-length sequence reading, and a fine-tuned MobileNetV2 for 77 Thai province classification. Deployed as a containerized REST API on Google Cloud Run.",
       "highlights": [
@@ -967,7 +966,6 @@ window.PORTFOLIO_DATA = {
       "categoryLabel": "Multi-Agent & Automation",
       "badge": "Chatbot & Automation",
       "impact": "Intent recognition, lead qualification & MySQL/Firestore response synthesis",
-      "image": "assets/shot_2026-05-21_151828.png",
       "shortSummary": "Administrative chatbot for customer service on LINE and Web Chat. Uses Google Gemini for intent routing, queries MySQL/Firestore for property inventory, and delivers polite, structured replies.",
       "fullDescription": "A customer service and lead management agent. Connects to customer inquiries over LINE Messaging API and web widgets. Uses Google Gemini to classify customer intent (price inquiry, viewing booking, location query), retrieves matching listings from MySQL RDS and Firestore leads, and generates polite, professional replies.",
       "highlights": [
@@ -1012,6 +1010,38 @@ window.PORTFOLIO_DATA = {
         "code": "async def handle_customer_inquiry(message_text: str, user_id: str) -> str:\n    # Classify intent with Gemini\n    intent_data = await classify_intent(message_text)\n    intent = intent_data.get(\"intent\")\n    \n    if intent == \"CHECK_PROPERTY\":\n        property_id = intent_data.get(\"property_id\")\n        details = await db_skill.get_property_details(property_id)\n        return format_property_reply(details)\n    elif intent == \"BOOK_VIEWING\":\n        lead = await firestore_skill.save_lead(user_id, intent_data)\n        return \"ขอบคุณสำหรับการนัดหมายชมห้อง เจ้าหน้าที่จะติดต่อกลับยืนยันเวลาครับ\"\n    else:\n        return await gemini_generate_general_reply(message_text)"
       },
       "featured": false
+    }
+  ],
+  "startupLearnings": [
+    {
+      "icon": "fa-bolt",
+      "title": "Fast Adaptation & Execution",
+      "tag": "Speed & Agility",
+      "description": "In a fast-paced startup environment, I quickly learned to pick up unfamiliar frameworks and libraries (e.g. OpenVINO, Playwright, Groq, LangChain) and bring working prototypes into production within short turnaround cycles."
+    },
+    {
+      "icon": "fa-book-open-reader",
+      "title": "Self-Directed Continuous Learning",
+      "tag": "Curiosity & Depth",
+      "description": "Thrive on reading official documentation, research papers (YOLO-Pose, ArcFace embeddings, Hybrid RRF), and discovering edge optimization techniques independently without waiting for step-by-step instructions."
+    },
+    {
+      "icon": "fa-cube",
+      "title": "Modular & Pure Function Mindset",
+      "tag": "Code Maintainability",
+      "description": "Adopted a skill-driven, config-first engineering standard where core math and logic are isolated into deterministic pure functions (no hidden side effects), making unit testing and multi-agent reuse straightforward."
+    },
+    {
+      "icon": "fa-arrows-split-up-and-left",
+      "title": "Pragmatic Problem Solving",
+      "tag": "Cost & Efficiency",
+      "description": "Focused on practical trade-offs between accuracy, compute cost, and latency — such as implementing low-cost edge triggers + cloud VLM instead of maintaining expensive always-on GPU clusters."
+    },
+    {
+      "icon": "fa-users-gear",
+      "title": "Cross-Functional Collaboration",
+      "tag": "Teamwork & Delivery",
+      "description": "Collaborated closely with backend developers and QA to understand business needs, integrate API endpoints, handle edge cases, and ensure clean handover of deployed microservices."
     }
   ],
   "categories": [

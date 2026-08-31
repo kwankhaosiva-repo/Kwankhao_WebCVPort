@@ -23,11 +23,11 @@ pdf_dst = os.path.join(ASSETS_DIR, "RESUME_Kwankhao_Sivasomboon.pdf")
 if os.path.exists(pdf_src):
     shutil.copyfile(pdf_src, pdf_dst)
 
-# Detailed curated project catalog with rich technical architecture, innovations, metrics, code, and screenshots
+# Detailed curated project catalog with verified image mappings and humble descriptions
 PROJECTS_CATALOG = [
     {
         "id": "stafflenz-ai-worker-monitor",
-        "title": "StaffLenz AI: Workplace Computer Vision & Activity Monitor",
+        "title": "StaffLenz AI: Workplace Activity & Desk Zone Monitor",
         "folder": "yourhome-monitor-worker-activity",
         "category": "cv-edge",
         "categoryLabel": "Computer Vision & Edge AI",
@@ -111,7 +111,6 @@ def point_in_polygon(point: tuple, polygon_coords: list) -> bool:
         "categoryLabel": "Computer Vision & Edge AI",
         "badge": "OCR & Classification",
         "impact": "3-Stage deep learning pipeline achieving ~90% province classification on Thai plates",
-        "image": "assets/crack_detection_output.png",
         "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for Thai province classification.",
         "fullDescription": "A 3-stage deep learning pipeline built to recognize Thai license plates (which feature Thai script characters, numerals, and 77 distinct provincial names in small text). Uses YOLO11 for bounding box localization, ResNet-CRNN with Connectionist Temporal Classification (CTC Loss) for variable-length sequence reading, and a fine-tuned MobileNetV2 for 77 Thai province classification. Deployed as a containerized REST API on Google Cloud Run.",
         "highlights": [
@@ -986,7 +985,6 @@ async def process_voice_note(audio_bytes: bytes) -> PropertySearchCriteria:
         "categoryLabel": "Multi-Agent & Automation",
         "badge": "Chatbot & Automation",
         "impact": "Intent recognition, lead qualification & MySQL/Firestore response synthesis",
-        "image": "assets/shot_2026-05-21_151828.png",
         "shortSummary": "Administrative chatbot for customer service on LINE and Web Chat. Uses Google Gemini for intent routing, queries MySQL/Firestore for property inventory, and delivers polite, structured replies.",
         "fullDescription": "A customer service and lead management agent. Connects to customer inquiries over LINE Messaging API and web widgets. Uses Google Gemini to classify customer intent (price inquiry, viewing booking, location query), retrieves matching listings from MySQL RDS and Firestore leads, and generates polite, professional replies.",
         "highlights": [
@@ -1037,6 +1035,40 @@ async def process_voice_note(audio_bytes: bytes) -> PropertySearchCriteria:
         return await gemini_generate_general_reply(message_text)"""
         },
         "featured": False
+    }
+]
+
+# Soft skills and startup experience growth items
+STARTUP_LEARNINGS = [
+    {
+        "icon": "fa-bolt",
+        "title": "Fast Adaptation & Execution",
+        "tag": "Speed & Agility",
+        "description": "In a fast-paced startup environment, I quickly learned to pick up unfamiliar frameworks and libraries (e.g. OpenVINO, Playwright, Groq, LangChain) and bring working prototypes into production within short turnaround cycles."
+    },
+    {
+        "icon": "fa-book-open-reader",
+        "title": "Self-Directed Continuous Learning",
+        "tag": "Curiosity & Depth",
+        "description": "Thrive on reading official documentation, research papers (YOLO-Pose, ArcFace embeddings, Hybrid RRF), and discovering edge optimization techniques independently without waiting for step-by-step instructions."
+    },
+    {
+        "icon": "fa-cube",
+        "title": "Modular & Pure Function Mindset",
+        "tag": "Code Maintainability",
+        "description": "Adopted a skill-driven, config-first engineering standard where core math and logic are isolated into deterministic pure functions (no hidden side effects), making unit testing and multi-agent reuse straightforward."
+    },
+    {
+        "icon": "fa-arrows-split-up-and-left",
+        "title": "Pragmatic Problem Solving",
+        "tag": "Cost & Efficiency",
+        "description": "Focused on practical trade-offs between accuracy, compute cost, and latency — such as implementing low-cost edge triggers + cloud VLM instead of maintaining expensive always-on GPU clusters."
+    },
+    {
+        "icon": "fa-users-gear",
+        "title": "Cross-Functional Collaboration",
+        "tag": "Teamwork & Delivery",
+        "description": "Collaborated closely with backend developers and QA to understand business needs, integrate API endpoints, handle edge cases, and ensure clean handover of deployed microservices."
     }
 ]
 
@@ -1130,11 +1162,12 @@ RESUME_DATA = {
 }
 
 def main():
-    print("Generating portfolio data with images and humble tone...")
+    print("Generating portfolio data with images and startup learnings...")
     
     data_bundle = {
         "resume": RESUME_DATA,
         "projects": PROJECTS_CATALOG,
+        "startupLearnings": STARTUP_LEARNINGS,
         "categories": [
             {"id": "all", "label": "All Projects", "count": len(PROJECTS_CATALOG)},
             {"id": "cv-edge", "label": "Computer Vision & Edge AI", "icon": "eye"},

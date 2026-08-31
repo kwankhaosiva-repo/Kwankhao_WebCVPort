@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedSkill: null,
     projects: window.PORTFOLIO_DATA?.projects || [],
     resume: window.PORTFOLIO_DATA?.resume || {},
-    categories: window.PORTFOLIO_DATA?.categories || []
+    categories: window.PORTFOLIO_DATA?.categories || [],
+    startupLearnings: window.PORTFOLIO_DATA?.startupLearnings || []
   };
 
   // Init Components
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNeuralCanvas();
   initNavigation();
   initSkillsMatrix();
+  initStartupLearnings();
   initCategoryFilters();
   initProjectSearch();
   renderProjects();
@@ -254,6 +256,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (projSec) projSec.scrollIntoView({ behavior: 'smooth' });
       });
     });
+  }
+
+  /* ==========================================================================
+     4.1 Startup Experience & Soft Skills Section
+     ========================================================================== */
+  function initStartupLearnings() {
+    const container = document.getElementById('startup-learnings-container');
+    if (!container || !state.startupLearnings) return;
+
+    container.innerHTML = state.startupLearnings.map(item => `
+      <div class="startup-card">
+        <div>
+          <div class="startup-card-top">
+            <div class="startup-icon-wrap"><i class="fa-solid ${item.icon}"></i></div>
+            <span class="badge badge-sub">${item.tag}</span>
+          </div>
+          <h3 class="startup-title">${item.title}</h3>
+          <p class="startup-desc">${item.description}</p>
+        </div>
+      </div>
+    `).join('');
   }
 
   /* ==========================================================================
