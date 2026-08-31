@@ -1,7 +1,18 @@
+# Raw image dumping ground & proprietary docs (do not upload to public repo)
 images/
-.env
-assets/
 Kwankhao's Docs/
 repomix/
 repomix-output.md
 repomix-config.json
+
+# Secrets & Environment
+.env
+*.pem
+*.key
+
+# Python Cache & OS files
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db

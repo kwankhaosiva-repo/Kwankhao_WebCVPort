@@ -7,12 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Global App State
   const state = {
     theme: localStorage.getItem('theme') || 'dark',
-    activeCategory: 'all',
+    activeType: 'all',          // 'all' | 'personal' | 'company'
+    activeCategory: 'all',      // 'all' | 'cv-edge' | 'genai-rag' | etc.
     searchQuery: '',
     selectedSkill: null,
     projects: window.PORTFOLIO_DATA?.projects || [],
+    personalProjects: window.PORTFOLIO_DATA?.personalProjects || [],
+    companyProjects: window.PORTFOLIO_DATA?.companyProjects || [],
     resume: window.PORTFOLIO_DATA?.resume || {},
     categories: window.PORTFOLIO_DATA?.categories || [],
+    typeFilters: window.PORTFOLIO_DATA?.typeFilters || [],
     startupLearnings: window.PORTFOLIO_DATA?.startupLearnings || []
   };
 
@@ -22,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initSkillsMatrix();
   initStartupLearnings();
+  initProjectTypeTabs();
   initCategoryFilters();
   initProjectSearch();
   renderProjects();
@@ -280,8 +285,36 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     5. Category Filters & Project Search
+     5. Project Type Segmented Tabs & Category Filters
      ========================================================================== */
+  function initProjectTypeTabs() {
+    const container = document.getElementById('project-type-nav-container');
+    if (!container) return;
+
+    const tabs = [
+      { id: 'all', label: 'All Projects', count: state.projects.length, icon: 'fa-cubes' },
+      { id: 'personal', label: 'Personal Projects (Deep Dive & Code)', count: state.personalProjects.length, icon: 'fa-star' },
+      { id: 'company', label: 'Company & Industry Experience', count: state.companyProjects.length, icon: 'fa-building' }
+    ];
+
+    container.innerHTML = tabs.map(tab => `
+      <button class="type-tab-btn ${tab.id === state.activeType ? 'active' : ''}" data-type="${tab.id}">
+        <i class="fa-solid ${tab.icon}"></i>
+        ${tab.label}
+        <span class="tab-count">${tab.count}</span>
+      </button>
+    `).join('');
+
+    container.querySelectorAll('.type-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.type-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.activeType = btn.getAttribute('data-type');
+        renderProjects();
+      });
+    });
+  }
+
   function initCategoryFilters() {
     const container = document.getElementById('category-filters-container');
     if (!container) return;
@@ -305,14 +338,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('reset-filter-btn');
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
+        state.activeType = 'all';
         state.activeCategory = 'all';
         state.searchQuery = '';
         state.selectedSkill = null;
         document.getElementById('project-search-input').value = '';
         document.querySelectorAll('.skill-tag').forEach(b => b.classList.remove('active'));
+        
+        // Reset type tabs
+        document.querySelectorAll('.type-tab-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-type') === 'all');
+        });
+
+        // Reset category buttons
         container.querySelectorAll('.filter-btn').forEach(b => {
           b.classList.toggle('active', b.getAttribute('data-category') === 'all');
         });
+
         renderProjects();
       });
     }
@@ -352,11 +394,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Filter projects
     const filtered = state.projects.filter(project => {
-      // Category check
-      const matchesCategory = state.activeCategory === 'all' || project.category === state.activeCategory;
-      if (!matchesCategory) return false;
+      // 1. Project Type Filter
+      if (state.activeType !== 'all' && project.type !== state.activeType) {
+        return false;
+      }
 
-      // Search query check
+      // 2. Category Filter
+      if (state.activeCategory !== 'all' && project.category !== state.activeCategory) {
+        return false;
+      }
+
+      // 3. Search Query Filter
       if (state.searchQuery) {
         const query = state.searchQuery.toLowerCase();
         const searchable = [
@@ -364,6 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
           project.shortSummary,
           project.fullDescription,
           project.impact,
+          project.typeLabel || '',
+          project.companyName || '',
           ...(project.techStack || []),
           ...(project.highlights || [])
         ].join(' ').toLowerCase();
@@ -376,10 +426,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update Results Bar
     if (countText) {
-      countText.textContent = `Showing ${filtered.length} of ${state.projects.length} projects ${state.searchQuery ? `for "${state.searchQuery}"` : ''}`;
+      const typeLabel = state.activeType === 'personal' ? 'Personal Projects' : (state.activeType === 'company' ? 'Company Experience' : 'Projects');
+      countText.textContent = `Showing ${filtered.length} of ${state.projects.length} ${typeLabel} ${state.searchQuery ? `for "${state.searchQuery}"` : ''}`;
     }
+
     if (resetBtn) {
-      if (state.activeCategory !== 'all' || state.searchQuery) {
+      if (state.activeType !== 'all' || state.activeCategory !== 'all' || state.searchQuery) {
         resetBtn.classList.remove('hidden');
       } else {
         resetBtn.classList.add('hidden');
@@ -390,60 +442,60 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
           <div style="font-size: 3rem; color: var(--text-muted); margin-bottom: 16px;"><i class="fa-solid fa-folder-open"></i></div>
-          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No projects matched your criteria</h3>
-          <p style="color: var(--text-muted); margin-bottom: 20px;">Try searching for a different keyword like "YOLO", "RAG", "FastAPI", or "OpenVINO".</p>
-          <button class="btn btn-primary" onclick="document.getElementById('reset-filter-btn').click();">Reset Search</button>
+          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No projects matched your filter</h3>
+          <p style="color: var(--text-muted); margin-bottom: 20px;">Try switching tabs or resetting your search keyword.</p>
+          <button class="btn btn-primary" onclick="document.getElementById('reset-filter-btn').click();">Reset Filters</button>
         </div>
       `;
       return;
     }
 
-    container.innerHTML = filtered.map(project => `
-      <div class="project-card" data-id="${project.id}">
-        <div>
-          ${project.image ? `
-            <div class="project-card-image-wrap">
-              <img src="${project.image}" alt="${project.title}" class="project-card-image" loading="lazy" onerror="this.parentElement.style.display='none'">
+    container.innerHTML = filtered.map(project => {
+      const isPersonal = project.type === 'personal';
+      const badgeClass = isPersonal ? 'badge-personal' : 'badge-company';
+      const badgeText = isPersonal ? 'Personal Project · Open Source' : (project.companyName ? `🏢 ${project.companyName}` : '🏢 Industry Experience');
+
+      return `
+        <div class="project-card ${isPersonal ? 'personal-card' : 'company-card'}" data-id="${project.id}">
+          <div>
+            <div class="project-card-header">
+              <div class="project-card-badges">
+                <span class="badge ${badgeClass}">${badgeText}</span>
+                <span class="badge">${project.categoryLabel || project.category}</span>
+              </div>
             </div>
-          ` : ''}
 
-          <div class="project-card-header">
-            <div class="project-card-badges">
-              <span class="badge">${project.categoryLabel || project.category}</span>
-              ${project.badge ? `<span class="badge badge-sub">${project.badge}</span>` : ''}
-            </div>
-          </div>
+            <h3 class="project-card-title">${project.title}</h3>
+            <div class="project-card-impact"><i class="fa-solid fa-sparkles"></i> ${project.impact}</div>
+            <p class="project-card-desc">${project.shortSummary}</p>
 
-          <h3 class="project-card-title">${project.title}</h3>
-          <div class="project-card-impact"><i class="fa-solid fa-sparkles"></i> ${project.impact}</div>
-          <p class="project-card-desc">${project.shortSummary}</p>
+            ${project.metrics && project.metrics.length > 0 ? `
+              <div class="project-metrics-strip">
+                ${project.metrics.slice(0, 2).map(m => `
+                  <div class="metric-item">
+                    <span class="metric-val">${m.value}</span>
+                    <span class="metric-lbl">${m.label}</span>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
 
-          ${project.metrics && project.metrics.length > 0 ? `
-            <div class="project-metrics-strip">
-              ${project.metrics.slice(0, 2).map(m => `
-                <div class="metric-item">
-                  <span class="metric-val">${m.value}</span>
-                  <span class="metric-lbl">${m.label}</span>
-                </div>
+            <div class="project-tech-badges">
+              ${(project.techStack || []).slice(0, 6).map(tech => `
+                <span class="tech-chip">${tech}</span>
               `).join('')}
+              ${(project.techStack || []).length > 6 ? `<span class="tech-chip">+${project.techStack.length - 6}</span>` : ''}
             </div>
-          ` : ''}
+          </div>
 
-          <div class="project-tech-badges">
-            ${(project.techStack || []).slice(0, 6).map(tech => `
-              <span class="tech-chip">${tech}</span>
-            `).join('')}
-            ${(project.techStack || []).length > 6 ? `<span class="tech-chip">+${project.techStack.length - 6}</span>` : ''}
+          <div class="project-card-footer">
+            <button class="btn btn-sm ${isPersonal ? 'btn-primary' : 'btn-secondary'} open-project-modal-btn" data-id="${project.id}">
+              ${isPersonal ? '<i class="fa-solid fa-code"></i> Deep Dive & Code' : '<i class="fa-solid fa-layer-group"></i> System Overview'}
+            </button>
           </div>
         </div>
-
-        <div class="project-card-footer">
-          <button class="btn btn-sm btn-primary open-project-modal-btn" data-id="${project.id}">
-            <i class="fa-solid fa-network-wired"></i> Deep Dive & Architecture
-          </button>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     // Attach click listeners to cards
     container.querySelectorAll('.open-project-modal-btn').forEach(btn => {
@@ -455,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     7. Project Deep Dive Modal
+     7. Project Deep Dive & System Overview Modal
      ========================================================================== */
   function openProjectModal(projectId) {
     const project = state.projects.find(p => p.id === projectId);
@@ -465,30 +517,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const catBadge = document.getElementById('modal-category-badge');
     const tagBadge = document.getElementById('modal-badge-tag');
     const body = document.getElementById('modal-body-content');
+    const isPersonal = project.type === 'personal';
 
     if (catBadge) catBadge.textContent = project.categoryLabel || project.category;
-    if (tagBadge) tagBadge.textContent = project.badge || 'Deep Dive';
+    if (tagBadge) tagBadge.textContent = isPersonal ? 'Personal Deep Dive' : (project.companyName || 'Industry Experience');
 
     body.innerHTML = `
       <div>
+        <div style="margin-bottom: 8px;">
+          <span class="badge ${isPersonal ? 'badge-personal' : 'badge-company'}">
+            ${isPersonal ? 'Personal Project (Code & Architecture Open)' : `🏢 Production System · ${project.companyName || 'Yourhome'}`}
+          </span>
+        </div>
         <h2 class="modal-project-title">${project.title}</h2>
         <p class="modal-project-impact" style="margin-top: 6px;"><i class="fa-solid fa-bolt"></i> ${project.impact}</p>
       </div>
 
-      ${project.image ? `
-        <div>
-          <img src="${project.image}" alt="${project.title}" class="modal-image-preview">
-        </div>
-      ` : ''}
-
       <div>
-        <h4 class="modal-section-title"><i class="fa-solid fa-align-left"></i> Overview & Implementation Summary</h4>
+        <h4 class="modal-section-title"><i class="fa-solid fa-align-left"></i> ${isPersonal ? 'Project Overview' : 'System Overview & Engineering Role'}</h4>
         <p style="color: var(--text-secondary); line-height: 1.7;">${project.fullDescription}</p>
       </div>
 
+      ${project.highlights && project.highlights.length > 0 ? `
+        <div>
+          <h4 class="modal-section-title"><i class="fa-solid fa-list-check"></i> Key Engineering Highlights</h4>
+          <ul class="modal-innovations-list">
+            ${project.highlights.map(h => `
+              <li>${h.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>
+            `).join('')}
+          </ul>
+        </div>
+      ` : ''}
+
       ${project.architecture ? `
         <div>
-          <h4 class="modal-section-title"><i class="fa-solid fa-diagram-project"></i> System Architecture & Data Flow</h4>
+          <h4 class="modal-section-title"><i class="fa-solid fa-diagram-project"></i> System Architecture & Pipeline</h4>
           <div class="modal-architecture-box">
             <pre><code>${project.architecture.trim()}</code></pre>
           </div>
@@ -539,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ` : ''}
 
       <div>
-        <h4 class="modal-section-title"><i class="fa-solid fa-cubes"></i> Technologies Used</h4>
+        <h4 class="modal-section-title"><i class="fa-solid fa-cubes"></i> Technologies & Libraries</h4>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           ${(project.techStack || []).map(t => `
             <span class="skill-tag" style="cursor: default;">${t}</span>

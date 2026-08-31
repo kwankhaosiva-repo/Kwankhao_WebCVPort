@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kwankhao Sivasomboon | AI Engineer Portfolio">
   <meta property="og:description" content="Computer Vision, GenAI / RAG, Multi-Agent Systems, Edge AI & Cloud Engineering Portfolio.">
-  <meta property="og:image" content="assets/shot_2026-08-04_112006.png">
+  <meta property="og:image" content="assets/profile_photo.jpg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,8 +44,8 @@
       <nav class="nav-links" id="nav-links">
         <a href="#about" class="nav-item">About</a>
         <a href="#skills" class="nav-item">Skills Matrix</a>
-        <a href="#learnings" class="nav-item">Startup Experience</a>
-        <a href="#projects" class="nav-item">Projects <span class="nav-badge" id="project-count-badge">12</span></a>
+        <a href="#learnings" class="nav-item">Startup Growth</a>
+        <a href="#projects" class="nav-item">Projects <span class="nav-badge" id="project-count-badge">15</span></a>
         <a href="#experience" class="nav-item">Experience</a>
         <a href="#education" class="nav-item">Education</a>
         <a href="#contact" class="nav-item">Contact</a>
@@ -75,7 +75,7 @@
     <div class="mobile-drawer-links">
       <a href="#about" class="mobile-nav-link"><i class="fa-solid fa-user"></i> About</a>
       <a href="#skills" class="mobile-nav-link"><i class="fa-solid fa-microchip"></i> Skills Matrix</a>
-      <a href="#learnings" class="mobile-nav-link"><i class="fa-solid fa-lightbulb"></i> Startup Experience</a>
+      <a href="#learnings" class="mobile-nav-link"><i class="fa-solid fa-lightbulb"></i> Startup Growth</a>
       <a href="#projects" class="mobile-nav-link"><i class="fa-solid fa-diagram-project"></i> Projects</a>
       <a href="#experience" class="mobile-nav-link"><i class="fa-solid fa-briefcase"></i> Experience</a>
       <a href="#education" class="mobile-nav-link"><i class="fa-solid fa-graduation-cap"></i> Education</a>
@@ -85,54 +85,72 @@
   </div>
 
   <main>
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION WITH PROFILE PHOTO -->
     <section class="hero-section" id="about">
       <div class="hero-container">
-        <div class="hero-content">
-          <div class="hero-badge animate-fade-in">
-            <span class="badge-icon"><i class="fa-solid fa-code"></i></span>
-            <span>AI Engineer · Computer Vision · GenAI/RAG · Backend & Cloud</span>
+        <div class="hero-main-layout">
+          <!-- Left Hero Intro -->
+          <div class="hero-content">
+            <div class="hero-badge animate-fade-in">
+              <span class="badge-icon"><i class="fa-solid fa-code"></i></span>
+              <span>AI Engineer · Computer Vision · GenAI/RAG · Backend & Cloud</span>
+            </div>
+
+            <h1 class="hero-title animate-fade-up">
+              Hi, I'm <span class="gradient-text">Kwankhao Sivasomboon</span><br>
+              Building Practical AI Systems from Edge to Cloud
+            </h1>
+
+            <p class="hero-subtitle animate-fade-up delay-1">
+              AI Engineer with hands-on experience building computer vision pipelines (YOLOv11-Pose, OpenVINO FP16, InsightFace), Hybrid RAG retrieval systems (Dense + BM25 + Reciprocal Rank Fusion), multi-agent automation, and backend cloud APIs using Python, FastAPI, Docker & GCP.
+            </p>
+
+            <!-- Contact Quick Badges -->
+            <div class="hero-contact-row animate-fade-up delay-2">
+              <a href="mailto:Kwankhaosiva@gmail.com" class="contact-pill" title="Send Email">
+                <i class="fa-solid fa-envelope"></i> Kwankhaosiva@gmail.com
+              </a>
+              <a href="tel:+66959596921" class="contact-pill" title="Call">
+                <i class="fa-solid fa-phone"></i> (+66) 95-959-6921
+              </a>
+              <a href="https://linkedin.com/in/kwankhao-sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-pill" title="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin"></i> LinkedIn
+              </a>
+              <a href="https://github.com/Kwankhao-Sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-pill" title="GitHub Profile">
+                <i class="fa-brands fa-github"></i> GitHub
+              </a>
+              <span class="contact-pill location-pill">
+                <i class="fa-solid fa-location-dot"></i> Bangkok, Thailand
+              </span>
+            </div>
+
+            <!-- Hero Action CTAs -->
+            <div class="hero-cta-group animate-fade-up delay-3">
+              <a href="#projects" class="btn btn-lg btn-primary">
+                <i class="fa-solid fa-rocket"></i> Explore Projects
+              </a>
+              <button class="btn btn-lg btn-secondary" id="open-resume-modal-btn">
+                <i class="fa-solid fa-file-lines"></i> View Resume
+              </button>
+              <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-lg btn-glass">
+                <i class="fa-solid fa-download"></i> PDF
+              </a>
+            </div>
           </div>
 
-          <h1 class="hero-title animate-fade-up">
-            Hi, I'm <span class="gradient-text">Kwankhao Sivasomboon</span><br>
-            Building Practical AI Systems from Edge to Cloud
-          </h1>
-
-          <p class="hero-subtitle animate-fade-up delay-1">
-            AI Engineer with hands-on experience building computer vision pipelines (YOLOv11-Pose, OpenVINO FP16, InsightFace), Hybrid RAG retrieval systems (Dense + BM25 + Reciprocal Rank Fusion), multi-agent automation, and backend microservices using Python, FastAPI, Docker & GCP.
-          </p>
-
-          <!-- Contact Quick Badges -->
-          <div class="hero-contact-row animate-fade-up delay-2">
-            <a href="mailto:Kwankhaosiva@gmail.com" class="contact-pill" title="Send Email">
-              <i class="fa-solid fa-envelope"></i> Kwankhaosiva@gmail.com
-            </a>
-            <a href="tel:+66959596921" class="contact-pill" title="Call">
-              <i class="fa-solid fa-phone"></i> (+66) 95-959-6921
-            </a>
-            <a href="https://linkedin.com/in/kwankhao-sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-pill" title="LinkedIn Profile">
-              <i class="fa-brands fa-linkedin"></i> LinkedIn
-            </a>
-            <a href="https://github.com/Kwankhao-Sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-pill" title="GitHub Profile">
-              <i class="fa-brands fa-github"></i> GitHub
-            </a>
-            <span class="contact-pill location-pill">
-              <i class="fa-solid fa-location-dot"></i> Bangkok, Thailand
-            </span>
-          </div>
-
-          <!-- Hero Action CTAs -->
-          <div class="hero-cta-group animate-fade-up delay-3">
-            <a href="#projects" class="btn btn-lg btn-primary">
-              <i class="fa-solid fa-rocket"></i> Explore Projects
-            </a>
-            <button class="btn btn-lg btn-secondary" id="open-resume-modal-btn">
-              <i class="fa-solid fa-file-lines"></i> View Resume
-            </button>
-            <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-lg btn-glass">
-              <i class="fa-solid fa-download"></i> PDF
-            </a>
+          <!-- Right Profile Photo Card -->
+          <div class="hero-avatar-card animate-fade-in" data-tilt>
+            <div class="hero-avatar-glow"></div>
+            <div class="avatar-image-frame">
+              <img src="assets/profile_photo.jpg" alt="Kwankhao Sivasomboon - AI Engineer" class="avatar-image" loading="eager">
+            </div>
+            <div class="avatar-info">
+              <h3 class="avatar-name">Kwankhao S.</h3>
+              <div class="avatar-education">🎓 Chulalongkorn University (B.Eng)</div>
+              <div class="avatar-status-pill">
+                <span class="pulse-dot"></span> Open for AI Engineer Roles
+              </div>
+            </div>
           </div>
         </div>
 
@@ -140,9 +158,9 @@
         <div class="hero-stats-grid animate-fade-up delay-3">
           <div class="stat-card" data-tilt>
             <div class="stat-icon-wrap cv-icon"><i class="fa-solid fa-cubes"></i></div>
-            <div class="stat-number"><span class="counter" data-target="20">0</span>+</div>
+            <div class="stat-number"><span class="counter" data-target="15">0</span>+</div>
             <div class="stat-label">Projects & Modules Built</div>
-            <div class="stat-sub">Computer Vision, GenAI, Agents & Backend</div>
+            <div class="stat-sub">Personal Showcase + Industry Experience</div>
           </div>
 
           <div class="stat-card" data-tilt>
@@ -195,12 +213,17 @@
       </div>
     </section>
 
-    <!-- FEATURED PROJECTS SHOWCASE -->
+    <!-- FEATURED PROJECTS SHOWCASE WITH TYPE SEPARATION -->
     <section class="section-container" id="projects">
       <div class="section-header">
         <div class="section-tag"><i class="fa-solid fa-layer-group"></i> Portfolio Showcase</div>
         <h2 class="section-title">Featured Projects & Systems</h2>
-        <p class="section-desc">Projects spanning Edge Computer Vision, Multi-Agent QA, Hybrid RAG, Financial AI Assistants, and Geospatial Analysis.</p>
+        <p class="section-desc">Explore independent personal projects (with code & architecture deep dives) and production systems from industry experience.</p>
+      </div>
+
+      <!-- Project Type Tabs: Personal vs Company -->
+      <div class="project-type-nav" id="project-type-nav-container">
+        <!-- Dynamically rendered via app.js -->
       </div>
 
       <!-- Controls: Category Filters & Real-time Search -->
@@ -211,7 +234,7 @@
 
         <div class="search-box-wrapper">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="project-search-input" class="project-search-input" placeholder="Search by technology, algorithm, or keyword (e.g. YOLO, RAG, OpenVINO, Gemini, Docker)...">
+          <input type="text" id="project-search-input" class="project-search-input" placeholder="Search by technology, algorithm, or keyword (e.g. YOLO, RAG, OpenVINO, Gemini, LangChain)...">
           <button id="search-clear-btn" class="search-clear-btn" title="Clear search"><i class="fa-solid fa-circle-xmark"></i></button>
         </div>
       </div>
@@ -233,7 +256,7 @@
       <div class="section-header">
         <div class="section-tag"><i class="fa-solid fa-briefcase"></i> Work Experience</div>
         <h2 class="section-title">Professional Experience</h2>
-        <p class="section-desc">Hands-on experience in developing AI features, edge computer vision processing, QA automation, and drone geospatial analysis.</p>
+        <p class="section-desc">Hands-on experience developing edge computer vision, GenAI pipelines, QA automation, and drone geospatial analysis.</p>
       </div>
 
       <div class="timeline-container" id="experience-timeline-container">

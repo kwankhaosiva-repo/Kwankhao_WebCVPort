@@ -4,6 +4,7 @@ window.PORTFOLIO_DATA = {
     "name": "Kwankhao Sivasomboon",
     "title": "AI Engineer",
     "headline": "AI Engineer · Computer Vision · GenAI/RAG · Backend & Cloud",
+    "photo": "assets/profile_photo.jpg",
     "contact": {
       "email": "Kwankhaosiva@gmail.com",
       "phone": "(+66) 95-959-6921",
@@ -133,97 +134,30 @@ window.PORTFOLIO_DATA = {
       }
     ]
   },
-  "projects": [
-    {
-      "id": "stafflenz-ai-worker-monitor",
-      "title": "StaffLenz AI: Workplace Activity & Desk Zone Monitor",
-      "folder": "yourhome-monitor-worker-activity",
-      "category": "cv-edge",
-      "categoryLabel": "Computer Vision & Edge AI",
-      "badge": "Workplace CV Platform",
-      "impact": "Real-time edge worker identity stability & desk analytics on multi-camera RTSP",
-      "image": "assets/shot_2026-08-04_112006.png",
-      "shortSummary": "Workplace computer vision system integrating multi-camera RTSP feeds, YOLOv11-Pose, InsightFace/ArcFace face embeddings, OpenVINO FP16 acceleration, and polygon desk zones for activity tracking.",
-      "fullDescription": "StaffLenz AI is a computer vision analytics system developed at Yourhome to monitor desk occupancy and worker activity in real-time. It processes multi-camera RTSP video streams using Intel OpenVINO FP16 optimization and latest-frame batching queues. To stabilize worker identification, it utilizes face embedding cosine similarity, head-pose yaw/pitch filtering, and identity temporal caching across polygon desk zones. Events and occupancy states are delivered via Server-Sent Events (SSE) and automated LINE alert webhooks.",
-      "highlights": [
-        "OpenVINO FP16 inference for YOLOv11-Pose & InsightFace ArcFace",
-        "Multi-camera RTSP pipeline with drop-oldest latest-frame buffer",
-        "Polygon desk zone mapping with ray-casting point-in-polygon containment",
-        "Identity stabilization with head-pose filtering (pitch/yaw thresholding) and cosine distance",
-        "Server-Sent Events (SSE) live streaming + LINE alert dispatch triggers",
-        "Data retention cleanup worker with automated historical compaction"
-      ],
-      "metrics": [
-        {
-          "label": "Inference Latency",
-          "value": "< 45ms",
-          "sub": "OpenVINO FP16 on Edge CPU"
-        },
-        {
-          "label": "Identity Stability",
-          "value": "98.4%",
-          "sub": "ArcFace + Temporal Caching"
-        },
-        {
-          "label": "Camera Streams",
-          "value": "Multi-RTSP",
-          "sub": "Concurrent latest-frame queues"
-        },
-        {
-          "label": "Event Delivery",
-          "value": "Real-Time",
-          "sub": "SSE Stream + LINE Webhooks"
-        }
-      ],
-      "techStack": [
-        "Python",
-        "FastAPI",
-        "YOLOv11-Pose",
-        "InsightFace",
-        "ArcFace",
-        "OpenVINO",
-        "OpenCV",
-        "SuperVision",
-        "PyTorch",
-        "SSE (Server-Sent Events)",
-        "Docker",
-        "LINE Notify"
-      ],
-      "architecture": "\n+--------------------+      +-----------------------+      +--------------------------+\n| Multi-RTSP Cameras | ---> | Latest-Frame Queue    | ---> | YOLOv11-Pose + ArcFace   |\n| (Workplace Streams)|      | (Drop-oldest buffer)  |      | (OpenVINO FP16 Inference)|\n+--------------------+      +-----------------------+      +--------------------------+\n                                                                         |\n                                                                         v\n+--------------------+      +-----------------------+      +--------------------------+\n| Management UI /    | <--- | FastAPI SSE Stream &  | <--- | Polygon Desk Zone Engine |\n| LINE Alert Webhook |      | SQLite/History DB     |      | & Identity State Cache   |\n+--------------------+      +-----------------------+      +--------------------------+\n",
-      "innovations": [
-        "**Head-Pose Filtered Enrollment**: Rejects blurry or extreme yaw/pitch angles before computing 512-d ArcFace embeddings, helping prevent identity contamination.",
-        "**Drop-Oldest Latest-Frame Buffer**: Prevents RTSP stream buffer lag during compute bursts by always processing the newest available frame.",
-        "**Hierarchical Activity State Machine**: Combines pose keypoints (wrists, shoulders, head tilt) with polygon desk zone overlap to distinguish active work from away states."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/skills/worker_tracker.py (Identity Cosine Similarity & Zone Check)",
-        "code": "def match_identity(face_embedding: np.ndarray, known_embeddings: dict, threshold=0.68) -> str:\n    \"\"\"Calculates cosine similarity between current face embedding and enrolled gallery.\"\"\"\n    best_match, max_sim = \"Unknown\", -1.0\n    norm_emb = face_embedding / (np.linalg.norm(face_embedding) + 1e-7)\n    for name, gallery_emb in known_embeddings.items():\n        sim = float(np.dot(norm_emb, gallery_emb / (np.linalg.norm(gallery_emb) + 1e-7)))\n        if sim > max_sim and sim >= threshold:\n            max_sim, best_match = sim, name\n    return best_match\n\ndef point_in_polygon(point: tuple, polygon_coords: list) -> bool:\n    \"\"\"Ray casting algorithm to determine if a worker coordinate falls inside desk zone.\"\"\"\n    x, y = point\n    inside = False\n    n = len(polygon_coords)\n    p1x, p1y = polygon_coords[0]\n    for i in range(n + 1):\n        p2x, p2y = polygon_coords[i % n]\n        if min(p1y, p2y) < y <= max(p1y, p2y):\n            if x <= max(p1x, p2x):\n                if p1y != p2y:\n                    xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x\n                if p1x == p2x or x <= xinters:\n                    inside = not inside\n        p1x, p1y = p2x, p2y\n    return inside"
-      },
-      "featured": true
-    },
+  "personalProjects": [
     {
       "id": "thai-lpr-deep-learning-ocr",
       "title": "Thai License Plate Recognition (LPR) & OCR Pipeline",
-      "folder": "Structural-Crack-Detection-System-OpenCV-Pivot-",
+      "type": "personal",
+      "typeLabel": "Personal Project",
       "category": "cv-edge",
-      "categoryLabel": "Computer Vision & Edge AI",
-      "badge": "OCR & Classification",
-      "impact": "3-Stage deep learning pipeline achieving ~90% province classification on Thai plates",
-      "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for Thai province classification.",
-      "fullDescription": "A 3-stage deep learning pipeline built to recognize Thai license plates (which feature Thai script characters, numerals, and 77 distinct provincial names in small text). Uses YOLO11 for bounding box localization, ResNet-CRNN with Connectionist Temporal Classification (CTC Loss) for variable-length sequence reading, and a fine-tuned MobileNetV2 for 77 Thai province classification. Deployed as a containerized REST API on Google Cloud Run.",
+      "categoryLabel": "Computer Vision & Deep Learning",
+      "badge": "Personal Deep Learning Project",
+      "impact": "3-Stage deep learning pipeline achieving ~90% Thai province OCR classification",
+      "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for 77 Thai province classification.",
+      "fullDescription": "An end-to-end 3-stage deep learning pipeline built to recognize complex Thai vehicle license plates (featuring Thai script consonants, numerals, and 77 distinct provincial names in small text). Stage 1 uses YOLO11 for plate localization and perspective alignment. Stage 2 employs a custom ResNet-CRNN architecture trained with Connectionist Temporal Classification (CTC Loss) for reading character sequences without per-character bounding boxes. Stage 3 utilizes a fine-tuned MobileNetV2 classifier to identify the 77 Thai provinces.",
       "highlights": [
-        "Stage 1: YOLO11 object detection trained on diverse lighting and angle conditions",
-        "Stage 2: ResNet-CRNN architecture with CTC Loss for Thai consonants and digit OCR",
-        "Stage 3: Fine-tuned MobileNetV2 for 77 Thai province classification",
-        "Achieved ~90% province classification accuracy on evaluation datasets",
-        "Containerized REST API built with FastAPI and deployed on GCP Cloud Run"
+        "Stage 1: YOLO11 object detection trained on diverse Thai vehicle camera angles",
+        "Stage 2: ResNet-CRNN with CTC Loss for Thai alphabet and digit sequence transcription",
+        "Stage 3: Fine-tuned MobileNetV2 model for 77 Thai province classification",
+        "Achieved ~90% province classification accuracy across test validation datasets",
+        "Containerized REST API built with FastAPI and tested on GCP Cloud Run"
       ],
       "metrics": [
         {
           "label": "Province Accuracy",
           "value": "~90%",
-          "sub": "Evaluated on diverse Thai dataset"
+          "sub": "77 Thai provinces evaluated"
         },
         {
           "label": "Pipeline Stages",
@@ -231,14 +165,14 @@ window.PORTFOLIO_DATA = {
           "sub": "YOLO11 + CRNN-CTC + MobileNetV2"
         },
         {
-          "label": "Deployment",
-          "value": "GCP Cloud Run",
-          "sub": "Dockerized REST API"
+          "label": "Inference Latency",
+          "value": "< 120ms",
+          "sub": "End-to-end pipeline per image"
         },
         {
-          "label": "Latency",
-          "value": "< 120ms",
-          "sub": "End-to-end inference per image"
+          "label": "Framework",
+          "value": "PyTorch",
+          "sub": "Custom CNN-RNN-CTC training"
         }
       ],
       "techStack": [
@@ -255,25 +189,751 @@ window.PORTFOLIO_DATA = {
       ],
       "architecture": "\n+-----------------+      +------------------------+      +------------------------+\n| Input Image /   | ---> | Stage 1: YOLO11        | ---> | Crop & Perspective     |\n| Vehicle Camera  |      | Plate Detection        |      | Warp Correction        |\n+-----------------+      +------------------------+      +------------------------+\n                                                                     |\n                                  +----------------------------------+\n                                  |\n                                  v\n+-------------------------------------------------+      +------------------------+\n| Stage 2: ResNet-CRNN + CTC Loss (Text/Numbers)  | ---> | JSON Structured Result |\n| Stage 3: MobileNetV2 (77 Province Classifier)   |      | Plate: 1กข 9999 กรุงเทพ |\n+-------------------------------------------------+      +------------------------+\n",
       "innovations": [
-        "**Decoupled Province Classifier**: Thai provincial names are printed in tiny fonts below license numbers. Decoupling sequence OCR from province classification via MobileNetV2 improved recognition stability.",
-        "**CTC Loss Sequence Alignment**: Avoided the need for individual character bounding box annotations by training end-to-end with Connectionist Temporal Classification."
+        "**Decoupled Province Classifier**: Decoupled sequence transcription from province identification, allowing the MobileNetV2 classifier to specialize on subtle font differences in provincial titles.",
+        "**CTC Loss Sequence Alignment**: Eliminated the need for character-level bounding box segmentation by training CRNN end-to-end with Connectionist Temporal Classification."
       ],
       "codeSnippet": {
         "language": "python",
-        "title": "models/lpr_pipeline.py (Three-Stage Inference & CTC Decode)",
-        "code": "class ThaiLPRPipeline:\n    def __init__(self, yolo_path, crnn_path, province_path, device='cuda'):\n        self.detector = YOLO(yolo_path)\n        self.ocr_model = CRNN(num_classes=NUM_THAI_CHARS).to(device)\n        self.province_model = MobileNetV2(num_classes=77).to(device)\n        self.device = device\n\n    def predict(self, image_np: np.ndarray) -> dict:\n        # Stage 1: Bounding Box Detection\n        results = self.detector(image_np, conf=0.5)\n        if not results or len(results[0].boxes) == 0:\n            return {\"status\": \"no_plate_found\"}\n\n        box = results[0].boxes[0].xyxy[0].cpu().numpy().astype(int)\n        plate_crop = image_np[box[1]:box[3], box[0]:box[2]]\n\n        # Stage 2: ResNet-CRNN OCR for Numbers and Consonants\n        tensor_crop = preprocess_ocr(plate_crop).to(self.device)\n        ocr_logits = self.ocr_model(tensor_crop)\n        plate_text = ctc_decode(ocr_logits, THAI_CHAR_MAP)\n\n        # Stage 3: MobileNetV2 Province Classification\n        prov_tensor = preprocess_province(plate_crop).to(self.device)\n        prov_logits = self.province_model(prov_tensor)\n        province_name = PROVINCE_MAP[prov_logits.argmax().item()]\n\n        return {\"plate_number\": plate_text, \"province\": province_name, \"confidence\": float(ocr_logits.max())}"
+        "title": "models/lpr_pipeline.py (Three-Stage PyTorch Inference & CTC Decode)",
+        "code": "class ThaiLPRPipeline:\n    def __init__(self, yolo_path: str, crnn_path: str, province_path: str, device='cuda'):\n        self.detector = YOLO(yolo_path)\n        self.ocr_model = CRNN(num_classes=NUM_THAI_CHARS).to(device)\n        self.province_model = MobileNetV2(num_classes=77).to(device)\n        self.device = device\n\n    def predict(self, image_np: np.ndarray) -> dict:\n        # Stage 1: Bounding Box Detection\n        results = self.detector(image_np, conf=0.5)\n        if not results or len(results[0].boxes) == 0:\n            return {\"status\": \"no_plate_found\"}\n\n        box = results[0].boxes[0].xyxy[0].cpu().numpy().astype(int)\n        plate_crop = image_np[box[1]:box[3], box[0]:box[2]]\n\n        # Stage 2: ResNet-CRNN OCR for Thai Consonants and Numbers\n        tensor_crop = preprocess_ocr(plate_crop).to(self.device)\n        ocr_logits = self.ocr_model(tensor_crop)\n        plate_text = ctc_decode(ocr_logits, THAI_CHAR_MAP)\n\n        # Stage 3: MobileNetV2 77 Province Classification\n        prov_tensor = preprocess_province(plate_crop).to(self.device)\n        prov_logits = self.province_model(prov_tensor)\n        province_name = PROVINCE_MAP[prov_logits.argmax().item()]\n\n        return {\n            \"plate_number\": plate_text,\n            \"province\": province_name,\n            \"confidence\": float(ocr_logits.max().item())\n        }"
+      },
+      "featured": true
+    },
+    {
+      "id": "thai-legal-retrieval-hybrid-rag",
+      "title": "Thai Legal Retrieval & Hybrid RAG System",
+      "type": "personal",
+      "typeLabel": "Personal Project",
+      "category": "genai-rag",
+      "categoryLabel": "GenAI, LLMs & Agents",
+      "badge": "Personal RAG Project",
+      "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
+      "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
+      "fullDescription": "A Hybrid Retrieval-Augmented Generation (RAG) engine designed to search Thai legal documents, local municipality laws, and corporate regulations. Combines dense semantic vector search (multilingual embeddings in ChromaDB) with sparse lexical search (BM25 with PyThaiNLP tokenization), merged via Reciprocal Rank Fusion (RRF). Implements hypothetical document embeddings (HyDE) for query expansion and an automated evaluation pipeline to test groundedness.",
+      "highlights": [
+        "Hybrid Retrieval Architecture: ChromaDB dense vector search + BM25 sparse keyword matching",
+        "Reciprocal Rank Fusion (RRF) with tunable rank constants to balance semantic & exact matches",
+        "Thai legal corpus chunking with section and statutory metadata tags",
+        "Query expansion with Gemini/Ollama to generate domain-specific legal synonyms",
+        "LLM-as-a-judge evaluation benchmark for faithfulness and answer relevancy",
+        "LangChain orchestration with streaming citations"
+      ],
+      "metrics": [
+        {
+          "label": "Retrieval Strategy",
+          "value": "Hybrid RRF",
+          "sub": "Dense Semantic + BM25 Sparse"
+        },
+        {
+          "label": "Evaluation Score",
+          "value": "93.8%",
+          "sub": "Context Groundedness (LLM-judge)"
+        },
+        {
+          "label": "Vector Store",
+          "value": "ChromaDB",
+          "sub": "Multilingual Semantic Embeddings"
+        },
+        {
+          "label": "Inference Latency",
+          "value": "< 480ms",
+          "sub": "Hybrid retrieval + RRF merge"
+        }
+      ],
+      "techStack": [
+        "Python",
+        "LangChain",
+        "ChromaDB",
+        "BM25",
+        "Reciprocal Rank Fusion (RRF)",
+        "Google Gemini",
+        "Ollama",
+        "PyThaiNLP",
+        "FastAPI",
+        "Pydantic"
+      ],
+      "architecture": "\n                                    +------------------------------+\n                                    | User Thai Legal Query        |\n                                    +------------------------------+\n                                                  |\n                                   +--------------+--------------+\n                                   | (Query Expansion & HyDE)    |\n                                   v                             v\n                    +-----------------------------+ +-----------------------------+\n                    | Dense Vector Search         | | Sparse Lexical Search       |\n                    | (ChromaDB Multilingual)     | | (BM25 + PyThaiNLP Tokens)   |\n                    +-----------------------------+ +-----------------------------+\n                                   |                             |\n                                   +--------------+--------------+\n                                                  |\n                                                  v\n                                    +------------------------------+\n                                    | Reciprocal Rank Fusion (RRF) |\n                                    | Rank Score = 1 / (60 + Rank) |\n                                    +------------------------------+\n                                                  |\n                                                  v\n                                    +------------------------------+\n                                    | Gemini Reasoning + Citation  |\n                                    | & Section-grounded Output    |\n                                    +------------------------------+\n",
+      "innovations": [
+        "**Reciprocal Rank Fusion (RRF) for Exact Statutory Numbers**: Addresses vector search's difficulty with exact Thai section numbers by combining dense semantic vectors with BM25 lexical token matching.",
+        "**LLM-as-a-Judge Eval**: Implemented an automated test script verifying that claims in the output reference retrieved chunks accurately."
+      ],
+      "codeSnippet": {
+        "language": "python",
+        "title": "src/retriever/hybrid_rrf.py (Reciprocal Rank Fusion Algorithm)",
+        "code": "def reciprocal_rank_fusion(dense_results: list, sparse_results: list, k: int = 60) -> list:\n    \"\"\"Combines dense and sparse search rankings using Reciprocal Rank Fusion.\"\"\"\n    rrf_scores = {}\n    doc_lookup = {}\n\n    # Accumulate Dense RRF scores\n    for rank, doc in enumerate(dense_results):\n        doc_id = doc.metadata.get('section_id', doc.page_content)\n        doc_lookup[doc_id] = doc\n        rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))\n\n    # Accumulate Sparse BM25 RRF scores\n    for rank, doc in enumerate(sparse_results):\n        doc_id = doc.metadata.get('section_id', doc.page_content)\n        doc_lookup[doc_id] = doc\n        rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))\n\n    # Sort merged documents by combined RRF score descending\n    sorted_doc_ids = sorted(rrf_scores.keys(), key=lambda did: rrf_scores[did], reverse=True)\n    return [doc_lookup[did] for did in sorted_doc_ids]"
+      },
+      "featured": true
+    },
+    {
+      "id": "rag-chain-langchain-retrieval",
+      "title": "RAG-Chain: Advanced LangChain Multi-Retrieval Pipeline",
+      "type": "personal",
+      "typeLabel": "Personal Project",
+      "category": "genai-rag",
+      "categoryLabel": "GenAI, LLMs & Agents",
+      "badge": "Personal RAG Project",
+      "impact": "LangChain retrieval chain with Maximal Marginal Relevance (MMR) & strict hallucination guardrails",
+      "shortSummary": "Document question-answering RAG pipeline built with LangChain, ChromaDB vector indexing, Maximal Marginal Relevance (MMR) diversity reranking, Google Gemini LLM, and anti-hallucination grounding.",
+      "fullDescription": "A modular Retrieval-Augmented Generation pipeline implemented using LangChain and Google Generative AI embeddings. Integrates ChromaDB vector store with Maximal Marginal Relevance (MMR) retrieval to prevent redundant document chunks. Implements structured document chaining (`create_stuff_documents_chain`, `create_retrieval_chain`), base-document context injection, and strict system prompts preventing LLM hallucinations.",
+      "highlights": [
+        "LangChain modular chain orchestration (`create_retrieval_chain` + `create_stuff_documents_chain`)",
+        "Maximal Marginal Relevance (MMR) search type (`fetch_k=20`, `lambda_mult=0.5`) for diverse context retrieval",
+        "ChromaDB persistent vector store with Google Generative AI embeddings",
+        "Strict hallucination guardrails instructing Gemini to answer exclusively from ground truth context",
+        "Metadata-based first-page executive summary extraction and contextual injection"
+      ],
+      "metrics": [
+        {
+          "label": "Reranker",
+          "value": "MMR Search",
+          "sub": "Maximal Marginal Relevance"
+        },
+        {
+          "label": "LLM Engine",
+          "value": "Gemini Models",
+          "sub": "Structured prompt chaining"
+        },
+        {
+          "label": "Embeddings",
+          "value": "Google GenAI",
+          "sub": "ChromaDB vector store"
+        },
+        {
+          "label": "Guardrails",
+          "value": "Strict Grounding",
+          "sub": "Zero-hallucination prompting"
+        }
+      ],
+      "techStack": [
+        "Python",
+        "LangChain",
+        "ChromaDB",
+        "Google Gemini",
+        "GoogleGenerativeAIEmbeddings",
+        "PyPDF / Document Loaders",
+        "Pydantic",
+        "FastAPI"
+      ],
+      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| User Query Inbound    | ---> | ChromaDB Vector Store     | ---> | MMR Search Reranker       |\n| (Document Research)   |      | (Google GenAI Embeddings) |      | (Diversity fetch_k=20)    |\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Grounded AI Answer    | <--- | Gemini LLM Engine         | <--- | Stuff Documents Chain     |\n| with Source Context   |      | (Temperature Controlled)  |      | & Base Info Injection     |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
+      "innovations": [
+        "**Maximal Marginal Relevance (MMR) Diversity**: Prevents context crowding by balancing relevance against similarity to already selected chunks.",
+        "**Strict Grounding Prompting**: System prompt strictly enforces answering only from retrieved context or explicitly declaring missing data."
+      ],
+      "codeSnippet": {
+        "language": "python",
+        "title": "src/rag_chain.py (LangChain MMR Retriever & Retrieval Chain Setup)",
+        "code": "def build_rag_retrieval_chain(vectorstore: Chroma, llm: ChatGoogleGenerativeAI):\n    # 1. MMR Retriever for context diversity\n    retriever = vectorstore.as_retriever(\n        search_type=\"mmr\",\n        search_kwargs={\"k\": 5, \"fetch_k\": 20, \"lambda_mult\": 0.5}\n    )\n\n    # 2. Strict Grounding Prompt\n    system_prompt = (\n        \"คุณเป็นผู้ช่วยวิจัยอัจฉริยะที่เคร่งครัดเรื่องความถูกต้องของข้อมูล \"\n        \"1. ตอบคำถามโดยใช้ข้อมูลจาก '[ข้อมูลพื้นฐาน]' และ '[เนื้อหาค้นหา]' เท่านั้น\\n\"\n        \"2. หาก 'ไม่พบข้อมูล' ในเนื้อหา ให้ตอบว่า 'ไม่พบข้อมูลในเอกสาร' ห้ามคาดเดาคำตอบเองเด็ดขาด\\n\"\n        \"3. คงคำศัพท์ภาษาอังกฤษสำหรับชื่อเฉพาะและศัพท์เทคนิคไว้เสมอ\\n\\n\"\n        \"[ข้อมูลพื้นฐาน]:\\n{base_info}\\n\\n\"\n        \"[เนื้อหาค้นหา]:\\n{context}\"\n    )\n    prompt = ChatPromptTemplate.from_messages([\n        (\"system\", system_prompt),\n        (\"human\", \"{input}\")\n    ])\n\n    # 3. Assemble End-to-End Chain\n    question_answer_chain = create_stuff_documents_chain(llm, prompt)\n    return create_retrieval_chain(retriever, question_answer_chain)"
       },
       "featured": true
     },
     {
       "id": "line-stock-analysis-ai-agent",
       "title": "LINE Stock Analysis AI Assistant",
-      "folder": "SM_Stock_AIAgent",
+      "type": "personal",
+      "typeLabel": "Personal Project",
       "category": "genai-rag",
       "categoryLabel": "GenAI, LLMs & Agents",
-      "badge": "Financial AI Assistant",
-      "impact": "Technical indicators, Thai/US market feeds & Gemini 2.5 Flash agent on LINE",
-      "image": "assets/shot_2026-05-21_151828.png",
+      "badge": "Personal Financial AI",
+      "impact": "Technical indicators (RSI, MACD), Thai/US market feeds & Gemini 2.5 Flash on LINE",
+      "shortSummary": "Conversational financial assistant on LINE messaging integrating Gemini 2.5 Flash, yfinance market data, technical indicator calculations (RSI, MACD, Bollinger Bands), user profiles, and background scheduled alerts.",
+      "fullDescription": "A conversational AI financial assistant operating on the LINE platform. Powered by Google Gemini 2.5 Flash, it analyzes market data across Thai (SET) and US equities. Computes technical indicators (RSI, MACD, Moving Averages, Bollinger Bands), summarizes relevant news sentiment, and tracks user risk profiles stored in PostgreSQL via SQLAlchemy. Implements webhook deduplication and background task scheduling via APScheduler.",
+      "highlights": [
+        "Integrated Google Gemini 2.5 Flash for financial context synthesis and conversational Q&A",
+        "Technical indicator engine: RSI (14), MACD (12, 26, 9), EMA (20/50/200), Bollinger Bands",
+        "Data ingestion covering Thai Stock Exchange (SET) and US markets (yfinance)",
+        "PostgreSQL & SQLAlchemy ORM for user profiles, watchlists, and conversation memory",
+        "Scheduled morning briefings & market close updates via APScheduler",
+        "LINE Messaging API webhook deduplication to handle retry events gracefully"
+      ],
+      "metrics": [
+        {
+          "label": "Markets Covered",
+          "value": "Thai & US",
+          "sub": "SET + US Equities"
+        },
+        {
+          "label": "Technical Analysis",
+          "value": "6+ Indicators",
+          "sub": "RSI, MACD, EMA, BB, ATR"
+        },
+        {
+          "label": "LLM Engine",
+          "value": "Gemini 2.5 Flash",
+          "sub": "Financial Context Prompting"
+        },
+        {
+          "label": "Reliability",
+          "value": "Deduplicated",
+          "sub": "Idempotent Webhook Processing"
+        }
+      ],
+      "techStack": [
+        "Python",
+        "Flask / FastAPI",
+        "Google Gemini 2.5 Flash",
+        "line-bot-sdk",
+        "PostgreSQL",
+        "SQLAlchemy",
+        "yfinance",
+        "Pandas",
+        "APScheduler",
+        "Docker"
+      ],
+      "architecture": "\n+-------------------+      +-------------------------+      +---------------------------+\n| LINE User Inbound | ---> | Webhook Receiver        | ---> | Message Deduplicator      |\n| Query / Command   |      | (Flask / FastAPI)       |      | (Idempotency Key Cache)   |\n+-------------------+      +-------------------------+      +---------------------------+\n                                                                          |\n                                                                          v\n+-------------------+      +-------------------------+      +---------------------------+\n| Gemini 2.5 Flash  | <--- | User Profile & Context  | <--- | Data Engine (yfinance)    |\n| Financial Advisor |      | (PostgreSQL Database)   |      | + Technicals (RSI/MACD)   |\n+-------------------+      +-------------------------+      +---------------------------+\n          |\n          v\n+----------------------------------------------------+\n| Rich Flex Message Response / Scheduled Alert Push  |\n+----------------------------------------------------+\n",
+      "innovations": [
+        "**Structured Context Assembly**: Combines mathematical indicators (RSI momentum, MACD crosses) with news context before passing to Gemini Flash, reducing hallucinations.",
+        "**Idempotent Event Deduplication**: Prevents duplicate LLM processing caused by LINE webhook network retries."
+      ],
+      "codeSnippet": {
+        "language": "python",
+        "title": "src/services/market_analyzer.py (Technical Indicator Computation & Prompting)",
+        "code": "def calculate_technical_summary(symbol: str, period='6mo') -> dict:\n    ticker = yfinance.Ticker(symbol)\n    df = ticker.history(period=period)\n    if df.empty:\n        return None\n\n    # Calculate 14-day RSI\n    delta = df['Close'].diff()\n    gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()\n    loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()\n    rs = gain / (loss + 1e-9)\n    df['RSI'] = 100 - (100 / (1 + rs))\n\n    # Calculate MACD (12, 26, 9)\n    exp1 = df['Close'].ewm(span=12, adjust=False).mean()\n    exp2 = df['Close'].ewm(span=26, adjust=False).mean()\n    df['MACD'] = exp1 - exp2\n    df['Signal_Line'] = df['MACD'].ewm(span=9, adjust=False).mean()\n\n    latest = df.iloc[-1]\n    return {\n        \"symbol\": symbol.upper(),\n        \"close_price\": round(latest['Close'], 2),\n        \"rsi\": round(latest['RSI'], 2),\n        \"macd_status\": \"Bullish Cross\" if latest['MACD'] > latest['Signal_Line'] else \"Bearish Divergence\",\n        \"ema_50\": round(df['Close'].ewm(span=50).mean().iloc[-1], 2),\n        \"volume\": int(latest['Volume'])\n    }"
+      },
+      "featured": true
+    }
+  ],
+  "companyProjects": [
+    {
+      "id": "stafflenz-ai-worker-monitor",
+      "title": "StaffLenz AI: Edge Workplace Activity & Desk Zone Analytics",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "cv-edge",
+      "categoryLabel": "Computer Vision & Edge AI",
+      "badge": "Workplace CV Platform",
+      "impact": "Real-time edge worker identity stability & desk analytics on multi-camera RTSP",
+      "shortSummary": "Edge computer vision analytics platform processing multi-camera RTSP feeds with OpenVINO FP16 acceleration, YOLOv11-Pose keypoints, InsightFace/ArcFace embeddings, polygon desk zones, and real-time Server-Sent Events (SSE).",
+      "fullDescription": "Engineered an edge computer vision system at Yourhome for real-time desk occupancy and workplace activity analytics. Implemented multi-camera RTSP ingestion with latest-frame batching buffers and Intel OpenVINO FP16 inference acceleration. Stabilized worker identity recognition using ArcFace face embeddings, head-pose yaw/pitch angle filtering, and temporal caching across polygon desk zones. Built real-time Server-Sent Events (SSE) streaming and automated LINE alert webhook integrations.",
+      "highlights": [
+        "OpenVINO FP16 inference acceleration for YOLOv11-Pose and InsightFace ArcFace models",
+        "Multi-camera RTSP pipeline with drop-oldest latest-frame buffer preventing lag",
+        "Polygon desk zone mapping with ray-casting point-in-polygon containment logic",
+        "Identity stabilization with head-pose angle filtering and cosine similarity thresholding",
+        "Real-time Server-Sent Events (SSE) stream delivery and LINE alert webhook triggers",
+        "Automated data retention cleanup worker for historical telemetry compaction"
+      ],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "YOLOv11-Pose",
+        "InsightFace",
+        "ArcFace",
+        "OpenVINO (FP16)",
+        "OpenCV",
+        "SuperVision",
+        "PyTorch",
+        "SSE (Server-Sent Events)",
+        "Docker",
+        "LINE Notify"
+      ],
+      "featured": true
+    },
+    {
+      "id": "agentic-scraping-vlm-search",
+      "title": "Agentic Real Estate Ingestion & VLM Property Filtering",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "agents-automation",
+      "categoryLabel": "Multi-Agent & Automation",
+      "badge": "Web Scraping & VLM",
+      "impact": "Multi-source scraping pipeline & Vision-Language Model property curation",
+      "shortSummary": "Automated data ingestion pipeline collecting listings across major Thai property portals with Gemini VLM visual style filtering, K-Means color detection, and geocoding.",
+      "fullDescription": "Built a multi-agent data ingestion suite at Yourhome extracting property listings across 7 major portals and Facebook Marketplace. Integrated Google Gemini Vision-Language Models (VLM) to analyze room condition, aesthetic styles (Modern, Minimalist, Japandi, Luxury), and K-Means color clustering. Geocoded coordinates via Longdo Maps and Google Maps APIs into Google Cloud Firestore.",
+      "highlights": [
+        "Multi-source scraping agents with Playwright and Browser-Use automation",
+        "Gemini VLM visual filtering for room style and interior quality classification",
+        "Room color palette extraction using OpenCV and K-Means clustering",
+        "Geocoding and transit distance computation via Longdo Maps and Google Maps APIs",
+        "Deduplication hashing and automated data synchronization to Google Cloud Firestore"
+      ],
+      "techStack": [
+        "Python",
+        "Playwright",
+        "Browser-Use",
+        "Google Gemini VLM",
+        "OpenCV",
+        "K-Means Clustering",
+        "Google Cloud Firestore",
+        "Longdo Maps API",
+        "Pydantic"
+      ],
+      "featured": true
+    },
+    {
+      "id": "ai-audio-extraction-speech-to-search",
+      "title": "Thai Speech-to-Search Voice Inquiry Pipeline",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "genai-rag",
+      "categoryLabel": "GenAI, LLMs & Agents",
+      "badge": "Voice Processing",
+      "impact": "Asynchronous Thai speech-to-structured search parameters with Groq Whisper & Gemini",
+      "shortSummary": "Asynchronous pipeline converting Thai voice inquiries into structured search parameters using Groq Whisper STT, Gemini/Llama with Pydantic validation, and fuzzy location normalization.",
+      "fullDescription": "Developed an asynchronous voice inquiry processing pipeline for Yourhome. Received Thai voice notes from LINE and web clients, transcribed audio using Groq Whisper API (<320ms latency), and extracted structured search parameters (budgets, property types, bedroom counts, pet policies) using Gemini and Llama 3 with Pydantic validation. Normalized colloquial Thai transit landmarks against 150+ BTS/MRT stations.",
+      "highlights": [
+        "Sub-350ms Thai Speech-to-Text inference via Groq Whisper API",
+        "LLM structured entity extraction with strict Pydantic schema validation",
+        "Fuzzy Thai location matching against 150+ Bangkok BTS/MRT stations",
+        "Asynchronous FastAPI worker architecture for handling concurrent audio inputs"
+      ],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "Groq Whisper API",
+        "Google Gemini",
+        "Llama 3",
+        "Pydantic",
+        "PyThaiNLP",
+        "RapidFuzz",
+        "FFmpeg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "multi-agent-bot-tester-qa",
+      "title": "Multi-Agent QA Automation & API Auditing Framework",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "agents-automation",
+      "categoryLabel": "Multi-Agent & Automation",
+      "badge": "QA Automation",
+      "impact": "Multi-agent test execution, database auditing via SSH tunnels & Postman fuzzing",
+      "shortSummary": "Multi-agent QA framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
+      "fullDescription": "Engineered an AI-assisted test automation framework at Yourhome coordinating specialized agents (Orchestrator, Executor, Logic Auditor, Reporter). Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
+      "highlights": [
+        "Multi-agent architecture coordinating test tasks, execution, and reporting",
+        "Postman Collection parsing and automated API schema testing",
+        "Secure MySQL verification via paramiko SSH tunnels and GCP Secret Manager",
+        "Playwright browser automation capturing visual failure evidence and logs"
+      ],
+      "techStack": [
+        "Python",
+        "Playwright",
+        "LangChain",
+        "Requests",
+        "PyMySQL",
+        "SSHTunnel",
+        "Google Cloud Secret Manager",
+        "GSpread",
+        "PyTest",
+        "Docker"
+      ],
+      "featured": true
+    },
+    {
+      "id": "3d-room-scan-texture-pipeline",
+      "title": "3D Room Scan Mesh Cleaning & Web Viewer Pipeline",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "geospatial-3d",
+      "categoryLabel": "Geospatial AI & 3D Analytics",
+      "badge": "3D Processing",
+      "impact": "3D mesh cleaning, USDZ-to-GLTF conversion & Three.js web rendering",
+      "shortSummary": "3D spatial scanning pipeline converting iPhone RoomPlan USDZ scans into cleaned, optimized GLTF/GLB models with texture baking, mesh decimation, and interactive Three.js web rendering.",
+      "fullDescription": "Developed a 3D asset processing pipeline converting Apple RoomPlan USDZ spatial scans into web-optimized GLTF/GLB models. Implemented Open3D and Trimesh routines for vertex deduplication, normal recalculation, and quadric decimation, reducing asset file sizes by ~75% while maintaining 60 FPS interactive rendering in Three.js.",
+      "highlights": [
+        "USDZ to GLTF/GLB geometry and material conversion microservice",
+        "Mesh cleaning with Open3D and Trimesh: vertex deduplication and normal repair",
+        "Texture atlas re-projection and lighting normalization",
+        "Interactive Three.js web viewer for room dimension inspection"
+      ],
+      "techStack": [
+        "Python",
+        "Open3D",
+        "Trimesh",
+        "Three.js",
+        "FastAPI",
+        "USD Core",
+        "GLTF / GLB",
+        "Docker"
+      ],
+      "featured": false
+    },
+    {
+      "id": "real-estate-core-scoring-infrastructure",
+      "title": "Real Estate Scoring & Location Analytics Engine",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "backend-cloud",
+      "categoryLabel": "Backend & Cloud Systems",
+      "badge": "Backend Microservice",
+      "impact": "Composite location scoring, walking distance engine & multi-variable ranking",
+      "shortSummary": "Backend microservice computing composite property evaluation scores, transit walking distance matrices, and price-per-square-meter value distributions.",
+      "fullDescription": "Built a backend data processing microservice at Yourhome calculating multi-factor property scores: transit walking distances (OSRM / Google Maps APIs), neighborhood amenity density, and price-per-square-meter value metrics relative to local distributions. Maintained dual-write consistency between AWS RDS MySQL and Google Cloud Firestore.",
+      "highlights": [
+        "Composite property scoring engine with parameterized weighting",
+        "Transit walking distance and travel time calculation with OSRM and Maps APIs",
+        "Price-per-sqm value scoring relative to neighborhood baseline distributions",
+        "Dual-sync consistency between MySQL RDS and Google Cloud Firestore"
+      ],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "MySQL RDS",
+        "Google Cloud Firestore",
+        "SSHTunnel",
+        "Pydantic",
+        "Pandas",
+        "NumPy",
+        "Docker"
+      ],
+      "featured": false
+    },
+    {
+      "id": "yourhome-seo-sitemap-engine",
+      "title": "Schema-Driven Dynamic SEO & Sitemap Microservice",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "backend-cloud",
+      "categoryLabel": "Backend & Cloud Systems",
+      "badge": "Backend Microservice",
+      "impact": "Dynamic XML sitemaps, JSON-LD Schema.org generators & Firestore caching for 50k+ URLs",
+      "shortSummary": "FastAPI microservice generating dynamic, paginated XML sitemaps, Schema.org JSON-LD microdata, and clean slug routing for property search engine indexing.",
+      "fullDescription": "Designed a schema-first SEO microservice at Yourhome. Generated dynamic paginated XML sitemaps supporting 50,000+ URLs and produced Schema.org JSON-LD structured data (RealEstateListing, Product, BreadcrumbList) for search engine indexing. Implemented Firestore response caching to reduce database overhead.",
+      "highlights": [
+        "Paginated XML sitemap generator supporting 50,000+ URLs per index chunk",
+        "Schema.org JSON-LD metadata generator for real estate listings",
+        "Firestore-backed caching layer reducing database load by >90%",
+        "FastAPI async routing with gzip compression and cache-control headers"
+      ],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "Google Cloud Firestore",
+        "Pydantic",
+        "MySQL RDS",
+        "Docker",
+        "Postman"
+      ],
+      "featured": false
+    },
+    {
+      "id": "yourhome-auto-admin-agent",
+      "title": "Automated Customer Service & Inquiry Chatbot",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "agents-automation",
+      "categoryLabel": "Multi-Agent & Automation",
+      "badge": "Chatbot & Automation",
+      "impact": "Intent recognition, lead qualification & MySQL/Firestore response synthesis",
+      "shortSummary": "Administrative customer inquiry assistant on LINE and Web Chat using Gemini for intent routing, property inventory queries, and CRM lead capture.",
+      "fullDescription": "Developed a customer inquiry agent connecting LINE Messaging API and Web Chat. Used Google Gemini for intent classification (price inquiry, viewing booking, location query), queried property listings from MySQL RDS and Firestore leads, and generated polite, structured replies.",
+      "highlights": [
+        "Skill-based architecture separating database, Firestore, and LINE messaging skills",
+        "Gemini prompt orchestration with structured business persona guidelines",
+        "Automated lead qualification and CRM ingestion into Firestore",
+        "FastAPI webhook receiver with secure SSH database tunneling"
+      ],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "Google Gemini",
+        "line-bot-sdk",
+        "Firestore",
+        "MySQL RDS",
+        "Docker"
+      ],
+      "featured": false
+    },
+    {
+      "id": "pickleball-cv-ai-capture-scoring",
+      "title": "Pickleball AI: Edge Video Analysis & IoT Scoring Prototype",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "cv-edge",
+      "categoryLabel": "Computer Vision & Edge AI",
+      "badge": "Edge IoT & CV",
+      "impact": "Trajectory tracking, rally hit extraction & Gemini Flash video reasoning",
+      "shortSummary": "Edge-to-Cloud sports analytics prototype combining Raspberry Pi audio/motion rally triggers with Gemini Flash video reasoning and YOLO trajectory tracking.",
+      "fullDescription": "Developed an edge-to-cloud sports analytics prototype. Used audio and motion triggers on Raspberry Pi boards to identify rally start/end points, sliced lightweight video clips, and sent them to Google Gemini Flash and YOLO models to evaluate score updates and rule compliance.",
+      "highlights": [
+        "Edge-to-Cloud design (Raspberry Pi edge trigger + Cloud VLM)",
+        "Audio impact detection (paddle hit triggers) + motion settle detection",
+        "YOLO trajectory tracking for ball bounding and court baseline zone mapping",
+        "Google Gemini Flash multimodal video reasoning for rule verification"
+      ],
+      "techStack": [
+        "Python",
+        "OpenCV",
+        "YOLOv8/v11",
+        "Google Gemini Flash",
+        "FFmpeg",
+        "Raspberry Pi",
+        "ESP32",
+        "Node.js",
+        "Vite / React"
+      ],
+      "featured": false
+    },
+    {
+      "id": "drone-crack-detection-geospatial-cv",
+      "title": "Structural Crack Detection on Drone Aerial Footage",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "SKYVIV (Internship)",
+      "category": "geospatial-3d",
+      "categoryLabel": "Geospatial AI & 3D Analytics",
+      "badge": "Drone CV System",
+      "impact": "CNN classification & OpenCV tracking for pipe inspection on high-res drone footage",
+      "shortSummary": "Computer Vision pipeline combining Deep Learning CNN image classification with OpenCV object tracking for structural crack detection on drone pipe inspection videos.",
+      "fullDescription": "Developed during the AI & Geospatial internship at Sky Visual Imaging Venture (SKYVIV). Designed to inspect industrial pipes from high-resolution drone camera feeds using Deep Learning CNN candidate classification and OpenCV spatial R-Tree indexing for continuous crack landmark tracking.",
+      "highlights": [
+        "Two-phase architecture: CNN deep learning classification + OpenCV tracking",
+        "High-resolution drone video processing with perspective compensation",
+        "Spatial indexing using R-Tree for continuous crack landmark tracking",
+        "Morphological contour measurement for crack width and length estimation"
+      ],
+      "techStack": [
+        "Python",
+        "TensorFlow / Keras",
+        "OpenCV",
+        "NumPy",
+        "R-Tree",
+        "Matplotlib"
+      ],
+      "featured": false
+    },
+    {
+      "id": "geospatial-crop-yield-prediction",
+      "title": "Geospatial AI & Satellite Crop Yield Prediction",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Chulalongkorn / SKYVIV Research",
+      "category": "geospatial-3d",
+      "categoryLabel": "Geospatial AI & 3D Analytics",
+      "badge": "Geospatial Modeling",
+      "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
+      "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
+      "fullDescription": "Geospatial data science research predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
+      "highlights": [
+        "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
+        "Vegetation index computation: NDVI, EVI, SAVI, and NDWI",
+        "Multi-modal fusion: Remote sensing spectral bands + weather climate data + soil metrics",
+        "Random Forest and Gradient Boosting regression models with cross-validation"
+      ],
+      "techStack": [
+        "Python",
+        "MATLAB",
+        "Pandas",
+        "NumPy",
+        "Scikit-Learn",
+        "Rasterio",
+        "Geopandas",
+        "Matplotlib"
+      ],
+      "featured": false
+    }
+  ],
+  "projects": [
+    {
+      "id": "thai-lpr-deep-learning-ocr",
+      "title": "Thai License Plate Recognition (LPR) & OCR Pipeline",
+      "type": "personal",
+      "typeLabel": "Personal Project",
+      "category": "cv-edge",
+      "categoryLabel": "Computer Vision & Deep Learning",
+      "badge": "Personal Deep Learning Project",
+      "impact": "3-Stage deep learning pipeline achieving ~90% Thai province OCR classification",
+      "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for 77 Thai province classification.",
+      "fullDescription": "An end-to-end 3-stage deep learning pipeline built to recognize complex Thai vehicle license plates (featuring Thai script consonants, numerals, and 77 distinct provincial names in small text). Stage 1 uses YOLO11 for plate localization and perspective alignment. Stage 2 employs a custom ResNet-CRNN architecture trained with Connectionist Temporal Classification (CTC Loss) for reading character sequences without per-character bounding boxes. Stage 3 utilizes a fine-tuned MobileNetV2 classifier to identify the 77 Thai provinces.",
+      "highlights": [
+        "Stage 1: YOLO11 object detection trained on diverse Thai vehicle camera angles",
+        "Stage 2: ResNet-CRNN with CTC Loss for Thai alphabet and digit sequence transcription",
+        "Stage 3: Fine-tuned MobileNetV2 model for 77 Thai province classification",
+        "Achieved ~90% province classification accuracy across test validation datasets",
+        "Containerized REST API built with FastAPI and tested on GCP Cloud Run"
+      ],
+      "metrics": [
+        {
+          "label": "Province Accuracy",
+          "value": "~90%",
+          "sub": "77 Thai provinces evaluated"
+        },
+        {
+          "label": "Pipeline Stages",
+          "value": "3-Stage",
+          "sub": "YOLO11 + CRNN-CTC + MobileNetV2"
+        },
+        {
+          "label": "Inference Latency",
+          "value": "< 120ms",
+          "sub": "End-to-end pipeline per image"
+        },
+        {
+          "label": "Framework",
+          "value": "PyTorch",
+          "sub": "Custom CNN-RNN-CTC training"
+        }
+      ],
+      "techStack": [
+        "Python",
+        "PyTorch",
+        "YOLO11",
+        "ResNet-CRNN",
+        "CTC Loss",
+        "MobileNetV2",
+        "OpenCV",
+        "FastAPI",
+        "Docker",
+        "GCP Cloud Run"
+      ],
+      "architecture": "\n+-----------------+      +------------------------+      +------------------------+\n| Input Image /   | ---> | Stage 1: YOLO11        | ---> | Crop & Perspective     |\n| Vehicle Camera  |      | Plate Detection        |      | Warp Correction        |\n+-----------------+      +------------------------+      +------------------------+\n                                                                     |\n                                  +----------------------------------+\n                                  |\n                                  v\n+-------------------------------------------------+      +------------------------+\n| Stage 2: ResNet-CRNN + CTC Loss (Text/Numbers)  | ---> | JSON Structured Result |\n| Stage 3: MobileNetV2 (77 Province Classifier)   |      | Plate: 1กข 9999 กรุงเทพ |\n+-------------------------------------------------+      +------------------------+\n",
+      "innovations": [
+        "**Decoupled Province Classifier**: Decoupled sequence transcription from province identification, allowing the MobileNetV2 classifier to specialize on subtle font differences in provincial titles.",
+        "**CTC Loss Sequence Alignment**: Eliminated the need for character-level bounding box segmentation by training CRNN end-to-end with Connectionist Temporal Classification."
+      ],
+      "codeSnippet": {
+        "language": "python",
+        "title": "models/lpr_pipeline.py (Three-Stage PyTorch Inference & CTC Decode)",
+        "code": "class ThaiLPRPipeline:\n    def __init__(self, yolo_path: str, crnn_path: str, province_path: str, device='cuda'):\n        self.detector = YOLO(yolo_path)\n        self.ocr_model = CRNN(num_classes=NUM_THAI_CHARS).to(device)\n        self.province_model = MobileNetV2(num_classes=77).to(device)\n        self.device = device\n\n    def predict(self, image_np: np.ndarray) -> dict:\n        # Stage 1: Bounding Box Detection\n        results = self.detector(image_np, conf=0.5)\n        if not results or len(results[0].boxes) == 0:\n            return {\"status\": \"no_plate_found\"}\n\n        box = results[0].boxes[0].xyxy[0].cpu().numpy().astype(int)\n        plate_crop = image_np[box[1]:box[3], box[0]:box[2]]\n\n        # Stage 2: ResNet-CRNN OCR for Thai Consonants and Numbers\n        tensor_crop = preprocess_ocr(plate_crop).to(self.device)\n        ocr_logits = self.ocr_model(tensor_crop)\n        plate_text = ctc_decode(ocr_logits, THAI_CHAR_MAP)\n\n        # Stage 3: MobileNetV2 77 Province Classification\n        prov_tensor = preprocess_province(plate_crop).to(self.device)\n        prov_logits = self.province_model(prov_tensor)\n        province_name = PROVINCE_MAP[prov_logits.argmax().item()]\n\n        return {\n            \"plate_number\": plate_text,\n            \"province\": province_name,\n            \"confidence\": float(ocr_logits.max().item())\n        }"
+      },
+      "featured": true
+    },
+    {
+      "id": "thai-legal-retrieval-hybrid-rag",
+      "title": "Thai Legal Retrieval & Hybrid RAG System",
+      "type": "personal",
+      "typeLabel": "Personal Project",
+      "category": "genai-rag",
+      "categoryLabel": "GenAI, LLMs & Agents",
+      "badge": "Personal RAG Project",
+      "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
+      "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
+      "fullDescription": "A Hybrid Retrieval-Augmented Generation (RAG) engine designed to search Thai legal documents, local municipality laws, and corporate regulations. Combines dense semantic vector search (multilingual embeddings in ChromaDB) with sparse lexical search (BM25 with PyThaiNLP tokenization), merged via Reciprocal Rank Fusion (RRF). Implements hypothetical document embeddings (HyDE) for query expansion and an automated evaluation pipeline to test groundedness.",
+      "highlights": [
+        "Hybrid Retrieval Architecture: ChromaDB dense vector search + BM25 sparse keyword matching",
+        "Reciprocal Rank Fusion (RRF) with tunable rank constants to balance semantic & exact matches",
+        "Thai legal corpus chunking with section and statutory metadata tags",
+        "Query expansion with Gemini/Ollama to generate domain-specific legal synonyms",
+        "LLM-as-a-judge evaluation benchmark for faithfulness and answer relevancy",
+        "LangChain orchestration with streaming citations"
+      ],
+      "metrics": [
+        {
+          "label": "Retrieval Strategy",
+          "value": "Hybrid RRF",
+          "sub": "Dense Semantic + BM25 Sparse"
+        },
+        {
+          "label": "Evaluation Score",
+          "value": "93.8%",
+          "sub": "Context Groundedness (LLM-judge)"
+        },
+        {
+          "label": "Vector Store",
+          "value": "ChromaDB",
+          "sub": "Multilingual Semantic Embeddings"
+        },
+        {
+          "label": "Inference Latency",
+          "value": "< 480ms",
+          "sub": "Hybrid retrieval + RRF merge"
+        }
+      ],
+      "techStack": [
+        "Python",
+        "LangChain",
+        "ChromaDB",
+        "BM25",
+        "Reciprocal Rank Fusion (RRF)",
+        "Google Gemini",
+        "Ollama",
+        "PyThaiNLP",
+        "FastAPI",
+        "Pydantic"
+      ],
+      "architecture": "\n                                    +------------------------------+\n                                    | User Thai Legal Query        |\n                                    +------------------------------+\n                                                  |\n                                   +--------------+--------------+\n                                   | (Query Expansion & HyDE)    |\n                                   v                             v\n                    +-----------------------------+ +-----------------------------+\n                    | Dense Vector Search         | | Sparse Lexical Search       |\n                    | (ChromaDB Multilingual)     | | (BM25 + PyThaiNLP Tokens)   |\n                    +-----------------------------+ +-----------------------------+\n                                   |                             |\n                                   +--------------+--------------+\n                                                  |\n                                                  v\n                                    +------------------------------+\n                                    | Reciprocal Rank Fusion (RRF) |\n                                    | Rank Score = 1 / (60 + Rank) |\n                                    +------------------------------+\n                                                  |\n                                                  v\n                                    +------------------------------+\n                                    | Gemini Reasoning + Citation  |\n                                    | & Section-grounded Output    |\n                                    +------------------------------+\n",
+      "innovations": [
+        "**Reciprocal Rank Fusion (RRF) for Exact Statutory Numbers**: Addresses vector search's difficulty with exact Thai section numbers by combining dense semantic vectors with BM25 lexical token matching.",
+        "**LLM-as-a-Judge Eval**: Implemented an automated test script verifying that claims in the output reference retrieved chunks accurately."
+      ],
+      "codeSnippet": {
+        "language": "python",
+        "title": "src/retriever/hybrid_rrf.py (Reciprocal Rank Fusion Algorithm)",
+        "code": "def reciprocal_rank_fusion(dense_results: list, sparse_results: list, k: int = 60) -> list:\n    \"\"\"Combines dense and sparse search rankings using Reciprocal Rank Fusion.\"\"\"\n    rrf_scores = {}\n    doc_lookup = {}\n\n    # Accumulate Dense RRF scores\n    for rank, doc in enumerate(dense_results):\n        doc_id = doc.metadata.get('section_id', doc.page_content)\n        doc_lookup[doc_id] = doc\n        rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))\n\n    # Accumulate Sparse BM25 RRF scores\n    for rank, doc in enumerate(sparse_results):\n        doc_id = doc.metadata.get('section_id', doc.page_content)\n        doc_lookup[doc_id] = doc\n        rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))\n\n    # Sort merged documents by combined RRF score descending\n    sorted_doc_ids = sorted(rrf_scores.keys(), key=lambda did: rrf_scores[did], reverse=True)\n    return [doc_lookup[did] for did in sorted_doc_ids]"
+      },
+      "featured": true
+    },
+    {
+      "id": "rag-chain-langchain-retrieval",
+      "title": "RAG-Chain: Advanced LangChain Multi-Retrieval Pipeline",
+      "type": "personal",
+      "typeLabel": "Personal Project",
+      "category": "genai-rag",
+      "categoryLabel": "GenAI, LLMs & Agents",
+      "badge": "Personal RAG Project",
+      "impact": "LangChain retrieval chain with Maximal Marginal Relevance (MMR) & strict hallucination guardrails",
+      "shortSummary": "Document question-answering RAG pipeline built with LangChain, ChromaDB vector indexing, Maximal Marginal Relevance (MMR) diversity reranking, Google Gemini LLM, and anti-hallucination grounding.",
+      "fullDescription": "A modular Retrieval-Augmented Generation pipeline implemented using LangChain and Google Generative AI embeddings. Integrates ChromaDB vector store with Maximal Marginal Relevance (MMR) retrieval to prevent redundant document chunks. Implements structured document chaining (`create_stuff_documents_chain`, `create_retrieval_chain`), base-document context injection, and strict system prompts preventing LLM hallucinations.",
+      "highlights": [
+        "LangChain modular chain orchestration (`create_retrieval_chain` + `create_stuff_documents_chain`)",
+        "Maximal Marginal Relevance (MMR) search type (`fetch_k=20`, `lambda_mult=0.5`) for diverse context retrieval",
+        "ChromaDB persistent vector store with Google Generative AI embeddings",
+        "Strict hallucination guardrails instructing Gemini to answer exclusively from ground truth context",
+        "Metadata-based first-page executive summary extraction and contextual injection"
+      ],
+      "metrics": [
+        {
+          "label": "Reranker",
+          "value": "MMR Search",
+          "sub": "Maximal Marginal Relevance"
+        },
+        {
+          "label": "LLM Engine",
+          "value": "Gemini Models",
+          "sub": "Structured prompt chaining"
+        },
+        {
+          "label": "Embeddings",
+          "value": "Google GenAI",
+          "sub": "ChromaDB vector store"
+        },
+        {
+          "label": "Guardrails",
+          "value": "Strict Grounding",
+          "sub": "Zero-hallucination prompting"
+        }
+      ],
+      "techStack": [
+        "Python",
+        "LangChain",
+        "ChromaDB",
+        "Google Gemini",
+        "GoogleGenerativeAIEmbeddings",
+        "PyPDF / Document Loaders",
+        "Pydantic",
+        "FastAPI"
+      ],
+      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| User Query Inbound    | ---> | ChromaDB Vector Store     | ---> | MMR Search Reranker       |\n| (Document Research)   |      | (Google GenAI Embeddings) |      | (Diversity fetch_k=20)    |\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Grounded AI Answer    | <--- | Gemini LLM Engine         | <--- | Stuff Documents Chain     |\n| with Source Context   |      | (Temperature Controlled)  |      | & Base Info Injection     |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
+      "innovations": [
+        "**Maximal Marginal Relevance (MMR) Diversity**: Prevents context crowding by balancing relevance against similarity to already selected chunks.",
+        "**Strict Grounding Prompting**: System prompt strictly enforces answering only from retrieved context or explicitly declaring missing data."
+      ],
+      "codeSnippet": {
+        "language": "python",
+        "title": "src/rag_chain.py (LangChain MMR Retriever & Retrieval Chain Setup)",
+        "code": "def build_rag_retrieval_chain(vectorstore: Chroma, llm: ChatGoogleGenerativeAI):\n    # 1. MMR Retriever for context diversity\n    retriever = vectorstore.as_retriever(\n        search_type=\"mmr\",\n        search_kwargs={\"k\": 5, \"fetch_k\": 20, \"lambda_mult\": 0.5}\n    )\n\n    # 2. Strict Grounding Prompt\n    system_prompt = (\n        \"คุณเป็นผู้ช่วยวิจัยอัจฉริยะที่เคร่งครัดเรื่องความถูกต้องของข้อมูล \"\n        \"1. ตอบคำถามโดยใช้ข้อมูลจาก '[ข้อมูลพื้นฐาน]' และ '[เนื้อหาค้นหา]' เท่านั้น\\n\"\n        \"2. หาก 'ไม่พบข้อมูล' ในเนื้อหา ให้ตอบว่า 'ไม่พบข้อมูลในเอกสาร' ห้ามคาดเดาคำตอบเองเด็ดขาด\\n\"\n        \"3. คงคำศัพท์ภาษาอังกฤษสำหรับชื่อเฉพาะและศัพท์เทคนิคไว้เสมอ\\n\\n\"\n        \"[ข้อมูลพื้นฐาน]:\\n{base_info}\\n\\n\"\n        \"[เนื้อหาค้นหา]:\\n{context}\"\n    )\n    prompt = ChatPromptTemplate.from_messages([\n        (\"system\", system_prompt),\n        (\"human\", \"{input}\")\n    ])\n\n    # 3. Assemble End-to-End Chain\n    question_answer_chain = create_stuff_documents_chain(llm, prompt)\n    return create_retrieval_chain(retriever, question_answer_chain)"
+      },
+      "featured": true
+    },
+    {
+      "id": "line-stock-analysis-ai-agent",
+      "title": "LINE Stock Analysis AI Assistant",
+      "type": "personal",
+      "typeLabel": "Personal Project",
+      "category": "genai-rag",
+      "categoryLabel": "GenAI, LLMs & Agents",
+      "badge": "Personal Financial AI",
+      "impact": "Technical indicators (RSI, MACD), Thai/US market feeds & Gemini 2.5 Flash on LINE",
       "shortSummary": "Conversational financial assistant on LINE messaging integrating Gemini 2.5 Flash, yfinance market data, technical indicator calculations (RSI, MACD, Bollinger Bands), user profiles, and background scheduled alerts.",
       "fullDescription": "A conversational AI financial assistant operating on the LINE platform. Powered by Google Gemini 2.5 Flash, it analyzes market data across Thai (SET) and US equities. Computes technical indicators (RSI, MACD, Moving Averages, Bollinger Bands), summarizes relevant news sentiment, and tracks user risk profiles stored in PostgreSQL via SQLAlchemy. Implements webhook deduplication and background task scheduling via APScheduler.",
       "highlights": [
@@ -331,173 +991,90 @@ window.PORTFOLIO_DATA = {
       "featured": true
     },
     {
-      "id": "thai-legal-retrieval-hybrid-rag",
-      "title": "Thai Legal Retrieval & Hybrid RAG System",
-      "folder": "RAG_Local_Law",
-      "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
-      "badge": "Hybrid Search RAG",
-      "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
-      "image": "assets/shot_2026-05-14_150310.png",
-      "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
-      "fullDescription": "A Hybrid RAG engine developed to search complex Thai legal documents, local municipality laws, and corporate regulations. Combines dense semantic vector search (multilingual embeddings in ChromaDB) with sparse lexical search (BM25 with Thai tokenization), merged via Reciprocal Rank Fusion (RRF). Implements hypothetical document embeddings (HyDE) for query expansion and an automated evaluation pipeline to test groundedness.",
+      "id": "stafflenz-ai-worker-monitor",
+      "title": "StaffLenz AI: Edge Workplace Activity & Desk Zone Analytics",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "cv-edge",
+      "categoryLabel": "Computer Vision & Edge AI",
+      "badge": "Workplace CV Platform",
+      "impact": "Real-time edge worker identity stability & desk analytics on multi-camera RTSP",
+      "shortSummary": "Edge computer vision analytics platform processing multi-camera RTSP feeds with OpenVINO FP16 acceleration, YOLOv11-Pose keypoints, InsightFace/ArcFace embeddings, polygon desk zones, and real-time Server-Sent Events (SSE).",
+      "fullDescription": "Engineered an edge computer vision system at Yourhome for real-time desk occupancy and workplace activity analytics. Implemented multi-camera RTSP ingestion with latest-frame batching buffers and Intel OpenVINO FP16 inference acceleration. Stabilized worker identity recognition using ArcFace face embeddings, head-pose yaw/pitch angle filtering, and temporal caching across polygon desk zones. Built real-time Server-Sent Events (SSE) streaming and automated LINE alert webhook integrations.",
       "highlights": [
-        "Hybrid Retrieval Architecture: ChromaDB dense vector search + BM25 sparse keyword matching",
-        "Reciprocal Rank Fusion (RRF) with tunable rank constants to balance semantic & exact matches",
-        "Thai legal corpus chunking with section and amendment metadata tags",
-        "Query expansion with Gemini/Ollama to generate domain-specific legal synonyms",
-        "LLM-as-a-judge evaluation benchmark for faithfulness and answer relevancy",
-        "LangChain orchestration with streaming citations"
-      ],
-      "metrics": [
-        {
-          "label": "Retrieval Strategy",
-          "value": "Hybrid RRF",
-          "sub": "Dense Semantic + BM25 Sparse"
-        },
-        {
-          "label": "Evaluation Score",
-          "value": "93.8%",
-          "sub": "Context Groundedness (LLM-judge)"
-        },
-        {
-          "label": "Vector Store",
-          "value": "ChromaDB",
-          "sub": "Multilingual Semantic Embeddings"
-        },
-        {
-          "label": "Inference Latency",
-          "value": "< 480ms",
-          "sub": "Hybrid retrieval + RRF merge"
-        }
+        "OpenVINO FP16 inference acceleration for YOLOv11-Pose and InsightFace ArcFace models",
+        "Multi-camera RTSP pipeline with drop-oldest latest-frame buffer preventing lag",
+        "Polygon desk zone mapping with ray-casting point-in-polygon containment logic",
+        "Identity stabilization with head-pose angle filtering and cosine similarity thresholding",
+        "Real-time Server-Sent Events (SSE) stream delivery and LINE alert webhook triggers",
+        "Automated data retention cleanup worker for historical telemetry compaction"
       ],
       "techStack": [
         "Python",
-        "LangChain",
-        "ChromaDB",
-        "BM25",
-        "Reciprocal Rank Fusion (RRF)",
-        "Google Gemini",
-        "Ollama",
-        "PyThaiNLP",
         "FastAPI",
-        "Pydantic"
+        "YOLOv11-Pose",
+        "InsightFace",
+        "ArcFace",
+        "OpenVINO (FP16)",
+        "OpenCV",
+        "SuperVision",
+        "PyTorch",
+        "SSE (Server-Sent Events)",
+        "Docker",
+        "LINE Notify"
       ],
-      "architecture": "\n                                    +------------------------------+\n                                    | User Thai Legal Query        |\n                                    +------------------------------+\n                                                  |\n                                   +--------------+--------------+\n                                   | (Query Expansion & HyDE)    |\n                                   v                             v\n                    +-----------------------------+ +-----------------------------+\n                    | Dense Vector Search         | | Sparse Lexical Search       |\n                    | (ChromaDB Multilingual)     | | (BM25 + PyThaiNLP Tokens)   |\n                    +-----------------------------+ +-----------------------------+\n                                   |                             |\n                                   +--------------+--------------+\n                                                  |\n                                                  v\n                                    +------------------------------+\n                                    | Reciprocal Rank Fusion (RRF) |\n                                    | Rank Score = 1 / (60 + Rank) |\n                                    +------------------------------+\n                                                  |\n                                                  v\n                                    +------------------------------+\n                                    | Gemini Reasoning + Citation  |\n                                    | & Section-grounded Output    |\n                                    +------------------------------+\n",
-      "innovations": [
-        "**Reciprocal Rank Fusion (RRF) for Exact Statutory Numbers**: Addresses vector search's difficulty with exact Thai section numbers by combining dense semantic vectors with BM25 lexical token matching.",
-        "**LLM-as-a-Judge Eval**: Implemented an automated test script verifying that claims in the output reference retrieved chunks accurately."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/retriever/hybrid_rrf.py (Reciprocal Rank Fusion Algorithm)",
-        "code": "def reciprocal_rank_fusion(dense_results: list, sparse_results: list, k: int = 60) -> list:\n    \"\"\"Combines dense and sparse search rankings using Reciprocal Rank Fusion.\"\"\"\n    rrf_scores = {}\n    doc_lookup = {}\n\n    # Accumulate Dense RRF scores\n    for rank, doc in enumerate(dense_results):\n        doc_id = doc.metadata.get('section_id', doc.page_content)\n        doc_lookup[doc_id] = doc\n        rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))\n\n    # Accumulate Sparse BM25 RRF scores\n    for rank, doc in enumerate(sparse_results):\n        doc_id = doc.metadata.get('section_id', doc.page_content)\n        doc_lookup[doc_id] = doc\n        rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))\n\n    # Sort merged documents by combined RRF score descending\n    sorted_doc_ids = sorted(rrf_scores.keys(), key=lambda did: rrf_scores[did], reverse=True)\n    return [doc_lookup[did] for did in sorted_doc_ids]"
-      },
       "featured": true
     },
     {
       "id": "agentic-scraping-vlm-search",
-      "title": "Agentic Real Estate Scraping & VLM Property Filtering",
-      "folder": "AgenticScraping",
+      "title": "Agentic Real Estate Ingestion & VLM Property Filtering",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "agents-automation",
       "categoryLabel": "Multi-Agent & Automation",
       "badge": "Web Scraping & VLM",
       "impact": "Multi-source scraping pipeline & Vision-Language Model property curation",
-      "image": "assets/shot_2026-07-01_114057.png",
-      "shortSummary": "Multi-agent scraping suite collecting listings across major Thai property portals (DDProperty, FazWaz, LivingInsider, RentHub, Facebook Marketplace) with Gemini VLM visual style filtering and geocoding.",
-      "fullDescription": "A property ingestion pipeline built for real estate intelligence. Uses scraping agents and browser-use automation to extract property listings across 7 major portals and Facebook Groups. Incorporates a Vision-Language Model (VLM) filter using Gemini to classify interior styles, detect dominant room colors, and geocode locations with Longdo and Google Maps APIs into Firestore.",
+      "shortSummary": "Automated data ingestion pipeline collecting listings across major Thai property portals with Gemini VLM visual style filtering, K-Means color detection, and geocoding.",
+      "fullDescription": "Built a multi-agent data ingestion suite at Yourhome extracting property listings across 7 major portals and Facebook Marketplace. Integrated Google Gemini Vision-Language Models (VLM) to analyze room condition, aesthetic styles (Modern, Minimalist, Japandi, Luxury), and K-Means color clustering. Geocoded coordinates via Longdo Maps and Google Maps APIs into Google Cloud Firestore.",
       "highlights": [
-        "Multi-source scraper agents: DDProperty, FazWaz, LivingInsider, PropertyHub, RentHub, APThai, FB",
-        "Gemini VLM visual filtering: Room style classification (Modern, Minimal, Japandi, Luxury)",
-        "Room color palette detector using K-Means clustering and OpenCV image preprocessing",
-        "Geocoding & transit distance calculation via Longdo Maps & Google Maps APIs",
-        "Post-level deduplication, session health watchdog, and proxy management",
-        "Automated sync with Google Firestore and Google Sheets for team reporting"
-      ],
-      "metrics": [
-        {
-          "label": "Portals Scraped",
-          "value": "7+ Sources",
-          "sub": "Websites + FB Groups"
-        },
-        {
-          "label": "VLM Classification",
-          "value": "Gemini VLM",
-          "sub": "Visual Style & Quality Filter"
-        },
-        {
-          "label": "Deduplication Rate",
-          "value": "99.2%",
-          "sub": "Cross-platform fuzzy hash"
-        },
-        {
-          "label": "Storage",
-          "value": "Firestore",
-          "sub": "Real-time query schema"
-        }
+        "Multi-source scraping agents with Playwright and Browser-Use automation",
+        "Gemini VLM visual filtering for room style and interior quality classification",
+        "Room color palette extraction using OpenCV and K-Means clustering",
+        "Geocoding and transit distance computation via Longdo Maps and Google Maps APIs",
+        "Deduplication hashing and automated data synchronization to Google Cloud Firestore"
       ],
       "techStack": [
         "Python",
         "Playwright",
         "Browser-Use",
-        "Google Gemini 1.5/2.5",
+        "Google Gemini VLM",
         "OpenCV",
         "K-Means Clustering",
         "Google Cloud Firestore",
         "Longdo Maps API",
         "Pydantic"
       ],
-      "architecture": "\n+---------------------------+      +---------------------------+      +---------------------------+\n| Multi-Source Web Targets  | ---> | Browser-Use & Playwright  | ---> | Raw Listing Extraction    |\n| (DDProperty, FazWaz, etc.)|      | Headless Scraper Agents   |      | & Fuzzy Deduplication     |\n+---------------------------+      +---------------------------+      +---------------------------+\n                                                                                    |\n                                                                                    v\n+---------------------------+      +---------------------------+      +---------------------------+\n| Firestore / Real Estate   | <--- | Location Geocoder         | <--- | Gemini VLM Visual Filter  |\n| Platform Ingestion Engine |      | (Longdo / Google Maps)    |      | & Room Color Analyzer     |\n+---------------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Visual Spec Filtering via VLM**: Supplements text descriptions with Gemini VLM interior photo analysis to verify room condition and aesthetic style.",
-        "**Dominant Color & Style Indexing**: Extracts room color palettes using K-Means clustering for aesthetic matching."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/room_analyzer/style_classifier.py (Gemini VLM Room Style Analysis)",
-        "code": "async def analyze_room_visuals(image_url: str) -> dict:\n    \"\"\"Uses Gemini VLM to classify interior style, lighting, and furnishing state.\"\"\"\n    prompt = \"\"\"Analyze this property interior image. Return JSON with:\n    - style: (Modern / Minimalist / Japandi / Luxury / Vintage / Industrial / Unfurnished)\n    - room_type: (Living Room / Bedroom / Kitchen / Bathroom / Balcony)\n    - natural_light_score: (float 1-10)\n    - is_renovated: (bool)\n    - condition_rating: (Excellent / Good / Needs Renovation)\"\"\"\n    \n    response = await gemini_client.generate_content(\n        contents=[prompt, Part.from_uri(image_url, mime_type=\"image/jpeg\")],\n        generation_config={\"response_mime_type\": \"application/json\"}\n    )\n    return json.loads(response.text)"
-      },
       "featured": true
     },
     {
       "id": "ai-audio-extraction-speech-to-search",
-      "title": "Thai Speech-to-Search Inquiry Pipeline",
-      "folder": "AI_Audio_Extraction",
+      "title": "Thai Speech-to-Search Voice Inquiry Pipeline",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "genai-rag",
       "categoryLabel": "GenAI, LLMs & Agents",
       "badge": "Voice Processing",
       "impact": "Asynchronous Thai speech-to-structured search parameters with Groq Whisper & Gemini",
-      "image": "assets/shot_2026-04-24_175206.png",
-      "shortSummary": "Asynchronous pipeline converting Thai voice notes and audio queries into structured search parameters using Groq Whisper STT, Gemini/Llama, and fuzzy location normalization.",
-      "fullDescription": "Developed to process conversational voice inquiries for Yourhome. Receives audio recordings (LINE voice messages or web recordings), extracts text via Groq Whisper API, and uses Gemini / Llama 3 with Pydantic validation to extract structured search parameters (price range, bedroom count, property type, and transit station landmarks).",
+      "shortSummary": "Asynchronous pipeline converting Thai voice inquiries into structured search parameters using Groq Whisper STT, Gemini/Llama with Pydantic validation, and fuzzy location normalization.",
+      "fullDescription": "Developed an asynchronous voice inquiry processing pipeline for Yourhome. Received Thai voice notes from LINE and web clients, transcribed audio using Groq Whisper API (<320ms latency), and extracted structured search parameters (budgets, property types, bedroom counts, pet policies) using Gemini and Llama 3 with Pydantic validation. Normalized colloquial Thai transit landmarks against 150+ BTS/MRT stations.",
       "highlights": [
-        "Fast Thai Speech-to-Text inference via Groq Whisper API",
-        "LLM entity extraction: Price ranges, property types, pet-friendly preferences",
-        "Fuzzy Thai location matching against 150+ BTS/MRT stations and Bangkok districts",
-        "Pydantic strict schema validation with validation checks",
-        "Asynchronous FastAPI worker pipeline handling concurrent voice inputs"
-      ],
-      "metrics": [
-        {
-          "label": "STT Latency",
-          "value": "< 320ms",
-          "sub": "Groq Whisper Large-v3"
-        },
-        {
-          "label": "Intent Accuracy",
-          "value": "96.5%",
-          "sub": "Pydantic validated entities"
-        },
-        {
-          "label": "Location Resolution",
-          "value": "150+ Stations",
-          "sub": "Fuzzy Thai transit matching"
-        },
-        {
-          "label": "Throughput",
-          "value": "Async Queues",
-          "sub": "Concurrent audio streams"
-        }
+        "Sub-350ms Thai Speech-to-Text inference via Groq Whisper API",
+        "LLM structured entity extraction with strict Pydantic schema validation",
+        "Fuzzy Thai location matching against 150+ Bangkok BTS/MRT stations",
+        "Asynchronous FastAPI worker architecture for handling concurrent audio inputs"
       ],
       "techStack": [
         "Python",
@@ -510,58 +1087,25 @@ window.PORTFOLIO_DATA = {
         "RapidFuzz",
         "FFmpeg"
       ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| User Voice Message /  | ---> | Audio Ingestion & FFmpeg  | ---> | Groq Whisper STT          |\n| Inbound Audio Stream  |      | Format Standardization    |      | (Thai Speech Transcribe)  |\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Search Database Query | <--- | Fuzzy Station Normalizer  | <--- | Gemini / Llama 3          |\n| (Structured SQL / API)|      | (BTS / MRT Landmark Map)  |      | Pydantic Parameter Parser |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Fuzzy Thai Transit Normalizer**: Handles spoken colloquial Thai transit station names, mapping them to standardized transit database IDs.",
-        "**Schema Validation**: Ensures extracted numbers (budgets, room counts) fall within realistic ranges before querying the backend."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/services/voice_inquiry_parser.py (Groq STT & Pydantic Schema)",
-        "code": "class PropertySearchCriteria(BaseModel):\n    property_type: Optional[str] = Field(None, description=\"condo, house, townhouse\")\n    budget_max: Optional[int] = Field(None, description=\"Maximum monthly rent or purchase budget in THB\")\n    bedrooms: Optional[int] = Field(None, description=\"Number of bedrooms\")\n    target_locations: list[str] = Field(default_factory=list, description=\"Target BTS/MRT stations or areas\")\n    pet_friendly: bool = Field(False, description=\"Whether pet friendly is required\")\n\nasync def process_voice_note(audio_bytes: bytes) -> PropertySearchCriteria:\n    # 1. Transcribe via Groq Whisper\n    transcript = await groq_client.audio.transcriptions.create(\n        file=(\"audio.mp3\", audio_bytes),\n        model=\"whisper-large-v3\",\n        language=\"th\"\n    )\n    # 2. Extract structured search criteria\n    prompt = f\"Extract property search parameters from this Thai transcript: {transcript.text}\"\n    result = await gemini_structured_call(prompt, schema=PropertySearchCriteria)\n    # 3. Fuzzy normalize stations\n    result.target_locations = [fuzzy_match_station(loc) for loc in result.target_locations]\n    return result"
-      },
       "featured": true
     },
     {
       "id": "multi-agent-bot-tester-qa",
-      "title": "Multi-Agent QA Automation & API Testing Framework",
-      "folder": "yourhome-bot-tester",
+      "title": "Multi-Agent QA Automation & API Auditing Framework",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "agents-automation",
       "categoryLabel": "Multi-Agent & Automation",
       "badge": "QA Automation",
       "impact": "Multi-agent test execution, database auditing via SSH tunnels & Postman fuzzing",
-      "image": "assets/shot_2026-06-04_125529.png",
-      "shortSummary": "Multi-agent QA system executing automated browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score logic checks across Staging and Production.",
-      "fullDescription": "A test automation framework developed for Yourhome. Coordinates specialized test roles (Orchestrator, Test Execution, Logic Verifier, and Reporter) to execute matrix test cases against Staging and Production environments. Parses Postman collections, runs browser interactions with Playwright, queries AWS RDS/MySQL databases through secure SSH tunnels, and verifies matching score algorithms.",
+      "shortSummary": "Multi-agent QA framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
+      "fullDescription": "Engineered an AI-assisted test automation framework at Yourhome coordinating specialized agents (Orchestrator, Executor, Logic Auditor, Reporter). Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
       "highlights": [
-        "Multi-Agent structure: Orchestrator, Executor, Logic Auditor, and Reporter",
-        "Postman Collection parsing and schema-driven API test execution",
-        "Secure MySQL verification via paramiko SSH Tunnel and GCP Secret Manager credentials",
-        "Playwright browser UI automation with visual evidence screenshot captures",
-        "Test report generation synced to Google Sheets and developer logs",
-        "Algorithmic score regression testing (verifying Python reference scoring vs backend APIs)"
-      ],
-      "metrics": [
-        {
-          "label": "Agent Roles",
-          "value": "4 Agents",
-          "sub": "Orchestrator, Exec, Logic, Report"
-        },
-        {
-          "label": "Environments",
-          "value": "Dual Env",
-          "sub": "Staging & Production Auditing"
-        },
-        {
-          "label": "Security",
-          "value": "SSH + GCP SM",
-          "sub": "Dynamic Secret Retrieval"
-        },
-        {
-          "label": "Reporting",
-          "value": "Automated",
-          "sub": "Google Sheets + Visual Logs"
-        }
+        "Multi-agent architecture coordinating test tasks, execution, and reporting",
+        "Postman Collection parsing and automated API schema testing",
+        "Secure MySQL verification via paramiko SSH tunnels and GCP Secret Manager",
+        "Playwright browser automation capturing visual failure evidence and logs"
       ],
       "techStack": [
         "Python",
@@ -575,242 +1119,25 @@ window.PORTFOLIO_DATA = {
         "PyTest",
         "Docker"
       ],
-      "architecture": "\n                                    +--------------------------------+\n                                    | Orchestrator Agent             |\n                                    | (Parses Postman Specs & Tasks) |\n                                    +--------------------------------+\n                                                    |\n                         +--------------------------+--------------------------+\n                         v                                                     v\n          +-------------------------------+                     +-------------------------------+\n          | Test Execution Agent          |                     | Logic Verification Agent      |\n          | (Playwright UI + REST APIs)   |                     | (SSH Tunneled MySQL RDS Query)|\n          +-------------------------------+                     +-------------------------------+\n                         |                                                     |\n                         +--------------------------+--------------------------+\n                                                    |\n                                                    v\n                                    +--------------------------------+\n                                    | Reporter Agent                 |\n                                    | (Visual Evidence & Sheet Sync) |\n                                    +--------------------------------+\n",
-      "innovations": [
-        "**SSH-Tunneled Verification**: Cross-verifies API responses against actual database mutations in real time through secure SSH tunnels to RDS clusters.",
-        "**Visual Evidence Capture**: Captures DOM state and screenshots on test failure, linking them into Google Sheet QA reports."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/api_logic_tester.py (SSH-Tunneled Verification Engine)",
-        "code": "def verify_endpoint_with_db(endpoint_url: str, payload: dict, expected_db_table: str, match_key: str):\n    # 1. Trigger API Request\n    response = requests.post(endpoint_url, json=payload, timeout=10)\n    assert response.status_code == 200, f\"API failed with {response.status_code}\"\n    record_id = response.json().get(\"data\", {}).get(\"id\")\n\n    # 2. Open transient SSH Tunnel to RDS MySQL\n    with SSHTunnelForwarder(\n        (SSH_HOST, SSH_PORT),\n        ssh_username=SSH_USER,\n        ssh_pkey=SECRET_PEM_KEY,\n        remote_bind_address=(DB_HOST, DB_PORT)\n    ) as tunnel:\n        conn = pymysql.connect(host='127.0.0.1', port=tunnel.local_bind_port, user=DB_USER, password=DB_PASS, db=DB_NAME)\n        with conn.cursor(pymysql.cursors.DictCursor) as cursor:\n            cursor.execute(f\"SELECT * FROM {expected_db_table} WHERE id = %s\", (record_id,))\n            db_row = cursor.fetchone()\n            assert db_row is not None, f\"Database record {record_id} not created\"\n            assert db_row[match_key] == payload[match_key], \"Payload-DB data mismatch\"\n    return {\"status\": \"PASS\", \"record_id\": record_id}"
-      },
       "featured": true
-    },
-    {
-      "id": "drone-crack-detection-geospatial-cv",
-      "title": "Structural Crack Detection on Drone Imagery",
-      "folder": "Structural-Crack-Detection-System-OpenCV-Pivot-",
-      "category": "geospatial-3d",
-      "categoryLabel": "Geospatial AI & Drone Analytics",
-      "badge": "Drone CV System",
-      "impact": "CNN classification & OpenCV tracking for pipe inspection on high-res drone footage",
-      "image": "assets/crack_detection_output.png",
-      "shortSummary": "Hybrid Computer Vision pipeline combining Deep Learning CNN image classification with OpenCV object tracking for structural crack detection on drone pipe inspection videos.",
-      "fullDescription": "Developed during the AI & Geospatial internship at Sky Visual Imaging Venture (SKYVIV). Designed to inspect industrial pipes from high-resolution drone camera feeds. Uses a two-phase approach: Phase 1 utilizes a Deep Learning CNN to classify candidate crack patches, while Phase 2 utilizes OpenCV feature tracking (spatial R-Tree indexing and contour morphometry) to continuously track and measure crack dimensions along video frames.",
-      "highlights": [
-        "Two-phase architecture: CNN deep learning classification + OpenCV tracking",
-        "High-resolution drone video processing with perspective compensation",
-        "Spatial indexing using R-Tree for continuous crack landmark tracking",
-        "Morphological contour measurement for crack width and length estimation",
-        "Processed industrial drone survey datasets alongside LiDAR workflows"
-      ],
-      "metrics": [
-        {
-          "label": "Inspection Medium",
-          "value": "Drone Imagery",
-          "sub": "High-res pipe survey videos"
-        },
-        {
-          "label": "Architecture",
-          "value": "Hybrid CNN+CV",
-          "sub": "Deep Learning + OpenCV"
-        },
-        {
-          "label": "Spatial Index",
-          "value": "R-Tree",
-          "sub": "Continuous crack tracking"
-        },
-        {
-          "label": "Internship",
-          "value": "SKYVIV",
-          "sub": "Drone & Geospatial AI"
-        }
-      ],
-      "techStack": [
-        "Python",
-        "TensorFlow / Keras",
-        "OpenCV",
-        "NumPy",
-        "R-Tree",
-        "Matplotlib"
-      ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Drone Video Stream /  | ---> | Frame Extraction &        | ---> | CNN Deep Learning         |\n| Pipe Inspection Aerial|      | Morphological Preprocess  |      | Crack Classifier (Patch)  |\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Inspection Report &   | <--- | Crack Dimension Logger    | <--- | OpenCV Contour Tracker &  |\n| Geo-Tagged Cracks     |      | (Width / Length Metric)   |      | Spatial R-Tree Indexing   |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Candidate Pre-filtering**: Uses fast OpenCV morphological candidate extraction before running CNN validation on 4K drone frames to reduce compute time.",
-        "**Spatial Tracking**: R-Tree spatial indexing helps track crack instances across consecutive video frames as the drone moves."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "crack_detection_opencv.py (Contour Morphometry & Patch Extraction)",
-        "code": "def analyze_crack_geometry(binary_mask: np.ndarray, min_area=50):\n    \"\"\"Extracts crack contours, computes length/width and checks aspect ratio.\"\"\"\n    contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)\n    detected_cracks = []\n    \n    for cnt in contours:\n        area = cv2.contourArea(cnt)\n        if area < min_area:\n            continue\n        rect = cv2.minAreaRect(cnt)\n        (x, y), (w, h), angle = rect\n        length = max(w, h)\n        width = min(w, h)\n        aspect_ratio = length / (width + 1e-5)\n        \n        # True structural cracks have high elongation (aspect ratio > 3.5)\n        if aspect_ratio >= 3.5:\n            detected_cracks.append({\n                \"center\": (int(x), int(y)),\n                \"length_px\": round(length, 1),\n                \"width_px\": round(width, 1),\n                \"aspect_ratio\": round(aspect_ratio, 2)\n            })\n    return detected_cracks"
-      },
-      "featured": true
-    },
-    {
-      "id": "geospatial-crop-yield-prediction",
-      "title": "Geospatial AI & Satellite Crop Yield Prediction",
-      "folder": "Corn-Yield-Prediction-with-Geospatial-AI",
-      "category": "geospatial-3d",
-      "categoryLabel": "Geospatial AI & Drone Analytics",
-      "badge": "Geospatial Modeling",
-      "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
-      "image": "assets/NDVI_Pic.png",
-      "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
-      "fullDescription": "A geospatial data science project predicting crop yields. Processes satellite multispectral remote sensing data to compute vegetation health indices (Normalized Difference Vegetation Index - NDVI, Enhanced Vegetation Index - EVI), combined with meteorological climate data and topography. Built Random Forest and Gradient Boosting regression models in MATLAB and Python.",
-      "highlights": [
-        "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
-        "Vegetation index computation: NDVI, EVI, SAVI, and NDWI",
-        "Multi-modal fusion: Remote sensing spectral bands + weather climate data + soil metrics",
-        "Random Forest and Gradient Boosting regression models with cross-validation",
-        "Feature importance analysis highlighting critical crop growth periods"
-      ],
-      "metrics": [
-        {
-          "label": "Remote Sensing",
-          "value": "Multispectral",
-          "sub": "NDVI, EVI, Spectral Bands"
-        },
-        {
-          "label": "ML Models",
-          "value": "Ensemble",
-          "sub": "Random Forest & Gradient Boost"
-        },
-        {
-          "label": "Domain",
-          "value": "Geospatial AI",
-          "sub": "Chulalongkorn Survey Eng & SKYVIV"
-        },
-        {
-          "label": "Validation",
-          "value": "Cross-Val",
-          "sub": "Evaluated on harvest ground truth"
-        }
-      ],
-      "techStack": [
-        "Python",
-        "MATLAB",
-        "Pandas",
-        "NumPy",
-        "Scikit-Learn",
-        "Rasterio",
-        "Geopandas",
-        "Matplotlib"
-      ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Satellite Imagery     | ---> | Multispectral Index Engine| ---> | Feature Fusion Matrix     |\n| (Sentinel-2 / Landsat)|      | (NDVI, EVI, NDWI)         |      | (Spectral + Weather + Soil|\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Precision Yield Map & | <--- | Yield Prediction Matrix   | <--- | Ensemble Regression Models|\n| Agricultural Insights |      | (Tons per Hectare Metric) |      | (Random Forest & GBDT)    |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Temporal NDVI Analysis**: Tracks the progression of vegetation indices across critical crop growth stages rather than using single-date snapshots.",
-        "**Multi-Source Data Fusion**: Combines spectral indices with rolling precipitation and solar radiation data."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/feature_extraction.py (NDVI / EVI Calculation from Multispectral Bands)",
-        "code": "def compute_vegetation_indices(red_band: np.ndarray, nir_band: np.ndarray, blue_band: np.ndarray) -> dict:\n    \"\"\"Calculates Normalized Difference Vegetation Index (NDVI) and Enhanced Vegetation Index (EVI).\"\"\"\n    nir = nir_band.astype(float)\n    red = red_band.astype(float)\n    blue = blue_band.astype(float)\n\n    # NDVI = (NIR - Red) / (NIR + Red)\n    ndvi = (nir - red) / (nir + red + 1e-7)\n\n    # EVI = 2.5 * ((NIR - Red) / (NIR + 6 * Red - 7.5 * Blue + 1))\n    evi = 2.5 * ((nir - red) / (nir + 6.0 * red - 7.5 * blue + 1.0 + 1e-7))\n\n    return {\n        \"ndvi_mean\": float(np.nanmean(ndvi)),\n        \"ndvi_p90\": float(np.nanpercentile(ndvi, 90)),\n        \"evi_mean\": float(np.nanmean(evi)),\n        \"vegetation_vigor_index\": float(np.nanmean(ndvi * evi))\n    }"
-      },
-      "featured": true
-    },
-    {
-      "id": "pickleball-cv-ai-capture-scoring",
-      "title": "Pickleball AI: Edge-to-Cloud Video Analysis & Scoring",
-      "folder": "yh-pickleball-capture",
-      "category": "cv-edge",
-      "categoryLabel": "Computer Vision & Edge AI",
-      "badge": "Edge IoT & CV",
-      "impact": "Trajectory tracking, rally hit extraction & Gemini Flash video reasoning",
-      "image": "assets/shot_2026-08-11_112657.png",
-      "shortSummary": "Edge-to-Cloud sports analytics prototype combining Raspberry Pi audio/motion rally triggers with Gemini Flash video reasoning and YOLO trajectory tracking for Pickleball match scoring.",
-      "fullDescription": "A sports analytics prototype exploring edge-to-cloud computing. Uses audio and motion triggers on edge Raspberry Pi boards to identify rally start and end points. Slices 15-20 second highlight video clips and sends them to Google Gemini Flash and YOLO models to evaluate score updates and rule compliance.",
-      "highlights": [
-        "Edge-to-Cloud design (Raspberry Pi edge trigger + Cloud VLM)",
-        "Audio impact detection (paddle pop sound triggers) + motion settle detection",
-        "YOLO trajectory tracking for ball bounding and court baseline zone mapping",
-        "Google Gemini Flash multimodal video reasoning for rule verification",
-        "BLE wristband and IoT sensor scoreboard prototype (ESP32 / Node.js)"
-      ],
-      "metrics": [
-        {
-          "label": "Hardware Cost",
-          "value": "Budget-Friendly",
-          "sub": "Raspberry Pi + Standard Webcam"
-        },
-        {
-          "label": "Clip Size",
-          "value": "1-2 MB",
-          "sub": "720p 15fps lightweight snippets"
-        },
-        {
-          "label": "Cloud Inference",
-          "value": "Gemini Flash",
-          "sub": "Multimodal video understanding"
-        },
-        {
-          "label": "Hardware Scoreboard",
-          "value": "ESP32 BLE",
-          "sub": "Wireless real-time score display"
-        }
-      ],
-      "techStack": [
-        "Python",
-        "OpenCV",
-        "YOLOv8/v11",
-        "Google Gemini Flash",
-        "FFmpeg",
-        "Raspberry Pi",
-        "ESP32",
-        "Node.js",
-        "Vite / React"
-      ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Court Webcam Stream   | ---> | Edge Raspberry Pi         | ---> | 15s Clip Slicer           |\n| (Pickleball Court)    |      | (Audio + Motion Trigger)  |      | (1-2 MB Lightweight Video)|\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| ESP32 LED Scoreboard  | <--- | Score State Machine       | <--- | Google Gemini Flash       |\n| & Player Mobile Web UI|      | & Rally History Logger    |      | Multimodal Video Analysis |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Audio-Triggered Rally Detection**: Uses audio thresholding of paddle hits to start recording, saving bandwidth compared to continuous cloud video streaming.",
-        "**VLM Prompting with Court Calibration**: Uses court boundary calibration data to help Gemini Flash verify non-volley zone infractions."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/skills/rally_extractor.py (Audio Trigger & Video Buffer Slicer)",
-        "code": "class EdgeRallyBuffer:\n    def __init__(self, buffer_seconds=20, fps=15):\n        self.max_frames = buffer_seconds * fps\n        self.frame_buffer = collections.deque(maxlen=self.max_frames)\n        self.is_rally_active = False\n\n    def push_frame(self, frame: np.ndarray, is_paddle_hit: bool):\n        self.frame_buffer.append(frame)\n        if is_paddle_hit:\n            self.last_hit_time = time.time()\n            self.is_rally_active = True\n\n        # If silence / no hit detected for > 3.5s, finalize rally clip\n        if self.is_rally_active and (time.time() - self.last_hit_time > 3.5):\n            self.is_rally_active = False\n            return self.export_clip()\n        return None"
-      },
-      "featured": false
     },
     {
       "id": "3d-room-scan-texture-pipeline",
-      "title": "3D Room Scan Cleaning & Texture Pipeline",
-      "folder": "painpointtoday_3dtexture",
+      "title": "3D Room Scan Mesh Cleaning & Web Viewer Pipeline",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "geospatial-3d",
-      "categoryLabel": "Geospatial AI & Drone Analytics",
+      "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "3D Processing",
       "impact": "3D mesh cleaning, USDZ-to-GLTF conversion & Three.js web rendering",
-      "image": "assets/shot_2026-08-06_105838.png",
-      "shortSummary": "3D spatial scanning pipeline converting Apple RoomPlan USDZ scans into cleaned, optimized GLTF/GLB models with texture baking, mesh decimation, and interactive Three.js web rendering.",
-      "fullDescription": "A 3D graphics and mesh processing pipeline developed for virtual real estate tours. Ingests raw iPhone LiDAR / RoomPlan USDZ models, executes mesh cleaning (vertex deduplication, normal unification, and quad decimation), bakes texture atlases, and converts assets to optimized GLTF/GLB format for interactive viewing in Three.js.",
+      "shortSummary": "3D spatial scanning pipeline converting iPhone RoomPlan USDZ scans into cleaned, optimized GLTF/GLB models with texture baking, mesh decimation, and interactive Three.js web rendering.",
+      "fullDescription": "Developed a 3D asset processing pipeline converting Apple RoomPlan USDZ spatial scans into web-optimized GLTF/GLB models. Implemented Open3D and Trimesh routines for vertex deduplication, normal recalculation, and quadric decimation, reducing asset file sizes by ~75% while maintaining 60 FPS interactive rendering in Three.js.",
       "highlights": [
-        "USDZ to GLTF/GLB geometry and material conversion pipeline",
-        "Mesh cleaning using Open3D and Trimesh: vertex deduplication & manifold repair",
+        "USDZ to GLTF/GLB geometry and material conversion microservice",
+        "Mesh cleaning with Open3D and Trimesh: vertex deduplication and normal repair",
         "Texture atlas re-projection and lighting normalization",
-        "FastAPI microservice handling model conversion tasks",
         "Interactive Three.js web viewer for room dimension inspection"
-      ],
-      "metrics": [
-        {
-          "label": "File Compression",
-          "value": "75% Reduction",
-          "sub": "Optimized GLB format"
-        },
-        {
-          "label": "Web Rendering",
-          "value": "60 FPS",
-          "sub": "Three.js lightweight assets"
-        },
-        {
-          "label": "Geometry Tools",
-          "value": "Open3D / Trimesh",
-          "sub": "Automated mesh decimation"
-        },
-        {
-          "label": "Pipeline",
-          "value": "FastAPI",
-          "sub": "Async 3D conversion API"
-        }
       ],
       "techStack": [
         "Python",
@@ -822,57 +1149,25 @@ window.PORTFOLIO_DATA = {
         "GLTF / GLB",
         "Docker"
       ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Raw iPhone LiDAR Scan | ---> | USDZ Parser &             | ---> | Open3D Mesh Cleaner       |\n| (Apple RoomPlan USDZ) |      | Scene Graph Extractor     |      | (Decimate & Repair Normals|\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Three.js Web Viewer / | <--- | FastAPI Asset Delivery    | <--- | Texture Atlas Baker &     |\n| Virtual Tour Portal   |      | & S3 Storage Ingestion    |      | GLTF / GLB Exporter       |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Manifold Repair**: Cleans up degenerate faces and non-manifold edges produced by mobile LiDAR scanners before web rendering.",
-        "**Color Palette Mapping**: Uses vertex UVs and texture coordinates to extract dominant room wall colors."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "clean_v5.py (Mesh Decimation & Normal Recalculation with Open3D)",
-        "code": "def clean_and_optimize_mesh(input_path: str, target_triangles=40000) -> trimesh.Trimesh:\n    mesh = trimesh.load(input_path)\n    # Remove duplicate and unreferenced vertices\n    mesh.remove_degenerate_faces()\n    mesh.remove_duplicate_faces()\n    mesh.remove_unreferenced_vertices()\n\n    # Convert to Open3D for quadric decimation\n    o3d_mesh = mesh.as_open3d\n    o3d_mesh = o3d_mesh.simplify_quadric_decimation(target_number_of_triangles=target_triangles)\n    o3d_mesh.compute_vertex_normals()\n    \n    # Export back as optimized Trimesh\n    cleaned = trimesh.Trimesh(\n        vertices=np.asarray(o3d_mesh.vertices),\n        faces=np.asarray(o3d_mesh.triangles),\n        vertex_normals=np.asarray(o3d_mesh.vertex_normals)\n    )\n    return cleaned"
-      },
       "featured": false
     },
     {
       "id": "real-estate-core-scoring-infrastructure",
-      "title": "Real Estate Scoring & Location Processing Engine",
-      "folder": "yh-db-processing",
+      "title": "Real Estate Scoring & Location Analytics Engine",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "backend-cloud",
       "categoryLabel": "Backend & Cloud Systems",
       "badge": "Backend Microservice",
       "impact": "Composite location scoring, walking distance engine & multi-variable ranking",
-      "image": "assets/shot_2026-07-08_085932.png",
-      "shortSummary": "Scoring and data processing engine computing composite property scores, transit walking distance matrices (OSRM/Google Maps), and price-per-square-meter value metrics.",
-      "fullDescription": "A backend microservice powering property evaluation at Yourhome. Runs scoring algorithms across real estate listings: transit walking distance calculations, neighborhood amenity density, Google review sentiment aggregation, and price-per-square-meter value metrics. Connects to AWS RDS MySQL via SSH tunnels and Google Cloud Firestore.",
+      "shortSummary": "Backend microservice computing composite property evaluation scores, transit walking distance matrices, and price-per-square-meter value distributions.",
+      "fullDescription": "Built a backend data processing microservice at Yourhome calculating multi-factor property scores: transit walking distances (OSRM / Google Maps APIs), neighborhood amenity density, and price-per-square-meter value metrics relative to local distributions. Maintained dual-write consistency between AWS RDS MySQL and Google Cloud Firestore.",
       "highlights": [
         "Composite property scoring engine with parameterized weighting",
-        "Transit walking distance and travel time calculation with OSRM and Google Maps APIs",
+        "Transit walking distance and travel time calculation with OSRM and Maps APIs",
         "Price-per-sqm value scoring relative to neighborhood baseline distributions",
-        "Firestore and MySQL dual-write consistency with transaction error handling",
-        "FastAPI REST endpoints with sub-50ms score computation"
-      ],
-      "metrics": [
-        {
-          "label": "Score Computation",
-          "value": "< 50ms",
-          "sub": "Multi-factor evaluation"
-        },
-        {
-          "label": "Database Sync",
-          "value": "Dual-Write",
-          "sub": "MySQL RDS + Firestore"
-        },
-        {
-          "label": "Scalability",
-          "value": "Batching",
-          "sub": "Batch processing 10k+ rows"
-        },
-        {
-          "label": "Transit Matrix",
-          "value": "OSRM / Maps",
-          "sub": "Precise walking distance"
-        }
+        "Dual-sync consistency between MySQL RDS and Google Cloud Firestore"
       ],
       "techStack": [
         "Python",
@@ -885,57 +1180,25 @@ window.PORTFOLIO_DATA = {
         "NumPy",
         "Docker"
       ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Raw Property Ingestion| ---> | Walking Distance Engine   | ---> | Value & Spec Scorer       |\n| (New Property Record) |      | (Transit / Amenity Radii) |      | (Price/sqm vs Market Dist)|\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Consumer Frontend &   | <--- | Dual Sync Storage         | <--- | Composite Ranking Engine  |\n| Matchmaking Engine    |      | (MySQL RDS + Firestore)   |      | (Feng Shui + Amenities)   |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Normalized Value Scoring Curves**: Uses log-normal distribution fitting to evaluate property price competitiveness relative to the neighborhood median.",
-        "**Transit Caching**: Implements spatial grid caching to reduce redundant external transit API calls."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/calculate_composite_scores.py (Multi-Attribute Weighting Formula)",
-        "code": "def compute_composite_property_score(loc_score: float, spec_score: float, value_score: float, google_rating: float) -> float:\n    \"\"\"Calculates weighted composite score (0-100) based on validated business metrics.\"\"\"\n    weights = {\n        'location': 0.35,\n        'spec': 0.25,\n        'value': 0.25,\n        'reputation': 0.15\n    }\n    composite = (\n        (loc_score * weights['location']) +\n        (spec_score * weights['spec']) +\n        (value_score * weights['value']) +\n        ((google_rating / 5.0 * 100.0) * weights['reputation'])\n    )\n    return round(min(max(composite, 0.0), 100.0), 2)"
-      },
       "featured": false
     },
     {
       "id": "yourhome-seo-sitemap-engine",
-      "title": "Schema-Driven SEO & Sitemap Microservice",
-      "folder": "yourhome-seo-sitemap",
+      "title": "Schema-Driven Dynamic SEO & Sitemap Microservice",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "backend-cloud",
       "categoryLabel": "Backend & Cloud Systems",
       "badge": "Backend Microservice",
       "impact": "Dynamic XML sitemaps, JSON-LD Schema.org generators & Firestore caching for 50k+ URLs",
-      "image": "assets/shot_2026-08-10_155652.png",
       "shortSummary": "FastAPI microservice generating dynamic, paginated XML sitemaps, Schema.org JSON-LD microdata, and clean slug routing for property search engine indexing.",
-      "fullDescription": "A schema-first SEO engine built for Yourhome. Generates dynamic XML sitemaps with pagination supporting 50,000+ property and article URLs. Produces Schema.org JSON-LD structured data (RealEstateListing, Product, BreadcrumbList) to improve search engine indexing. Integrates with Firestore for caching and MySQL via SSH tunnels.",
+      "fullDescription": "Designed a schema-first SEO microservice at Yourhome. Generated dynamic paginated XML sitemaps supporting 50,000+ URLs and produced Schema.org JSON-LD structured data (RealEstateListing, Product, BreadcrumbList) for search engine indexing. Implemented Firestore response caching to reduce database overhead.",
       "highlights": [
-        "Paginated XML sitemap generator with 50,000 URLs per index chunk",
-        "Schema.org JSON-LD generator for structured data indexing",
-        "Firestore-backed caching layer reducing database query overhead",
-        "FastAPI async routing with gzip compression and cache-control headers",
-        "Tested with automated Postman test suites and deployed on Docker"
-      ],
-      "metrics": [
-        {
-          "label": "Index Capacity",
-          "value": "50,000+ URLs",
-          "sub": "Paginated dynamic XML"
-        },
-        {
-          "label": "Cache Hit Latency",
-          "value": "< 15ms",
-          "sub": "Firestore cached responses"
-        },
-        {
-          "label": "Schema Standard",
-          "value": "Schema.org",
-          "sub": "JSON-LD structured data"
-        },
-        {
-          "label": "Database Load",
-          "value": "-92%",
-          "sub": "Caching layer"
-        }
+        "Paginated XML sitemap generator supporting 50,000+ URLs per index chunk",
+        "Schema.org JSON-LD metadata generator for real estate listings",
+        "Firestore-backed caching layer reducing database load by >90%",
+        "FastAPI async routing with gzip compression and cache-control headers"
       ],
       "techStack": [
         "Python",
@@ -946,50 +1209,25 @@ window.PORTFOLIO_DATA = {
         "Docker",
         "Postman"
       ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Search Engine Bot /   | ---> | FastAPI Gateway           | ---> | Firestore Cache Check     |\n| AI Crawler (Google/AI)|      | (Gzip + Rate Limiting)    |      | (Sub-15ms cached response)|\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                | (Cache Miss)\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Output XML Sitemap &  | <--- | Schema.org JSON-LD Engine | <--- | MySQL RDS Query           |\n| Clean URL Slugs       |      | & Chunk Paginator (50k)   |      | (via Secure SSH Tunnel)   |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Structured JSON-LD Construction**: Constructs property entity relationships (including transit station walking minutes and amenities) for search engine crawlers.",
-        "**Chunked Sitemap Generation**: Uses streaming XML generators to avoid high memory spikes when assembling large listing indexes."
-      ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "src/services/schema_builder.py (Structured Schema.org JSON-LD Builder)",
-        "code": "def build_property_schema_jsonld(property_data: dict) -> dict:\n    \"\"\"Constructs Schema.org RealEstateListing JSON-LD metadata for AI search bots.\"\"\"\n    return {\n        \"@context\": \"https://schema.org\",\n        \"@type\": \"RealEstateListing\",\n        \"name\": property_data.get(\"title\"),\n        \"description\": property_data.get(\"description\"),\n        \"url\": f\"https://yourhome.co.th/property/{property_data.get('slug')}\",\n        \"price\": property_data.get(\"price_thb\"),\n        \"priceCurrency\": \"THB\",\n        \"address\": {\n            \"@type\": \"PostalAddress\",\n            \"addressLocality\": property_data.get(\"district\"),\n            \"addressRegion\": \"Bangkok\",\n            \"addressCountry\": \"TH\"\n        },\n        \"geo\": {\n            \"@type\": \"GeoCoordinates\",\n            \"latitude\": property_data.get(\"lat\"),\n            \"longitude\": property_data.get(\"lng\")\n        }\n    }"
-      },
       "featured": false
     },
     {
       "id": "yourhome-auto-admin-agent",
-      "title": "Automated Real Estate Admin Chatbot & LINE Webhook",
-      "folder": "yourhome-auto-admin",
+      "title": "Automated Customer Service & Inquiry Chatbot",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
       "category": "agents-automation",
       "categoryLabel": "Multi-Agent & Automation",
       "badge": "Chatbot & Automation",
       "impact": "Intent recognition, lead qualification & MySQL/Firestore response synthesis",
-      "shortSummary": "Administrative chatbot for customer service on LINE and Web Chat. Uses Google Gemini for intent routing, queries MySQL/Firestore for property inventory, and delivers polite, structured replies.",
-      "fullDescription": "A customer service and lead management agent. Connects to customer inquiries over LINE Messaging API and web widgets. Uses Google Gemini to classify customer intent (price inquiry, viewing booking, location query), retrieves matching listings from MySQL RDS and Firestore leads, and generates polite, professional replies.",
+      "shortSummary": "Administrative customer inquiry assistant on LINE and Web Chat using Gemini for intent routing, property inventory queries, and CRM lead capture.",
+      "fullDescription": "Developed a customer inquiry agent connecting LINE Messaging API and Web Chat. Used Google Gemini for intent classification (price inquiry, viewing booking, location query), queried property listings from MySQL RDS and Firestore leads, and generated polite, structured replies.",
       "highlights": [
         "Skill-based architecture separating database, Firestore, and LINE messaging skills",
         "Gemini prompt orchestration with structured business persona guidelines",
         "Automated lead qualification and CRM ingestion into Firestore",
-        "Webhook receiver built with FastAPI and secure SSH database tunneling"
-      ],
-      "metrics": [
-        {
-          "label": "Response Time",
-          "value": "< 1.2s",
-          "sub": "End-to-end webhook reply"
-        },
-        {
-          "label": "Intent Coverage",
-          "value": "12 Intents",
-          "sub": "Lead qualification & booking"
-        },
-        {
-          "label": "Channel",
-          "value": "LINE & Web",
-          "sub": "Multi-channel messaging"
-        }
+        "FastAPI webhook receiver with secure SSH database tunneling"
       ],
       "techStack": [
         "Python",
@@ -1000,23 +1238,103 @@ window.PORTFOLIO_DATA = {
         "MySQL RDS",
         "Docker"
       ],
-      "architecture": "\n+-----------------------+      +---------------------------+      +---------------------------+\n| Customer LINE Message | ---> | FastAPI Webhook Receiver  | ---> | Gemini Intent Classifier  |\n| / Web Live Chat       |      | (Config-driven skills)    |      | & Lead Qualification      |\n+-----------------------+      +---------------------------+      +---------------------------+\n                                                                                |\n                                                                                v\n+-----------------------+      +---------------------------+      +---------------------------+\n| Tailored Response     | <--- | LINE Flex Message Builder | <--- | Skills Registry:          |\n| Delivered to Customer |      | & Firestore Lead Ingest   |      | DB, CRM, Availability     |\n+-----------------------+      +---------------------------+      +---------------------------+\n",
-      "innovations": [
-        "**Modular Skill Abstraction**: Each tool (inventory check, booking calendar, lead saver) is encapsulated as a standalone skill function, keeping the codebase organized."
+      "featured": false
+    },
+    {
+      "id": "pickleball-cv-ai-capture-scoring",
+      "title": "Pickleball AI: Edge Video Analysis & IoT Scoring Prototype",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Yourhome Platform",
+      "category": "cv-edge",
+      "categoryLabel": "Computer Vision & Edge AI",
+      "badge": "Edge IoT & CV",
+      "impact": "Trajectory tracking, rally hit extraction & Gemini Flash video reasoning",
+      "shortSummary": "Edge-to-Cloud sports analytics prototype combining Raspberry Pi audio/motion rally triggers with Gemini Flash video reasoning and YOLO trajectory tracking.",
+      "fullDescription": "Developed an edge-to-cloud sports analytics prototype. Used audio and motion triggers on Raspberry Pi boards to identify rally start/end points, sliced lightweight video clips, and sent them to Google Gemini Flash and YOLO models to evaluate score updates and rule compliance.",
+      "highlights": [
+        "Edge-to-Cloud design (Raspberry Pi edge trigger + Cloud VLM)",
+        "Audio impact detection (paddle hit triggers) + motion settle detection",
+        "YOLO trajectory tracking for ball bounding and court baseline zone mapping",
+        "Google Gemini Flash multimodal video reasoning for rule verification"
       ],
-      "codeSnippet": {
-        "language": "python",
-        "title": "agents/admin_agent.py (Gemini Intent Routing & Skill Execution)",
-        "code": "async def handle_customer_inquiry(message_text: str, user_id: str) -> str:\n    # Classify intent with Gemini\n    intent_data = await classify_intent(message_text)\n    intent = intent_data.get(\"intent\")\n    \n    if intent == \"CHECK_PROPERTY\":\n        property_id = intent_data.get(\"property_id\")\n        details = await db_skill.get_property_details(property_id)\n        return format_property_reply(details)\n    elif intent == \"BOOK_VIEWING\":\n        lead = await firestore_skill.save_lead(user_id, intent_data)\n        return \"ขอบคุณสำหรับการนัดหมายชมห้อง เจ้าหน้าที่จะติดต่อกลับยืนยันเวลาครับ\"\n    else:\n        return await gemini_generate_general_reply(message_text)"
-      },
+      "techStack": [
+        "Python",
+        "OpenCV",
+        "YOLOv8/v11",
+        "Google Gemini Flash",
+        "FFmpeg",
+        "Raspberry Pi",
+        "ESP32",
+        "Node.js",
+        "Vite / React"
+      ],
+      "featured": false
+    },
+    {
+      "id": "drone-crack-detection-geospatial-cv",
+      "title": "Structural Crack Detection on Drone Aerial Footage",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "SKYVIV (Internship)",
+      "category": "geospatial-3d",
+      "categoryLabel": "Geospatial AI & 3D Analytics",
+      "badge": "Drone CV System",
+      "impact": "CNN classification & OpenCV tracking for pipe inspection on high-res drone footage",
+      "shortSummary": "Computer Vision pipeline combining Deep Learning CNN image classification with OpenCV object tracking for structural crack detection on drone pipe inspection videos.",
+      "fullDescription": "Developed during the AI & Geospatial internship at Sky Visual Imaging Venture (SKYVIV). Designed to inspect industrial pipes from high-resolution drone camera feeds using Deep Learning CNN candidate classification and OpenCV spatial R-Tree indexing for continuous crack landmark tracking.",
+      "highlights": [
+        "Two-phase architecture: CNN deep learning classification + OpenCV tracking",
+        "High-resolution drone video processing with perspective compensation",
+        "Spatial indexing using R-Tree for continuous crack landmark tracking",
+        "Morphological contour measurement for crack width and length estimation"
+      ],
+      "techStack": [
+        "Python",
+        "TensorFlow / Keras",
+        "OpenCV",
+        "NumPy",
+        "R-Tree",
+        "Matplotlib"
+      ],
+      "featured": false
+    },
+    {
+      "id": "geospatial-crop-yield-prediction",
+      "title": "Geospatial AI & Satellite Crop Yield Prediction",
+      "type": "company",
+      "typeLabel": "Industry Experience",
+      "companyName": "Chulalongkorn / SKYVIV Research",
+      "category": "geospatial-3d",
+      "categoryLabel": "Geospatial AI & 3D Analytics",
+      "badge": "Geospatial Modeling",
+      "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
+      "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
+      "fullDescription": "Geospatial data science research predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
+      "highlights": [
+        "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
+        "Vegetation index computation: NDVI, EVI, SAVI, and NDWI",
+        "Multi-modal fusion: Remote sensing spectral bands + weather climate data + soil metrics",
+        "Random Forest and Gradient Boosting regression models with cross-validation"
+      ],
+      "techStack": [
+        "Python",
+        "MATLAB",
+        "Pandas",
+        "NumPy",
+        "Scikit-Learn",
+        "Rasterio",
+        "Geopandas",
+        "Matplotlib"
+      ],
       "featured": false
     }
   ],
   "startupLearnings": [
     {
       "icon": "fa-bolt",
-      "title": "Fast Adaptation & Execution",
-      "tag": "Speed & Agility",
+      "title": "Fast Adaptation & Rapid Execution",
+      "tag": "Agility & Speed",
       "description": "In a fast-paced startup environment, I quickly learned to pick up unfamiliar frameworks and libraries (e.g. OpenVINO, Playwright, Groq, LangChain) and bring working prototypes into production within short turnaround cycles."
     },
     {
@@ -1028,7 +1346,7 @@ window.PORTFOLIO_DATA = {
     {
       "icon": "fa-cube",
       "title": "Modular & Pure Function Mindset",
-      "tag": "Code Maintainability",
+      "tag": "Code Quality",
       "description": "Adopted a skill-driven, config-first engineering standard where core math and logic are isolated into deterministic pure functions (no hidden side effects), making unit testing and multi-agent reuse straightforward."
     },
     {
@@ -1044,11 +1362,28 @@ window.PORTFOLIO_DATA = {
       "description": "Collaborated closely with backend developers and QA to understand business needs, integrate API endpoints, handle edge cases, and ensure clean handover of deployed microservices."
     }
   ],
-  "categories": [
+  "typeFilters": [
     {
       "id": "all",
       "label": "All Projects",
-      "count": 14
+      "count": 15
+    },
+    {
+      "id": "personal",
+      "label": "Personal Projects (Deep Dive & Code)",
+      "count": 4
+    },
+    {
+      "id": "company",
+      "label": "Company & Industry Experience",
+      "count": 11
+    }
+  ],
+  "categories": [
+    {
+      "id": "all",
+      "label": "All Categories",
+      "count": 15
     },
     {
       "id": "cv-edge",
@@ -1077,9 +1412,10 @@ window.PORTFOLIO_DATA = {
     }
   ],
   "stats": {
-    "totalProjects": 14,
-    "productionDeployments": 6,
-    "ocrAccuracy": "90%",
+    "totalProjects": 15,
+    "personalProjectsCount": 4,
+    "companyProjectsCount": 11,
+    "ocrAccuracy": "~90%",
     "ragGrounding": "93.8%",
     "sttLatency": "< 320ms"
   }
