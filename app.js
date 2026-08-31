@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Global App State
   const state = {
     theme: localStorage.getItem('theme') || 'dark',
-    activeType: 'all',          // 'all' | 'personal' | 'company'
     activeCategory: 'all',      // 'all' | 'cv-edge' | 'genai-rag' | etc.
     searchQuery: '',
     selectedSkill: null,
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     companyProjects: window.PORTFOLIO_DATA?.companyProjects || [],
     resume: window.PORTFOLIO_DATA?.resume || {},
     categories: window.PORTFOLIO_DATA?.categories || [],
-    typeFilters: window.PORTFOLIO_DATA?.typeFilters || [],
     startupLearnings: window.PORTFOLIO_DATA?.startupLearnings || []
   };
 
@@ -26,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initSkillsMatrix();
   initStartupLearnings();
-  initProjectTypeTabs();
   initCategoryFilters();
   initProjectSearch();
   renderProjects();
@@ -285,36 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     5. Project Type Segmented Tabs & Category Filters
+     5. Category Filters & Project Search
      ========================================================================== */
-  function initProjectTypeTabs() {
-    const container = document.getElementById('project-type-nav-container');
-    if (!container) return;
-
-    const tabs = [
-      { id: 'all', label: 'All Projects', count: state.projects.length, icon: 'fa-cubes' },
-      { id: 'personal', label: 'Personal Projects (Deep Dive & Code)', count: state.personalProjects.length, icon: 'fa-star' },
-      { id: 'company', label: 'Company & Industry Experience', count: state.companyProjects.length, icon: 'fa-building' }
-    ];
-
-    container.innerHTML = tabs.map(tab => `
-      <button class="type-tab-btn ${tab.id === state.activeType ? 'active' : ''}" data-type="${tab.id}">
-        <i class="fa-solid ${tab.icon}"></i>
-        ${tab.label}
-        <span class="tab-count">${tab.count}</span>
-      </button>
-    `).join('');
-
-    container.querySelectorAll('.type-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        container.querySelectorAll('.type-tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        state.activeType = btn.getAttribute('data-type');
-        renderProjects();
-      });
-    });
-  }
-
   function initCategoryFilters() {
     const container = document.getElementById('category-filters-container');
     if (!container) return;
@@ -338,19 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('reset-filter-btn');
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
-        state.activeType = 'all';
         state.activeCategory = 'all';
         state.searchQuery = '';
         state.selectedSkill = null;
         document.getElementById('project-search-input').value = '';
         document.querySelectorAll('.skill-tag').forEach(b => b.classList.remove('active'));
         
-        // Reset type tabs
-        document.querySelectorAll('.type-tab-btn').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-type') === 'all');
-        });
-
-        // Reset category buttons
         container.querySelectorAll('.filter-btn').forEach(b => {
           b.classList.toggle('active', b.getAttribute('data-category') === 'all');
         });
@@ -384,27 +346,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     6. Render Projects Grid
+     6. Render Projects (Separated into Part 1 Personal & Part 2 Company)
      ========================================================================== */
   function renderProjects() {
-    const container = document.getElementById('projects-grid-container');
+    const personalGrid = document.getElementById('personal-projects-grid');
+    const companyGrid = document.getElementById('company-projects-grid');
+    const personalPart = document.getElementById('personal-projects-part');
+    const companyPart = document.getElementById('company-projects-part');
+    const partDivider = document.getElementById('projects-part-divider');
     const countText = document.getElementById('results-count-text');
     const resetBtn = document.getElementById('reset-filter-btn');
-    if (!container) return;
 
-    // Filter projects
-    const filtered = state.projects.filter(project => {
-      // 1. Project Type Filter
-      if (state.activeType !== 'all' && project.type !== state.activeType) {
-        return false;
-      }
+    if (!personalGrid || !companyGrid) return;
 
-      // 2. Category Filter
+    // Filter helper
+    const filterItem = (project) => {
+      // 1. Category Filter
       if (state.activeCategory !== 'all' && project.category !== state.activeCategory) {
         return false;
       }
 
-      // 3. Search Query Filter
+      // 2. Search Query Filter
       if (state.searchQuery) {
         const query = state.searchQuery.toLowerCase();
         const searchable = [
@@ -422,88 +384,119 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       return true;
-    });
+    };
+
+    const filteredPersonal = state.personalProjects.filter(filterItem);
+    const filteredCompany = state.companyProjects.filter(filterItem);
+    const totalShown = filteredPersonal.length + filteredCompany.length;
 
     // Update Results Bar
     if (countText) {
-      const typeLabel = state.activeType === 'personal' ? 'Personal Projects' : (state.activeType === 'company' ? 'Company Experience' : 'Projects');
-      countText.textContent = `Showing ${filtered.length} of ${state.projects.length} ${typeLabel} ${state.searchQuery ? `for "${state.searchQuery}"` : ''}`;
+      countText.textContent = `Showing ${totalShown} of ${state.projects.length} projects (${filteredPersonal.length} Personal, ${filteredCompany.length} Company) ${state.searchQuery ? `for "${state.searchQuery}"` : ''}`;
     }
 
     if (resetBtn) {
-      if (state.activeType !== 'all' || state.activeCategory !== 'all' || state.searchQuery) {
+      if (state.activeCategory !== 'all' || state.searchQuery) {
         resetBtn.classList.remove('hidden');
       } else {
         resetBtn.classList.add('hidden');
       }
     }
 
-    if (filtered.length === 0) {
-      container.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
-          <div style="font-size: 3rem; color: var(--text-muted); margin-bottom: 16px;"><i class="fa-solid fa-folder-open"></i></div>
-          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No projects matched your filter</h3>
-          <p style="color: var(--text-muted); margin-bottom: 20px;">Try switching tabs or resetting your search keyword.</p>
-          <button class="btn btn-primary" onclick="document.getElementById('reset-filter-btn').click();">Reset Filters</button>
-        </div>
-      `;
-      return;
+    // Handle Personal Part Visibility
+    if (filteredPersonal.length > 0) {
+      personalPart.style.display = 'block';
+      personalGrid.innerHTML = filteredPersonal.map(project => renderCardHTML(project, true)).join('');
+    } else {
+      if (filteredCompany.length > 0) {
+        personalPart.style.display = 'none';
+      } else {
+        personalPart.style.display = 'block';
+        personalGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+            <div style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"><i class="fa-solid fa-folder-open"></i></div>
+            <p style="color: var(--text-muted);">No personal projects matched the selected filter.</p>
+          </div>
+        `;
+      }
     }
 
-    container.innerHTML = filtered.map(project => {
-      const isPersonal = project.type === 'personal';
-      const badgeClass = isPersonal ? 'badge-personal' : 'badge-company';
-      const badgeText = isPersonal ? 'Personal Project · Open Source' : (project.companyName ? `🏢 ${project.companyName}` : '🏢 Industry Experience');
-
-      return `
-        <div class="project-card ${isPersonal ? 'personal-card' : 'company-card'}" data-id="${project.id}">
-          <div>
-            <div class="project-card-header">
-              <div class="project-card-badges">
-                <span class="badge ${badgeClass}">${badgeText}</span>
-                <span class="badge">${project.categoryLabel || project.category}</span>
-              </div>
-            </div>
-
-            <h3 class="project-card-title">${project.title}</h3>
-            <div class="project-card-impact"><i class="fa-solid fa-sparkles"></i> ${project.impact}</div>
-            <p class="project-card-desc">${project.shortSummary}</p>
-
-            ${project.metrics && project.metrics.length > 0 ? `
-              <div class="project-metrics-strip">
-                ${project.metrics.slice(0, 2).map(m => `
-                  <div class="metric-item">
-                    <span class="metric-val">${m.value}</span>
-                    <span class="metric-lbl">${m.label}</span>
-                  </div>
-                `).join('')}
-              </div>
-            ` : ''}
-
-            <div class="project-tech-badges">
-              ${(project.techStack || []).slice(0, 6).map(tech => `
-                <span class="tech-chip">${tech}</span>
-              `).join('')}
-              ${(project.techStack || []).length > 6 ? `<span class="tech-chip">+${project.techStack.length - 6}</span>` : ''}
-            </div>
+    // Handle Company Part Visibility
+    if (filteredCompany.length > 0) {
+      companyPart.style.display = 'block';
+      companyGrid.innerHTML = filteredCompany.map(project => renderCardHTML(project, false)).join('');
+    } else {
+      if (filteredPersonal.length > 0) {
+        companyPart.style.display = 'none';
+      } else {
+        companyPart.style.display = 'block';
+        companyGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+            <div style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"><i class="fa-solid fa-building"></i></div>
+            <p style="color: var(--text-muted);">No company systems matched the selected filter.</p>
           </div>
+        `;
+      }
+    }
 
-          <div class="project-card-footer">
-            <button class="btn btn-sm ${isPersonal ? 'btn-primary' : 'btn-secondary'} open-project-modal-btn" data-id="${project.id}">
-              ${isPersonal ? '<i class="fa-solid fa-code"></i> Deep Dive & Code' : '<i class="fa-solid fa-layer-group"></i> System Overview'}
-            </button>
-          </div>
-        </div>
-      `;
-    }).join('');
+    // Divider visibility
+    if (partDivider) {
+      partDivider.style.display = (filteredPersonal.length > 0 && filteredCompany.length > 0) ? 'flex' : 'none';
+    }
 
     // Attach click listeners to cards
-    container.querySelectorAll('.open-project-modal-btn').forEach(btn => {
+    document.querySelectorAll('.open-project-modal-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
         openProjectModal(id);
       });
     });
+  }
+
+  function renderCardHTML(project, isPersonal) {
+    const badgeClass = isPersonal ? 'badge-personal' : 'badge-company';
+    const badgeText = isPersonal ? '⭐ Personal Project · Open Source' : (project.companyName ? `🏢 ${project.companyName}` : '🏢 Industry Experience');
+
+    return `
+      <div class="project-card ${isPersonal ? 'personal-card' : 'company-card'}" data-id="${project.id}">
+        <div>
+          <div class="project-card-header">
+            <div class="project-card-badges">
+              <span class="badge ${badgeClass}">${badgeText}</span>
+              <span class="badge">${project.categoryLabel || project.category}</span>
+            </div>
+          </div>
+
+          <h3 class="project-card-title">${project.title}</h3>
+          <div class="project-card-impact"><i class="fa-solid fa-sparkles"></i> ${project.impact}</div>
+          <p class="project-card-desc">${project.shortSummary}</p>
+
+          ${project.metrics && project.metrics.length > 0 ? `
+            <div class="project-metrics-strip">
+              ${project.metrics.slice(0, 2).map(m => `
+                <div class="metric-item">
+                  <span class="metric-val">${m.value}</span>
+                  <span class="metric-lbl">${m.label}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          <div class="project-tech-badges">
+            ${(project.techStack || []).slice(0, 6).map(tech => `
+              <span class="tech-chip">${tech}</span>
+            `).join('')}
+            ${(project.techStack || []).length > 6 ? `<span class="tech-chip">+${project.techStack.length - 6}</span>` : ''}
+          </div>
+        </div>
+
+        <div class="project-card-footer">
+          <button class="btn btn-sm ${isPersonal ? 'btn-primary' : 'btn-secondary'} open-project-modal-btn" data-id="${project.id}">
+            ${isPersonal ? '<i class="fa-solid fa-code"></i> Deep Dive & Code' : '<i class="fa-solid fa-layer-group"></i> System Overview'}
+          </button>
+        </div>
+      </div>
+    `;
   }
 
   /* ==========================================================================
@@ -526,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div>
         <div style="margin-bottom: 8px;">
           <span class="badge ${isPersonal ? 'badge-personal' : 'badge-company'}">
-            ${isPersonal ? 'Personal Project (Code & Architecture Open)' : `🏢 Production System · ${project.companyName || 'Yourhome'}`}
+            ${isPersonal ? '⭐ Personal Project (Open Source Code & Architecture)' : `🏢 Production System · ${project.companyName || 'Yourhome'}`}
           </span>
         </div>
         <h2 class="modal-project-title">${project.title}</h2>
