@@ -1,5 +1,5 @@
 /**
- * Kwankhao Sivasomboon - AI Engineer Portfolio & Web CV
+ * Kwankhao Sivasomboon - Junior AI Engineer Portfolio & Web CV
  * Interactive Application Engine (Zero-dependency Vanilla JS)
  */
 
@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     searchQuery: '',
     selectedSkill: null,
     projects: window.PORTFOLIO_DATA?.projects || [],
-    personalProjects: window.PORTFOLIO_DATA?.personalProjects || [],
     companyProjects: window.PORTFOLIO_DATA?.companyProjects || [],
+    personalProjects: window.PORTFOLIO_DATA?.personalProjects || [],
     resume: window.PORTFOLIO_DATA?.resume || {},
     categories: window.PORTFOLIO_DATA?.categories || [],
     startupLearnings: window.PORTFOLIO_DATA?.startupLearnings || []
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     container.innerHTML = state.categories.map(cat => `
       <button class="filter-btn ${cat.id === state.activeCategory ? 'active' : ''}" data-category="${cat.id}">
-        ${cat.icon ? `<i class="fa-solid fa-${cat.icon}"></i>` : ''}
+        ${cat.icon ? `<i class="fa-solid ${cat.icon}"></i>` : ''}
         ${cat.label}
       </button>
     `).join('');
@@ -346,18 +346,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     6. Render Projects (Separated into Part 1 Personal & Part 2 Company)
+     6. Smart Search Tokenizer & Render Projects
      ========================================================================== */
+  function extractSearchTokens(rawQuery) {
+    if (!rawQuery) return [];
+    // Strip punctuation, parentheses, brackets, slashes
+    return rawQuery
+      .toLowerCase()
+      .replace(/[()\/,+&._-]/g, ' ')
+      .split(/\s+/)
+      .filter(token => token.length > 1 && !['1.5', '2.5', 'fp16', 'v11', 'v8'].includes(token));
+  }
+
   function renderProjects() {
-    const personalGrid = document.getElementById('personal-projects-grid');
     const companyGrid = document.getElementById('company-projects-grid');
-    const personalPart = document.getElementById('personal-projects-part');
+    const personalGrid = document.getElementById('personal-projects-grid');
     const companyPart = document.getElementById('company-projects-part');
+    const personalPart = document.getElementById('personal-projects-part');
     const partDivider = document.getElementById('projects-part-divider');
     const countText = document.getElementById('results-count-text');
     const resetBtn = document.getElementById('reset-filter-btn');
 
-    if (!personalGrid || !companyGrid) return;
+    if (!companyGrid || !personalGrid) return;
+
+    const queryTokens = extractSearchTokens(state.searchQuery);
 
     // Filter helper
     const filterItem = (project) => {
@@ -366,10 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
       }
 
-      // 2. Search Query Filter
-      if (state.searchQuery) {
-        const query = state.searchQuery.toLowerCase();
-        const searchable = [
+      // 2. Search / Skill Query Token Matching
+      if (queryTokens.length > 0) {
+        const searchableText = [
           project.title,
           project.shortSummary,
           project.fullDescription,
@@ -377,22 +388,25 @@ document.addEventListener('DOMContentLoaded', () => {
           project.typeLabel || '',
           project.companyName || '',
           ...(project.techStack || []),
-          ...(project.highlights || [])
+          ...(project.highlights || []),
+          ...(project.innovations || [])
         ].join(' ').toLowerCase();
 
-        return searchable.includes(query);
+        // Check if ANY meaningful token from the search query matches the project
+        const hasTokenMatch = queryTokens.some(token => searchableText.includes(token));
+        if (!hasTokenMatch) return false;
       }
 
       return true;
     };
 
-    const filteredPersonal = state.personalProjects.filter(filterItem);
     const filteredCompany = state.companyProjects.filter(filterItem);
-    const totalShown = filteredPersonal.length + filteredCompany.length;
+    const filteredPersonal = state.personalProjects.filter(filterItem);
+    const totalShown = filteredCompany.length + filteredPersonal.length;
 
     // Update Results Bar
     if (countText) {
-      countText.textContent = `Showing ${totalShown} of ${state.projects.length} projects (${filteredPersonal.length} Personal, ${filteredCompany.length} Company) ${state.searchQuery ? `for "${state.searchQuery}"` : ''}`;
+      countText.textContent = `Showing ${totalShown} of ${state.projects.length} projects (${filteredCompany.length} Industry, ${filteredPersonal.length} Independent) ${state.searchQuery ? `for "${state.searchQuery}"` : ''}`;
     }
 
     if (resetBtn) {
@@ -403,25 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Handle Personal Part Visibility
-    if (filteredPersonal.length > 0) {
-      personalPart.style.display = 'block';
-      personalGrid.innerHTML = filteredPersonal.map(project => renderCardHTML(project, true)).join('');
-    } else {
-      if (filteredCompany.length > 0) {
-        personalPart.style.display = 'none';
-      } else {
-        personalPart.style.display = 'block';
-        personalGrid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
-            <div style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"><i class="fa-solid fa-folder-open"></i></div>
-            <p style="color: var(--text-muted);">No personal projects matched the selected filter.</p>
-          </div>
-        `;
-      }
-    }
-
-    // Handle Company Part Visibility
+    // Render Section 1: Company / Industry Projects (Top Priority)
     if (filteredCompany.length > 0) {
       companyPart.style.display = 'block';
       companyGrid.innerHTML = filteredCompany.map(project => renderCardHTML(project, false)).join('');
@@ -433,7 +429,25 @@ document.addEventListener('DOMContentLoaded', () => {
         companyGrid.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
             <div style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"><i class="fa-solid fa-building"></i></div>
-            <p style="color: var(--text-muted);">No company systems matched the selected filter.</p>
+            <p style="color: var(--text-muted);">No industry systems matched the selected filter.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Render Section 2: Personal / Independent Projects
+    if (filteredPersonal.length > 0) {
+      personalPart.style.display = 'block';
+      personalGrid.innerHTML = filteredPersonal.map(project => renderCardHTML(project, true)).join('');
+    } else {
+      if (filteredCompany.length > 0) {
+        personalPart.style.display = 'none';
+      } else {
+        personalPart.style.display = 'block';
+        personalGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+            <div style="font-size: 2rem; color: var(--text-muted); margin-bottom: 10px;"><i class="fa-solid fa-flask"></i></div>
+            <p style="color: var(--text-muted);">No independent research projects matched the selected filter.</p>
           </div>
         `;
       }
@@ -441,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Divider visibility
     if (partDivider) {
-      partDivider.style.display = (filteredPersonal.length > 0 && filteredCompany.length > 0) ? 'flex' : 'none';
+      partDivider.style.display = (filteredCompany.length > 0 && filteredPersonal.length > 0) ? 'flex' : 'none';
     }
 
     // Attach click listeners to cards
@@ -455,20 +469,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderCardHTML(project, isPersonal) {
     const badgeClass = isPersonal ? 'badge-personal' : 'badge-company';
-    const badgeText = isPersonal ? '⭐ Personal Project · Open Source' : (project.companyName ? `🏢 ${project.companyName}` : '🏢 Industry Experience');
+    const badgeIcon = isPersonal ? 'fa-flask' : 'fa-briefcase';
+    const badgeText = isPersonal ? 'Independent Project' : (project.companyName || 'Industry Experience');
 
     return `
       <div class="project-card ${isPersonal ? 'personal-card' : 'company-card'}" data-id="${project.id}">
         <div>
           <div class="project-card-header">
             <div class="project-card-badges">
-              <span class="badge ${badgeClass}">${badgeText}</span>
+              <span class="badge ${badgeClass}"><i class="fa-solid ${badgeIcon}"></i> ${badgeText}</span>
               <span class="badge">${project.categoryLabel || project.category}</span>
             </div>
           </div>
 
           <h3 class="project-card-title">${project.title}</h3>
-          <div class="project-card-impact"><i class="fa-solid fa-sparkles"></i> ${project.impact}</div>
+          <div class="project-card-impact"><i class="fa-solid fa-code-commit"></i> ${project.impact}</div>
+          
+          ${project.image ? `
+            <div style="position: relative; width: 100%; height: 160px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 14px; border: 1px solid var(--border-color);">
+              <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+            </div>
+          ` : ''}
+
           <p class="project-card-desc">${project.shortSummary}</p>
 
           ${project.metrics && project.metrics.length > 0 ? `
@@ -513,18 +535,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPersonal = project.type === 'personal';
 
     if (catBadge) catBadge.textContent = project.categoryLabel || project.category;
-    if (tagBadge) tagBadge.textContent = isPersonal ? 'Personal Deep Dive' : (project.companyName || 'Industry Experience');
+    if (tagBadge) tagBadge.textContent = isPersonal ? 'Independent Deep Dive' : (project.companyName || 'Industry Experience');
 
     body.innerHTML = `
       <div>
         <div style="margin-bottom: 8px;">
           <span class="badge ${isPersonal ? 'badge-personal' : 'badge-company'}">
-            ${isPersonal ? '⭐ Personal Project (Open Source Code & Architecture)' : `🏢 Production System · ${project.companyName || 'Yourhome'}`}
+            <i class="fa-solid ${isPersonal ? 'fa-flask' : 'fa-briefcase'}"></i>
+            ${isPersonal ? 'Independent Project (Source Code & Architecture Open)' : `Production System · ${project.companyName || 'Yourhome'}`}
           </span>
         </div>
         <h2 class="modal-project-title">${project.title}</h2>
         <p class="modal-project-impact" style="margin-top: 6px;"><i class="fa-solid fa-bolt"></i> ${project.impact}</p>
       </div>
+
+      ${project.image ? `
+        <div style="position: relative; width: 100%; max-height: 320px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+          <img src="${project.image}" alt="${project.title}" style="width: 100%; max-height: 320px; object-fit: cover; display: block;">
+        </div>
+      ` : ''}
 
       <div>
         <h4 class="modal-section-title"><i class="fa-solid fa-align-left"></i> ${isPersonal ? 'Project Overview' : 'System Overview & Engineering Role'}</h4>
