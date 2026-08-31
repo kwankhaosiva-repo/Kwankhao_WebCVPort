@@ -207,10 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
         skills: state.resume.skills.backend_cloud
       },
       {
-        key: 'qa_automation',
-        title: 'Multi-Agent & QA Automation',
+        key: 'data_automation',
+        title: 'Automation & Testing',
         icon: 'fa-robot',
-        skills: state.resume.skills.qa_automation
+        skills: state.resume.skills.data_automation || state.resume.skills.qa_automation || []
       },
       {
         key: 'geospatial_3d',
@@ -550,8 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       ${project.image ? `
-        <div style="position: relative; width: 100%; max-height: 320px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
-          <img src="${project.image}" alt="${project.title}" style="width: 100%; max-height: 320px; object-fit: cover; display: block;">
+        <div style="position: relative; width: 100%; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); background: #050811;">
+          <img src="${project.image}" alt="${project.title}" style="width: 100%; max-height: 300px; object-fit: contain; display: block; margin: 0 auto;">
         </div>
       ` : ''}
 

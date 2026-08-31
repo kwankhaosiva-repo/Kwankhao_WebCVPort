@@ -67,13 +67,13 @@ window.PORTFOLIO_DATA = {
         "Git / GitHub Actions",
         "Linux / Bash"
       ],
-      "qa_automation": [
+      "data_automation": [
         "Playwright",
         "Requests",
-        "Multi-Agent Systems",
         "SSHTunnel",
         "PyTest",
-        "Postman Collections"
+        "Postman Collections",
+        "Web Scraping"
       ],
       "geospatial_3d": [
         "Satellite Remote Sensing (NDVI / EVI)",
@@ -175,18 +175,18 @@ window.PORTFOLIO_DATA = {
     },
     {
       "id": "agentic-scraping-vlm-search",
-      "title": "Agentic Real Estate Ingestion & VLM Property Filtering",
+      "title": "Real Estate Web Scraping & VLM Property Filtering",
       "type": "company",
       "typeLabel": "Production Experience",
       "companyName": "Yourhome Platform",
-      "category": "agents-automation",
-      "categoryLabel": "Multi-Agent & Automation",
+      "category": "data-automation",
+      "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
       "impact": "Multi-source scraping pipeline & Vision-Language Model property curation",
       "shortSummary": "Automated data ingestion pipeline collecting listings across major Thai property portals with Gemini VLM visual style filtering, K-Means color detection, and geocoding.",
       "fullDescription": "Built an automated data ingestion suite at Yourhome extracting property listings across 7 major portals and Facebook Marketplace. Integrated Google Gemini Vision-Language Models (VLM) to analyze room condition, aesthetic styles (Modern, Minimalist, Japandi, Luxury), and K-Means color clustering. Geocoded coordinates via Longdo Maps and Google Maps APIs into Google Cloud Firestore.",
       "highlights": [
-        "Multi-source scraping agents with Playwright and Browser-Use automation",
+        "Multi-source scraping automation with Playwright and Browser-Use",
         "Gemini VLM visual filtering for room style and interior quality classification",
         "Room color palette extraction using OpenCV and K-Means clustering",
         "Geocoding and transit distance computation via Longdo Maps and Google Maps APIs",
@@ -213,7 +213,7 @@ window.PORTFOLIO_DATA = {
       "typeLabel": "Production Experience",
       "companyName": "Yourhome Platform",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Yourhome Platform",
       "impact": "Asynchronous Thai speech-to-structured search parameters with Groq Whisper & Gemini",
       "shortSummary": "Asynchronous pipeline converting Thai voice inquiries into structured search parameters using Groq Whisper STT, Gemini/Llama with Pydantic validation, and fuzzy location normalization.",
@@ -239,18 +239,18 @@ window.PORTFOLIO_DATA = {
     },
     {
       "id": "multi-agent-bot-tester-qa",
-      "title": "Multi-Agent QA Automation & API Auditing Framework",
+      "title": "QA Test Automation & Database Auditing Framework",
       "type": "company",
       "typeLabel": "Production Experience",
       "companyName": "Yourhome Platform",
-      "category": "agents-automation",
-      "categoryLabel": "Multi-Agent & Automation",
+      "category": "data-automation",
+      "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
-      "impact": "Multi-agent test execution, database auditing via SSH tunnels & Postman fuzzing",
-      "shortSummary": "Multi-agent QA framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
-      "fullDescription": "Engineered an AI-assisted test automation framework at Yourhome coordinating specialized agents (Orchestrator, Executor, Logic Auditor, Reporter). Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
+      "impact": "Automated test execution, database auditing via SSH tunnels & Postman regression suites",
+      "shortSummary": "Test automation framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
+      "fullDescription": "Engineered a test automation framework at Yourhome. Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
       "highlights": [
-        "Multi-agent architecture coordinating test tasks, execution, and reporting",
+        "Automated test workflow coordinating execution, verification, and reporting",
         "Postman Collection parsing and automated API schema testing",
         "Secure MySQL verification via paramiko SSH tunnels and GCP Secret Manager",
         "Playwright browser automation capturing visual failure evidence and logs"
@@ -258,7 +258,6 @@ window.PORTFOLIO_DATA = {
       "techStack": [
         "Python",
         "Playwright",
-        "LangChain",
         "Requests",
         "PyMySQL",
         "SSHTunnel",
@@ -360,35 +359,6 @@ window.PORTFOLIO_DATA = {
       "featured": false
     },
     {
-      "id": "yourhome-auto-admin-agent",
-      "title": "Automated Customer Service & Inquiry Chatbot",
-      "type": "company",
-      "typeLabel": "Production Experience",
-      "companyName": "Yourhome Platform",
-      "category": "agents-automation",
-      "categoryLabel": "Multi-Agent & Automation",
-      "badge": "Yourhome Platform",
-      "impact": "Intent recognition, lead qualification & MySQL/Firestore response synthesis",
-      "shortSummary": "Administrative customer inquiry assistant on LINE and Web Chat using Gemini for intent routing, property inventory queries, and CRM lead capture.",
-      "fullDescription": "Developed a customer inquiry agent connecting LINE Messaging API and Web Chat. Used Google Gemini for intent classification (price inquiry, viewing booking, location query), queried property listings from MySQL RDS and Firestore leads, and generated polite, structured replies.",
-      "highlights": [
-        "Skill-based architecture separating database, Firestore, and LINE messaging skills",
-        "Gemini prompt orchestration with structured business persona guidelines",
-        "Automated lead qualification and CRM ingestion into Firestore",
-        "FastAPI webhook receiver with secure SSH database tunneling"
-      ],
-      "techStack": [
-        "Python",
-        "FastAPI",
-        "Google Gemini",
-        "line-bot-sdk",
-        "Google Cloud Firestore",
-        "MySQL RDS",
-        "Docker"
-      ],
-      "featured": false
-    },
-    {
       "id": "pickleball-cv-ai-capture-scoring",
       "title": "Pickleball AI: Edge Video Analysis & IoT Scoring Prototype",
       "type": "company",
@@ -454,14 +424,14 @@ window.PORTFOLIO_DATA = {
       "id": "geospatial-crop-yield-prediction",
       "title": "Geospatial AI & Satellite Crop Yield Prediction",
       "type": "company",
-      "typeLabel": "Academic / Internship Research",
-      "companyName": "Chulalongkorn / SKYVIV",
+      "typeLabel": "Internship Research",
+      "companyName": "SKYVIV",
       "category": "geospatial-3d",
       "categoryLabel": "Geospatial AI & 3D Analytics",
-      "badge": "Chulalongkorn / SKYVIV",
+      "badge": "SKYVIV",
       "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
       "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
-      "fullDescription": "Geospatial data science research predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
+      "fullDescription": "Geospatial data science internship research at SKYVIV predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
       "highlights": [
         "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
         "Vegetation index computation: NDVI, EVI, SAVI, and NDWI",
@@ -553,7 +523,7 @@ window.PORTFOLIO_DATA = {
       "type": "personal",
       "typeLabel": "Independent Project",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
       "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
@@ -618,7 +588,7 @@ window.PORTFOLIO_DATA = {
       "type": "personal",
       "typeLabel": "Independent Project",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "image": "assets/RagChain.jpeg",
       "impact": "LangChain retrieval chain with Maximal Marginal Relevance (MMR) & strict hallucination guardrails",
@@ -681,7 +651,7 @@ window.PORTFOLIO_DATA = {
       "type": "personal",
       "typeLabel": "Independent Project",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "image": "assets/LineStock.jpeg",
       "impact": "Technical indicators (RSI, MACD), Thai/US market feeds & Gemini 2.5 Flash on LINE",
@@ -783,18 +753,18 @@ window.PORTFOLIO_DATA = {
     },
     {
       "id": "agentic-scraping-vlm-search",
-      "title": "Agentic Real Estate Ingestion & VLM Property Filtering",
+      "title": "Real Estate Web Scraping & VLM Property Filtering",
       "type": "company",
       "typeLabel": "Production Experience",
       "companyName": "Yourhome Platform",
-      "category": "agents-automation",
-      "categoryLabel": "Multi-Agent & Automation",
+      "category": "data-automation",
+      "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
       "impact": "Multi-source scraping pipeline & Vision-Language Model property curation",
       "shortSummary": "Automated data ingestion pipeline collecting listings across major Thai property portals with Gemini VLM visual style filtering, K-Means color detection, and geocoding.",
       "fullDescription": "Built an automated data ingestion suite at Yourhome extracting property listings across 7 major portals and Facebook Marketplace. Integrated Google Gemini Vision-Language Models (VLM) to analyze room condition, aesthetic styles (Modern, Minimalist, Japandi, Luxury), and K-Means color clustering. Geocoded coordinates via Longdo Maps and Google Maps APIs into Google Cloud Firestore.",
       "highlights": [
-        "Multi-source scraping agents with Playwright and Browser-Use automation",
+        "Multi-source scraping automation with Playwright and Browser-Use",
         "Gemini VLM visual filtering for room style and interior quality classification",
         "Room color palette extraction using OpenCV and K-Means clustering",
         "Geocoding and transit distance computation via Longdo Maps and Google Maps APIs",
@@ -821,7 +791,7 @@ window.PORTFOLIO_DATA = {
       "typeLabel": "Production Experience",
       "companyName": "Yourhome Platform",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Yourhome Platform",
       "impact": "Asynchronous Thai speech-to-structured search parameters with Groq Whisper & Gemini",
       "shortSummary": "Asynchronous pipeline converting Thai voice inquiries into structured search parameters using Groq Whisper STT, Gemini/Llama with Pydantic validation, and fuzzy location normalization.",
@@ -847,18 +817,18 @@ window.PORTFOLIO_DATA = {
     },
     {
       "id": "multi-agent-bot-tester-qa",
-      "title": "Multi-Agent QA Automation & API Auditing Framework",
+      "title": "QA Test Automation & Database Auditing Framework",
       "type": "company",
       "typeLabel": "Production Experience",
       "companyName": "Yourhome Platform",
-      "category": "agents-automation",
-      "categoryLabel": "Multi-Agent & Automation",
+      "category": "data-automation",
+      "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
-      "impact": "Multi-agent test execution, database auditing via SSH tunnels & Postman fuzzing",
-      "shortSummary": "Multi-agent QA framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
-      "fullDescription": "Engineered an AI-assisted test automation framework at Yourhome coordinating specialized agents (Orchestrator, Executor, Logic Auditor, Reporter). Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
+      "impact": "Automated test execution, database auditing via SSH tunnels & Postman regression suites",
+      "shortSummary": "Test automation framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
+      "fullDescription": "Engineered a test automation framework at Yourhome. Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
       "highlights": [
-        "Multi-agent architecture coordinating test tasks, execution, and reporting",
+        "Automated test workflow coordinating execution, verification, and reporting",
         "Postman Collection parsing and automated API schema testing",
         "Secure MySQL verification via paramiko SSH tunnels and GCP Secret Manager",
         "Playwright browser automation capturing visual failure evidence and logs"
@@ -866,7 +836,6 @@ window.PORTFOLIO_DATA = {
       "techStack": [
         "Python",
         "Playwright",
-        "LangChain",
         "Requests",
         "PyMySQL",
         "SSHTunnel",
@@ -968,35 +937,6 @@ window.PORTFOLIO_DATA = {
       "featured": false
     },
     {
-      "id": "yourhome-auto-admin-agent",
-      "title": "Automated Customer Service & Inquiry Chatbot",
-      "type": "company",
-      "typeLabel": "Production Experience",
-      "companyName": "Yourhome Platform",
-      "category": "agents-automation",
-      "categoryLabel": "Multi-Agent & Automation",
-      "badge": "Yourhome Platform",
-      "impact": "Intent recognition, lead qualification & MySQL/Firestore response synthesis",
-      "shortSummary": "Administrative customer inquiry assistant on LINE and Web Chat using Gemini for intent routing, property inventory queries, and CRM lead capture.",
-      "fullDescription": "Developed a customer inquiry agent connecting LINE Messaging API and Web Chat. Used Google Gemini for intent classification (price inquiry, viewing booking, location query), queried property listings from MySQL RDS and Firestore leads, and generated polite, structured replies.",
-      "highlights": [
-        "Skill-based architecture separating database, Firestore, and LINE messaging skills",
-        "Gemini prompt orchestration with structured business persona guidelines",
-        "Automated lead qualification and CRM ingestion into Firestore",
-        "FastAPI webhook receiver with secure SSH database tunneling"
-      ],
-      "techStack": [
-        "Python",
-        "FastAPI",
-        "Google Gemini",
-        "line-bot-sdk",
-        "Google Cloud Firestore",
-        "MySQL RDS",
-        "Docker"
-      ],
-      "featured": false
-    },
-    {
       "id": "pickleball-cv-ai-capture-scoring",
       "title": "Pickleball AI: Edge Video Analysis & IoT Scoring Prototype",
       "type": "company",
@@ -1062,14 +1002,14 @@ window.PORTFOLIO_DATA = {
       "id": "geospatial-crop-yield-prediction",
       "title": "Geospatial AI & Satellite Crop Yield Prediction",
       "type": "company",
-      "typeLabel": "Academic / Internship Research",
-      "companyName": "Chulalongkorn / SKYVIV",
+      "typeLabel": "Internship Research",
+      "companyName": "SKYVIV",
       "category": "geospatial-3d",
       "categoryLabel": "Geospatial AI & 3D Analytics",
-      "badge": "Chulalongkorn / SKYVIV",
+      "badge": "SKYVIV",
       "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
       "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
-      "fullDescription": "Geospatial data science research predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
+      "fullDescription": "Geospatial data science internship research at SKYVIV predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
       "highlights": [
         "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
         "Vegetation index computation: NDVI, EVI, SAVI, and NDWI",
@@ -1159,7 +1099,7 @@ window.PORTFOLIO_DATA = {
       "type": "personal",
       "typeLabel": "Independent Project",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
       "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
@@ -1224,7 +1164,7 @@ window.PORTFOLIO_DATA = {
       "type": "personal",
       "typeLabel": "Independent Project",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "image": "assets/RagChain.jpeg",
       "impact": "LangChain retrieval chain with Maximal Marginal Relevance (MMR) & strict hallucination guardrails",
@@ -1287,7 +1227,7 @@ window.PORTFOLIO_DATA = {
       "type": "personal",
       "typeLabel": "Independent Project",
       "category": "genai-rag",
-      "categoryLabel": "GenAI, LLMs & Agents",
+      "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "image": "assets/LineStock.jpeg",
       "impact": "Technical indicators (RSI, MACD), Thai/US market feeds & Gemini 2.5 Flash on LINE",
@@ -1367,7 +1307,7 @@ window.PORTFOLIO_DATA = {
       "icon": "fa-cube",
       "title": "Modular & Pure Function Mindset",
       "tag": "Code Quality",
-      "description": "Adopted a skill-driven, config-first engineering standard where core math and logic are isolated into deterministic pure functions (no hidden side effects), making unit testing and multi-agent reuse straightforward."
+      "description": "Adopted a skill-driven, config-first engineering standard where core math and logic are isolated into deterministic pure functions (no hidden side effects), making unit testing and reuse straightforward."
     },
     {
       "icon": "fa-arrows-split-up-and-left",
@@ -1386,7 +1326,7 @@ window.PORTFOLIO_DATA = {
     {
       "id": "all",
       "label": "All Categories",
-      "count": 15
+      "count": 14
     },
     {
       "id": "cv-edge",
@@ -1395,12 +1335,12 @@ window.PORTFOLIO_DATA = {
     },
     {
       "id": "genai-rag",
-      "label": "GenAI, LLMs & Agents",
+      "label": "GenAI, LLMs & Retrieval",
       "icon": "fa-brain-circuit"
     },
     {
-      "id": "agents-automation",
-      "label": "Multi-Agent & QA",
+      "id": "data-automation",
+      "label": "Automation & Testing",
       "icon": "fa-robot"
     },
     {
@@ -1415,8 +1355,8 @@ window.PORTFOLIO_DATA = {
     }
   ],
   "stats": {
-    "totalProjects": 15,
-    "companyProjectsCount": 11,
+    "totalProjects": 14,
+    "companyProjectsCount": 10,
     "personalProjectsCount": 4,
     "ocrAccuracy": "~90%",
     "ragGrounding": "93.8%",
