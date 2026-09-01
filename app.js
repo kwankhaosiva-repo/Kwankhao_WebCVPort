@@ -693,18 +693,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('experience-timeline-container');
     if (!container || !state.resume?.experience) return;
 
-    container.innerHTML = state.resume.experience.map(exp => `
+    container.innerHTML = state.resume.experience.map((exp, idx) => `
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-header">
+        <div class="timeline-card ${idx === 0 ? 'expanded' : ''}" data-idx="${idx}">
+          <div class="timeline-header" style="cursor: pointer;" title="Click to expand/collapse achievements">
             <div>
               <h3 class="timeline-role">${exp.role}</h3>
               <div class="timeline-company">${exp.company} · <span style="color: var(--text-muted); font-size: 0.9rem;">${exp.location}</span></div>
             </div>
-            <span class="timeline-period">${exp.period}</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="timeline-period">${exp.period}</span>
+              <span class="timeline-toggle-icon" style="color: var(--accent-cyan); font-size: 0.85rem;">
+                <i class="fa-solid fa-chevron-${idx === 0 ? 'up' : 'down'}"></i>
+              </span>
+            </div>
           </div>
-          <ul class="timeline-achievements">
+          <ul class="timeline-achievements" style="display: ${idx === 0 ? 'flex' : 'none'};">
             ${exp.achievements.map(ach => `
               <li>${ach.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>
             `).join('')}
@@ -712,6 +717,20 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `).join('');
+
+    // Attach click listener to toggle achievements
+    container.querySelectorAll('.timeline-card').forEach(card => {
+      const header = card.querySelector('.timeline-header');
+      const list = card.querySelector('.timeline-achievements');
+      const icon = card.querySelector('.timeline-toggle-icon i');
+
+      header.addEventListener('click', () => {
+        const isClosed = list.style.display === 'none';
+        list.style.display = isClosed ? 'flex' : 'none';
+        icon.className = isClosed ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
+        card.classList.toggle('expanded', isClosed);
+      });
+    });
   }
 
   /* ==========================================================================

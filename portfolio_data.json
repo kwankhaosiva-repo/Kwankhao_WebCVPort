@@ -11,7 +11,7 @@
       "github": "https://github.com/Kwankhao-Sivasomboon",
       "location": "Bangkok, Thailand"
     },
-    "summary": "Junior AI Engineer with 6 months of hands-on startup experience building practical AI-powered systems across computer vision, GenAI/RAG, backend services, and data pipelines. Developed real-time computer vision applications, LLM-powered automation, and deployable APIs using Python, FastAPI, PyTorch, Docker, and GCP. Work spans AI model integration, real-time inference, data processing, and backend engineering.",
+    "summary": "Junior AI Engineer with 6 months of hands-on startup experience building practical AI systems across Computer Vision, GenAI/RAG, and backend microservices. Experienced in deploying model pipelines with Python, FastAPI, PyTorch, Docker, and GCP.",
     "skills": {
       "programming": [
         "Python",
@@ -90,12 +90,12 @@
         "period": "Mar 2026 – Aug 2026 (6 mos)",
         "location": "Bangkok, Thailand",
         "achievements": [
-          "Developing **StaffLenz AI**, an edge-first computer vision platform for workplace analytics, integrating multi-camera RTSP streams, YOLOv11-Pose, InsightFace/ArcFace, OpenVINO FP16 inference, polygon desk zones, and a latest-frame batching queue for real-time processing.",
-          "Improved worker identity stability using face embeddings, head-pose filtering, identity caching, and multi-angle enrollment; connected recognized workers with desk-zone and activity-state logic.",
-          "Implemented real-time Server-Sent Events (SSE) event delivery, activity history, retention cleanup, and LINE alert workflows to connect computer vision events with the management dashboard.",
-          "Developed an asynchronous Thai speech/text-to-search pipeline using Groq STT, Llama/Gemini, Pydantic validation, and fuzzy location normalization to convert unstructured inquiries into structured search parameters.",
-          "Built a config-driven AI-assisted QA framework using Playwright, Gemini, and Python to generate matrix test cases, validate API behavior against database rules via SSH tunnels, and surface backend regressions.",
-          "Configured Docker-based CI/CD workflows with Google Cloud Build, Artifact Registry, and Cloud Run to prepare backend and management services for cloud deployment."
+          "Developed **StaffLenz AI**, an edge computer vision platform for workplace analytics using multi-camera RTSP, YOLOv11-Pose, InsightFace ArcFace, and OpenVINO FP16 inference.",
+          "Stabilized worker identity recognition using cosine similarity thresholding, head-pose angle filtering, and polygon desk zone containment logic.",
+          "Streamed live workplace telemetries and alert triggers to management dashboards using Server-Sent Events (SSE) and LINE Notify webhooks.",
+          "Built an asynchronous Thai speech-to-search pipeline using Groq Whisper STT (<350ms) and Gemini structured output extraction with Pydantic validation.",
+          "Engineered an automated test framework with Playwright and SSH-tunneled MySQL verification to catch backend regressions before production release.",
+          "Containerized and prepared microservices for GCP deployment using Docker, Cloud Build, and Cloud Run."
         ]
       },
       {
@@ -104,8 +104,8 @@
         "period": "May 2024 – Jul 2024",
         "location": "Bangkok, Thailand",
         "achievements": [
-          "Applied YOLO and OpenCV to drone imagery for structural crack detection in pipe inspection, and analyzed LiDAR and multispectral data for 3D and computer vision workflows.",
-          "Developed Random Forest and Gradient Boosting regression models in MATLAB to forecast agricultural crop yield from satellite and drone geospatial data."
+          "Designed a computer vision pipeline with CNN classification and OpenCV tracking to detect structural cracks on drone pipe inspection footage.",
+          "Trained Random Forest and Gradient Boosting regression models to forecast agricultural crop yields from Sentinel-2 multispectral satellite data (NDVI/EVI)."
         ]
       }
     ],
@@ -146,7 +146,7 @@
       "categoryLabel": "Computer Vision & Edge AI",
       "badge": "Yourhome Platform",
       "impact": "Real-time edge worker identity stability & desk analytics on multi-camera RTSP",
-      "shortSummary": "Edge computer vision analytics platform processing multi-camera RTSP feeds with OpenVINO FP16 acceleration, YOLOv11-Pose keypoints, InsightFace/ArcFace embeddings, polygon desk zones, and real-time Server-Sent Events (SSE).",
+      "shortSummary": "Real-time edge analytics tracking multi-camera RTSP feeds for desk occupancy, posture stability, and zone alerts.",
       "fullDescription": "Worked on the edge computer vision system at Yourhome for desk occupancy and workplace activity analytics. Implemented multi-camera RTSP ingestion with latest-frame batching buffers and Intel OpenVINO FP16 inference acceleration. Stabilized worker identity recognition using ArcFace face embeddings, head-pose yaw/pitch angle filtering, and temporal caching across polygon desk zones. Built real-time Server-Sent Events (SSE) streaming and automated LINE alert webhook integrations.",
       "highlights": [
         "OpenVINO FP16 inference acceleration for YOLOv11-Pose and InsightFace ArcFace models",
@@ -182,7 +182,7 @@
       "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
       "impact": "Multi-source scraping pipeline & Vision-Language Model property curation",
-      "shortSummary": "Automated data ingestion pipeline collecting listings across major Thai property portals with Gemini VLM visual style filtering, K-Means color detection, and geocoding.",
+      "shortSummary": "Automated ingestion pipeline curating property listings via Playwright, Gemini Vision style evaluation, and geocoding.",
       "fullDescription": "Built an automated data ingestion suite at Yourhome extracting property listings across 7 major portals and Facebook Marketplace. Integrated Google Gemini Vision-Language Models (VLM) to analyze room condition, aesthetic styles (Modern, Minimalist, Japandi, Luxury), and K-Means color clustering. Geocoded coordinates via Longdo Maps and Google Maps APIs into Google Cloud Firestore.",
       "highlights": [
         "Multi-source scraping automation with Playwright and Browser-Use",
@@ -215,7 +215,7 @@
       "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Yourhome Platform",
       "impact": "Asynchronous Thai speech-to-structured search parameters with Groq Whisper & Gemini",
-      "shortSummary": "Asynchronous pipeline converting Thai voice inquiries into structured search parameters using Groq Whisper STT, Gemini/Llama with Pydantic validation, and fuzzy location normalization.",
+      "shortSummary": "Asynchronous voice search converting colloquial Thai speech into structured property queries with sub-350ms latency.",
       "fullDescription": "Developed an asynchronous voice inquiry processing pipeline for Yourhome. Received Thai voice notes from LINE and web clients, transcribed audio using Groq Whisper API (<320ms latency), and extracted structured search parameters (budgets, property types, bedroom counts, pet policies) using Gemini and Llama 3 with Pydantic validation. Normalized colloquial Thai transit landmarks against 150+ BTS/MRT stations.",
       "highlights": [
         "Sub-350ms Thai Speech-to-Text inference via Groq Whisper API",
@@ -246,7 +246,7 @@
       "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
       "impact": "Automated test execution, database auditing via SSH tunnels & Postman regression suites",
-      "shortSummary": "Test automation framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
+      "shortSummary": "Automated test suite executing Playwright browser regressions, Postman API collections, and SSH-tunneled database checks.",
       "fullDescription": "Engineered a test automation framework at Yourhome. Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
       "highlights": [
         "Automated test workflow coordinating execution, verification, and reporting",
@@ -277,7 +277,7 @@
       "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "Yourhome Platform",
       "impact": "3D mesh cleaning, USDZ-to-GLTF conversion & Three.js web rendering",
-      "shortSummary": "3D spatial scanning pipeline converting iPhone RoomPlan USDZ scans into cleaned, optimized GLTF/GLB models with texture baking, mesh decimation, and interactive Three.js web rendering.",
+      "shortSummary": "Spatial pipeline converting USDZ LiDAR room scans into lightweight GLTF models with 60 FPS Three.js web rendering.",
       "fullDescription": "Developed a 3D asset processing pipeline converting Apple RoomPlan USDZ spatial scans into web-optimized GLTF/GLB models. Implemented Open3D and Trimesh routines for vertex deduplication, normal recalculation, and quadric decimation, reducing asset file sizes by ~75% while maintaining 60 FPS interactive rendering in Three.js.",
       "highlights": [
         "USDZ to GLTF/GLB geometry and material conversion microservice",
@@ -307,7 +307,7 @@
       "categoryLabel": "Backend & Cloud Systems",
       "badge": "Yourhome Platform",
       "impact": "Composite location scoring, walking distance engine & multi-variable ranking",
-      "shortSummary": "Backend microservice computing composite property evaluation scores, transit walking distance matrices, and price-per-square-meter value distributions.",
+      "shortSummary": "Microservice calculating multi-factor property scores, walking distance matrices, and price-per-sqm value distributions.",
       "fullDescription": "Built a backend data processing microservice at Yourhome calculating multi-factor property scores: transit walking distances (OSRM / Google Maps APIs), neighborhood amenity density, and price-per-square-meter value metrics relative to local distributions. Maintained dual-write consistency between AWS RDS MySQL and Google Cloud Firestore.",
       "highlights": [
         "Composite property scoring engine with parameterized weighting",
@@ -338,7 +338,7 @@
       "categoryLabel": "Backend & Cloud Systems",
       "badge": "Yourhome Platform",
       "impact": "Dynamic XML sitemaps, JSON-LD Schema.org generators & Firestore caching for 50k+ URLs",
-      "shortSummary": "FastAPI microservice generating dynamic, paginated XML sitemaps, Schema.org JSON-LD microdata, and clean slug routing for property search engine indexing.",
+      "shortSummary": "High-throughput SEO service generating dynamic XML sitemaps and JSON-LD structured metadata for 50,000+ property pages.",
       "fullDescription": "Designed a schema-first SEO microservice at Yourhome. Generated dynamic paginated XML sitemaps supporting 50,000+ URLs and produced Schema.org JSON-LD structured data (RealEstateListing, Product, BreadcrumbList) for search engine indexing. Implemented Firestore response caching to reduce database overhead.",
       "highlights": [
         "Paginated XML sitemap generator supporting 50,000+ URLs per index chunk",
@@ -367,7 +367,7 @@
       "categoryLabel": "Computer Vision & Edge AI",
       "badge": "Yourhome Platform",
       "impact": "Trajectory tracking, rally hit extraction & Gemini Flash video reasoning",
-      "shortSummary": "Edge-to-Cloud sports analytics prototype combining Raspberry Pi audio/motion rally triggers with Gemini Flash video reasoning and YOLO trajectory tracking.",
+      "shortSummary": "Edge-to-cloud prototype pairing Raspberry Pi sensors with Gemini Flash and YOLO ball tracking to score rallies.",
       "fullDescription": "Developed an edge-to-cloud sports analytics prototype. Used audio and motion triggers on Raspberry Pi boards to identify rally start/end points, sliced lightweight video clips, and sent them to Google Gemini Flash and YOLO models to evaluate score updates and rule compliance.",
       "highlights": [
         "Edge-to-Cloud design (Raspberry Pi edge trigger + Cloud VLM)",
@@ -400,7 +400,7 @@
       "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "SKYVIV",
       "impact": "CNN classification & OpenCV tracking for pipe inspection on high-res drone footage",
-      "shortSummary": "Computer Vision pipeline combining Deep Learning CNN image classification with OpenCV object tracking for structural crack detection on drone pipe inspection videos.",
+      "shortSummary": "Aerial inspection system combining CNN classification and OpenCV tracking to detect structural pipeline cracks.",
       "fullDescription": "Developed during the AI & Geospatial internship at Sky Visual Imaging Venture (SKYVIV). Designed to inspect industrial pipes from high-resolution drone camera feeds using Deep Learning CNN candidate classification and OpenCV spatial R-Tree indexing for continuous crack landmark tracking.",
       "highlights": [
         "Two-phase architecture: CNN deep learning classification + OpenCV tracking",
@@ -429,7 +429,7 @@
       "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "SKYVIV",
       "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
-      "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
+      "shortSummary": "Machine learning regression framework predicting crop yield using Sentinel-2 multispectral indices (NDVI/EVI) and climate data.",
       "fullDescription": "Geospatial data science internship research at SKYVIV predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
       "highlights": [
         "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
@@ -461,7 +461,7 @@
       "badge": "Independent Project",
       "image": "assets/LPR.jpeg",
       "impact": "3-Stage deep learning pipeline achieving ~90% Thai province OCR classification",
-      "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for 77 Thai province classification.",
+      "shortSummary": "3-Stage deep learning OCR pipeline combining YOLO11 detection, ResNet-CRNN with CTC Loss, and MobileNetV2 province classification.",
       "fullDescription": "An end-to-end 3-stage deep learning pipeline built to recognize complex Thai vehicle license plates (featuring Thai script consonants, numerals, and 77 distinct provincial names in small text). Stage 1 uses YOLO11 for plate localization and perspective alignment. Stage 2 employs a custom ResNet-CRNN architecture trained with Connectionist Temporal Classification (CTC Loss) for reading character sequences without per-character bounding boxes. Stage 3 utilizes a fine-tuned MobileNetV2 classifier to identify the 77 Thai provinces.",
       "highlights": [
         "Stage 1: YOLO11 object detection trained on diverse Thai vehicle camera angles",
@@ -525,7 +525,7 @@
       "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
-      "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
+      "shortSummary": "Statutory retrieval engine pairing dense vector search with BM25 keyword matching and Reciprocal Rank Fusion.",
       "fullDescription": "A Hybrid Retrieval-Augmented Generation (RAG) engine designed to search Thai legal documents, local municipality laws, and corporate regulations. Combines dense semantic vector search (multilingual embeddings in ChromaDB) with sparse lexical search (BM25 with PyThaiNLP tokenization), merged via Reciprocal Rank Fusion (RRF). Implements hypothetical document embeddings (HyDE) for query expansion and an automated evaluation pipeline to test groundedness.",
       "highlights": [
         "Hybrid Retrieval Architecture: ChromaDB dense vector search + BM25 sparse keyword matching",
@@ -591,7 +591,7 @@
       "badge": "Independent Project",
       "image": "assets/RagChain.jpeg",
       "impact": "LangChain retrieval chain with Maximal Marginal Relevance (MMR) & strict hallucination guardrails",
-      "shortSummary": "Document question-answering RAG pipeline built with LangChain, ChromaDB vector indexing, Maximal Marginal Relevance (MMR) diversity reranking, Google Gemini LLM, and anti-hallucination grounding.",
+      "shortSummary": "Modular document Q&A chain using ChromaDB, Maximal Marginal Relevance (MMR) reranking, and anti-hallucination guardrails.",
       "fullDescription": "A modular Retrieval-Augmented Generation pipeline implemented using LangChain and Google Generative AI embeddings. Integrates ChromaDB vector store with Maximal Marginal Relevance (MMR) retrieval to prevent redundant document chunks. Implements structured document chaining (`create_stuff_documents_chain`, `create_retrieval_chain`), base-document context injection, and strict system prompts preventing LLM hallucinations.",
       "highlights": [
         "LangChain modular chain orchestration (`create_retrieval_chain` + `create_stuff_documents_chain`)",
@@ -654,7 +654,7 @@
       "badge": "Independent Project",
       "image": "assets/LineStock.jpeg",
       "impact": "Technical indicators (RSI, MACD), Thai/US market feeds & Gemini 2.5 Flash on LINE",
-      "shortSummary": "Conversational financial assistant on LINE messaging integrating Gemini 2.5 Flash, yfinance market data, technical indicator calculations (RSI, MACD, Bollinger Bands), user profiles, and background scheduled alerts.",
+      "shortSummary": "LINE financial assistant combining Gemini 2.5 Flash with technical indicators (RSI, MACD) and scheduled market updates.",
       "fullDescription": "A conversational AI financial assistant operating on the LINE platform. Powered by Google Gemini 2.5 Flash, it analyzes market data across Thai (SET) and US equities. Computes technical indicators (RSI, MACD, Moving Averages, Bollinger Bands), summarizes relevant news sentiment, and tracks user risk profiles stored in PostgreSQL via SQLAlchemy. Implements webhook deduplication and background task scheduling via APScheduler.",
       "highlights": [
         "Integrated Google Gemini 2.5 Flash for financial context synthesis and conversational Q&A",
@@ -724,7 +724,7 @@
       "categoryLabel": "Computer Vision & Edge AI",
       "badge": "Yourhome Platform",
       "impact": "Real-time edge worker identity stability & desk analytics on multi-camera RTSP",
-      "shortSummary": "Edge computer vision analytics platform processing multi-camera RTSP feeds with OpenVINO FP16 acceleration, YOLOv11-Pose keypoints, InsightFace/ArcFace embeddings, polygon desk zones, and real-time Server-Sent Events (SSE).",
+      "shortSummary": "Real-time edge analytics tracking multi-camera RTSP feeds for desk occupancy, posture stability, and zone alerts.",
       "fullDescription": "Worked on the edge computer vision system at Yourhome for desk occupancy and workplace activity analytics. Implemented multi-camera RTSP ingestion with latest-frame batching buffers and Intel OpenVINO FP16 inference acceleration. Stabilized worker identity recognition using ArcFace face embeddings, head-pose yaw/pitch angle filtering, and temporal caching across polygon desk zones. Built real-time Server-Sent Events (SSE) streaming and automated LINE alert webhook integrations.",
       "highlights": [
         "OpenVINO FP16 inference acceleration for YOLOv11-Pose and InsightFace ArcFace models",
@@ -760,7 +760,7 @@
       "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
       "impact": "Multi-source scraping pipeline & Vision-Language Model property curation",
-      "shortSummary": "Automated data ingestion pipeline collecting listings across major Thai property portals with Gemini VLM visual style filtering, K-Means color detection, and geocoding.",
+      "shortSummary": "Automated ingestion pipeline curating property listings via Playwright, Gemini Vision style evaluation, and geocoding.",
       "fullDescription": "Built an automated data ingestion suite at Yourhome extracting property listings across 7 major portals and Facebook Marketplace. Integrated Google Gemini Vision-Language Models (VLM) to analyze room condition, aesthetic styles (Modern, Minimalist, Japandi, Luxury), and K-Means color clustering. Geocoded coordinates via Longdo Maps and Google Maps APIs into Google Cloud Firestore.",
       "highlights": [
         "Multi-source scraping automation with Playwright and Browser-Use",
@@ -793,7 +793,7 @@
       "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Yourhome Platform",
       "impact": "Asynchronous Thai speech-to-structured search parameters with Groq Whisper & Gemini",
-      "shortSummary": "Asynchronous pipeline converting Thai voice inquiries into structured search parameters using Groq Whisper STT, Gemini/Llama with Pydantic validation, and fuzzy location normalization.",
+      "shortSummary": "Asynchronous voice search converting colloquial Thai speech into structured property queries with sub-350ms latency.",
       "fullDescription": "Developed an asynchronous voice inquiry processing pipeline for Yourhome. Received Thai voice notes from LINE and web clients, transcribed audio using Groq Whisper API (<320ms latency), and extracted structured search parameters (budgets, property types, bedroom counts, pet policies) using Gemini and Llama 3 with Pydantic validation. Normalized colloquial Thai transit landmarks against 150+ BTS/MRT stations.",
       "highlights": [
         "Sub-350ms Thai Speech-to-Text inference via Groq Whisper API",
@@ -824,7 +824,7 @@
       "categoryLabel": "Automation & Data Ingestion",
       "badge": "Yourhome Platform",
       "impact": "Automated test execution, database auditing via SSH tunnels & Postman regression suites",
-      "shortSummary": "Test automation framework executing browser UI testing (Playwright), REST API regression auditing, SSH-tunneled MySQL verification, and score algorithm validation across environments.",
+      "shortSummary": "Automated test suite executing Playwright browser regressions, Postman API collections, and SSH-tunneled database checks.",
       "fullDescription": "Engineered a test automation framework at Yourhome. Automated browser regression flows with Playwright, parsed Postman collections, queried AWS RDS MySQL databases through secure SSH tunnels with GCP Secret Manager, and generated automated QA reports synced to Google Sheets.",
       "highlights": [
         "Automated test workflow coordinating execution, verification, and reporting",
@@ -855,7 +855,7 @@
       "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "Yourhome Platform",
       "impact": "3D mesh cleaning, USDZ-to-GLTF conversion & Three.js web rendering",
-      "shortSummary": "3D spatial scanning pipeline converting iPhone RoomPlan USDZ scans into cleaned, optimized GLTF/GLB models with texture baking, mesh decimation, and interactive Three.js web rendering.",
+      "shortSummary": "Spatial pipeline converting USDZ LiDAR room scans into lightweight GLTF models with 60 FPS Three.js web rendering.",
       "fullDescription": "Developed a 3D asset processing pipeline converting Apple RoomPlan USDZ spatial scans into web-optimized GLTF/GLB models. Implemented Open3D and Trimesh routines for vertex deduplication, normal recalculation, and quadric decimation, reducing asset file sizes by ~75% while maintaining 60 FPS interactive rendering in Three.js.",
       "highlights": [
         "USDZ to GLTF/GLB geometry and material conversion microservice",
@@ -885,7 +885,7 @@
       "categoryLabel": "Backend & Cloud Systems",
       "badge": "Yourhome Platform",
       "impact": "Composite location scoring, walking distance engine & multi-variable ranking",
-      "shortSummary": "Backend microservice computing composite property evaluation scores, transit walking distance matrices, and price-per-square-meter value distributions.",
+      "shortSummary": "Microservice calculating multi-factor property scores, walking distance matrices, and price-per-sqm value distributions.",
       "fullDescription": "Built a backend data processing microservice at Yourhome calculating multi-factor property scores: transit walking distances (OSRM / Google Maps APIs), neighborhood amenity density, and price-per-square-meter value metrics relative to local distributions. Maintained dual-write consistency between AWS RDS MySQL and Google Cloud Firestore.",
       "highlights": [
         "Composite property scoring engine with parameterized weighting",
@@ -916,7 +916,7 @@
       "categoryLabel": "Backend & Cloud Systems",
       "badge": "Yourhome Platform",
       "impact": "Dynamic XML sitemaps, JSON-LD Schema.org generators & Firestore caching for 50k+ URLs",
-      "shortSummary": "FastAPI microservice generating dynamic, paginated XML sitemaps, Schema.org JSON-LD microdata, and clean slug routing for property search engine indexing.",
+      "shortSummary": "High-throughput SEO service generating dynamic XML sitemaps and JSON-LD structured metadata for 50,000+ property pages.",
       "fullDescription": "Designed a schema-first SEO microservice at Yourhome. Generated dynamic paginated XML sitemaps supporting 50,000+ URLs and produced Schema.org JSON-LD structured data (RealEstateListing, Product, BreadcrumbList) for search engine indexing. Implemented Firestore response caching to reduce database overhead.",
       "highlights": [
         "Paginated XML sitemap generator supporting 50,000+ URLs per index chunk",
@@ -945,7 +945,7 @@
       "categoryLabel": "Computer Vision & Edge AI",
       "badge": "Yourhome Platform",
       "impact": "Trajectory tracking, rally hit extraction & Gemini Flash video reasoning",
-      "shortSummary": "Edge-to-Cloud sports analytics prototype combining Raspberry Pi audio/motion rally triggers with Gemini Flash video reasoning and YOLO trajectory tracking.",
+      "shortSummary": "Edge-to-cloud prototype pairing Raspberry Pi sensors with Gemini Flash and YOLO ball tracking to score rallies.",
       "fullDescription": "Developed an edge-to-cloud sports analytics prototype. Used audio and motion triggers on Raspberry Pi boards to identify rally start/end points, sliced lightweight video clips, and sent them to Google Gemini Flash and YOLO models to evaluate score updates and rule compliance.",
       "highlights": [
         "Edge-to-Cloud design (Raspberry Pi edge trigger + Cloud VLM)",
@@ -978,7 +978,7 @@
       "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "SKYVIV",
       "impact": "CNN classification & OpenCV tracking for pipe inspection on high-res drone footage",
-      "shortSummary": "Computer Vision pipeline combining Deep Learning CNN image classification with OpenCV object tracking for structural crack detection on drone pipe inspection videos.",
+      "shortSummary": "Aerial inspection system combining CNN classification and OpenCV tracking to detect structural pipeline cracks.",
       "fullDescription": "Developed during the AI & Geospatial internship at Sky Visual Imaging Venture (SKYVIV). Designed to inspect industrial pipes from high-resolution drone camera feeds using Deep Learning CNN candidate classification and OpenCV spatial R-Tree indexing for continuous crack landmark tracking.",
       "highlights": [
         "Two-phase architecture: CNN deep learning classification + OpenCV tracking",
@@ -1007,7 +1007,7 @@
       "categoryLabel": "Geospatial AI & 3D Analytics",
       "badge": "SKYVIV",
       "impact": "Random Forest & Gradient Boosting regression on multispectral satellite imagery (NDVI/EVI)",
-      "shortSummary": "Predictive agricultural modeling framework estimating crop yields from satellite multispectral imagery, vegetation indices (NDVI, EVI), weather dynamics, and soil metrics.",
+      "shortSummary": "Machine learning regression framework predicting crop yield using Sentinel-2 multispectral indices (NDVI/EVI) and climate data.",
       "fullDescription": "Geospatial data science internship research at SKYVIV predicting crop yields. Processed satellite multispectral remote sensing data to compute vegetation health indices (NDVI, EVI, SAVI), combined with meteorological climate data, evaluated using Random Forest and Gradient Boosting regression models.",
       "highlights": [
         "Multispectral satellite remote sensing data ingestion (Sentinel-2 / Landsat)",
@@ -1037,7 +1037,7 @@
       "badge": "Independent Project",
       "image": "assets/LPR.jpeg",
       "impact": "3-Stage deep learning pipeline achieving ~90% Thai province OCR classification",
-      "shortSummary": "End-to-end deep learning OCR pipeline combining YOLO11 for plate detection, ResNet-CRNN with CTC Loss for character sequence recognition, and MobileNetV2 for 77 Thai province classification.",
+      "shortSummary": "3-Stage deep learning OCR pipeline combining YOLO11 detection, ResNet-CRNN with CTC Loss, and MobileNetV2 province classification.",
       "fullDescription": "An end-to-end 3-stage deep learning pipeline built to recognize complex Thai vehicle license plates (featuring Thai script consonants, numerals, and 77 distinct provincial names in small text). Stage 1 uses YOLO11 for plate localization and perspective alignment. Stage 2 employs a custom ResNet-CRNN architecture trained with Connectionist Temporal Classification (CTC Loss) for reading character sequences without per-character bounding boxes. Stage 3 utilizes a fine-tuned MobileNetV2 classifier to identify the 77 Thai provinces.",
       "highlights": [
         "Stage 1: YOLO11 object detection trained on diverse Thai vehicle camera angles",
@@ -1101,7 +1101,7 @@
       "categoryLabel": "GenAI, LLMs & Retrieval",
       "badge": "Independent Project",
       "impact": "Hybrid dense + sparse BM25 + Reciprocal Rank Fusion (RRF) with LLM evaluation",
-      "shortSummary": "Legal document retrieval system for Thai statutory provisions using Hybrid Search (Dense embeddings + BM25 + RRF), metadata filtering, query expansion, and LLM-as-a-judge evaluation.",
+      "shortSummary": "Statutory retrieval engine pairing dense vector search with BM25 keyword matching and Reciprocal Rank Fusion.",
       "fullDescription": "A Hybrid Retrieval-Augmented Generation (RAG) engine designed to search Thai legal documents, local municipality laws, and corporate regulations. Combines dense semantic vector search (multilingual embeddings in ChromaDB) with sparse lexical search (BM25 with PyThaiNLP tokenization), merged via Reciprocal Rank Fusion (RRF). Implements hypothetical document embeddings (HyDE) for query expansion and an automated evaluation pipeline to test groundedness.",
       "highlights": [
         "Hybrid Retrieval Architecture: ChromaDB dense vector search + BM25 sparse keyword matching",
@@ -1167,7 +1167,7 @@
       "badge": "Independent Project",
       "image": "assets/RagChain.jpeg",
       "impact": "LangChain retrieval chain with Maximal Marginal Relevance (MMR) & strict hallucination guardrails",
-      "shortSummary": "Document question-answering RAG pipeline built with LangChain, ChromaDB vector indexing, Maximal Marginal Relevance (MMR) diversity reranking, Google Gemini LLM, and anti-hallucination grounding.",
+      "shortSummary": "Modular document Q&A chain using ChromaDB, Maximal Marginal Relevance (MMR) reranking, and anti-hallucination guardrails.",
       "fullDescription": "A modular Retrieval-Augmented Generation pipeline implemented using LangChain and Google Generative AI embeddings. Integrates ChromaDB vector store with Maximal Marginal Relevance (MMR) retrieval to prevent redundant document chunks. Implements structured document chaining (`create_stuff_documents_chain`, `create_retrieval_chain`), base-document context injection, and strict system prompts preventing LLM hallucinations.",
       "highlights": [
         "LangChain modular chain orchestration (`create_retrieval_chain` + `create_stuff_documents_chain`)",
@@ -1230,7 +1230,7 @@
       "badge": "Independent Project",
       "image": "assets/LineStock.jpeg",
       "impact": "Technical indicators (RSI, MACD), Thai/US market feeds & Gemini 2.5 Flash on LINE",
-      "shortSummary": "Conversational financial assistant on LINE messaging integrating Gemini 2.5 Flash, yfinance market data, technical indicator calculations (RSI, MACD, Bollinger Bands), user profiles, and background scheduled alerts.",
+      "shortSummary": "LINE financial assistant combining Gemini 2.5 Flash with technical indicators (RSI, MACD) and scheduled market updates.",
       "fullDescription": "A conversational AI financial assistant operating on the LINE platform. Powered by Google Gemini 2.5 Flash, it analyzes market data across Thai (SET) and US equities. Computes technical indicators (RSI, MACD, Moving Averages, Bollinger Bands), summarizes relevant news sentiment, and tracks user risk profiles stored in PostgreSQL via SQLAlchemy. Implements webhook deduplication and background task scheduling via APScheduler.",
       "highlights": [
         "Integrated Google Gemini 2.5 Flash for financial context synthesis and conversational Q&A",
@@ -1294,31 +1294,31 @@
       "icon": "fa-bolt",
       "title": "Fast Adaptation & Rapid Execution",
       "tag": "Agility & Speed",
-      "description": "In a fast-paced startup environment, I quickly learned to pick up unfamiliar frameworks and libraries (e.g. OpenVINO, Playwright, Groq, LangChain) and bring working prototypes into production within short turnaround cycles."
+      "description": "Quickly mastered unfamiliar frameworks (OpenVINO, Playwright, LangChain) and delivered production-ready microservices under tight startup deadlines."
     },
     {
       "icon": "fa-book-open-reader",
       "title": "Self-Directed Continuous Learning",
       "tag": "Curiosity & Depth",
-      "description": "Thrive on reading official documentation, research papers (YOLO-Pose, ArcFace embeddings, Hybrid RRF), and discovering edge optimization techniques independently without waiting for step-by-step instructions."
+      "description": "Proactively studied computer vision papers, model quantization techniques, and hybrid retrieval algorithms to solve engineering bottlenecks independently."
     },
     {
       "icon": "fa-cube",
       "title": "Modular & Pure Function Mindset",
       "tag": "Code Quality",
-      "description": "Adopted a skill-driven, config-first engineering standard where core math and logic are isolated into deterministic pure functions (no hidden side effects), making unit testing and reuse straightforward."
+      "description": "Architected services using deterministic pure functions and decoupled configurations to ensure testability and seamless team handoff."
     },
     {
       "icon": "fa-arrows-split-up-and-left",
       "title": "Pragmatic Problem Solving",
       "tag": "Cost & Efficiency",
-      "description": "Focused on practical trade-offs between accuracy, compute cost, and latency — such as implementing low-cost edge triggers + cloud VLM instead of maintaining expensive always-on GPU clusters."
+      "description": "Balanced inference latency and infrastructure cost by deploying low-cost edge triggers paired with cloud VLMs instead of costly GPU clusters."
     },
     {
       "icon": "fa-users-gear",
       "title": "Cross-Functional Collaboration",
       "tag": "Teamwork & Delivery",
-      "description": "Collaborated closely with backend developers and QA to understand business needs, integrate API endpoints, handle edge cases, and ensure clean handover of deployed microservices."
+      "description": "Collaborated closely with backend engineers and QA to validate API contracts, handle edge cases, and deploy stable containers."
     }
   ],
   "categories": [
