@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNeuralCanvas();
   initNavigation();
+  initCollapsibleSections();
   initSkillsMatrix();
   initStartupLearnings();
   initCategoryFilters();
@@ -178,7 +179,87 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update project count badge
     const badge = document.getElementById('project-count-badge');
     if (badge) badge.textContent = state.projects.length;
+
+    // Auto-unfold collapsible section when clicking any anchor link
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const hash = link.getAttribute('href');
+        if (hash && hash.length > 1) {
+          const targetId = hash.substring(1);
+          window.openCollapsibleSection(targetId);
+        }
+      });
+    });
   }
+
+  /* ==========================================================================
+     3.1 Collapsible Section Accordions (Folded by default)
+     ========================================================================== */
+  function initCollapsibleSections() {
+    const sections = document.querySelectorAll('.collapsible-section');
+    const expandAllBtn = document.getElementById('expand-all-btn');
+    const collapseAllBtn = document.getElementById('collapse-all-btn');
+
+    sections.forEach(section => {
+      const header = section.querySelector('.collapsible-header');
+      const toggleText = section.querySelector('.toggle-text');
+
+      if (!header) return;
+
+      header.addEventListener('click', () => {
+        const isOpen = section.classList.toggle('is-open');
+        header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (toggleText) toggleText.textContent = isOpen ? 'Fold' : 'Expand';
+      });
+
+      // Keyboard accessibility (Enter or Space)
+      header.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          header.click();
+        }
+      });
+    });
+
+    // Expand All Button
+    if (expandAllBtn) {
+      expandAllBtn.addEventListener('click', () => {
+        sections.forEach(sec => {
+          sec.classList.add('is-open');
+          const header = sec.querySelector('.collapsible-header');
+          const toggleText = sec.querySelector('.toggle-text');
+          if (header) header.setAttribute('aria-expanded', 'true');
+          if (toggleText) toggleText.textContent = 'Fold';
+        });
+        showToast('All sections expanded');
+      });
+    }
+
+    // Collapse All Button
+    if (collapseAllBtn) {
+      collapseAllBtn.addEventListener('click', () => {
+        sections.forEach(sec => {
+          sec.classList.remove('is-open');
+          const header = sec.querySelector('.collapsible-header');
+          const toggleText = sec.querySelector('.toggle-text');
+          if (header) header.setAttribute('aria-expanded', 'false');
+          if (toggleText) toggleText.textContent = 'Expand';
+        });
+        showToast('All sections folded');
+      });
+    }
+  }
+
+  window.openCollapsibleSection = function(sectionId) {
+    const sec = document.getElementById(sectionId);
+    if (sec && sec.classList.contains('collapsible-section')) {
+      sec.classList.add('is-open');
+      const header = sec.querySelector('.collapsible-header');
+      const toggleText = sec.querySelector('.toggle-text');
+      if (header) header.setAttribute('aria-expanded', 'true');
+      if (toggleText) toggleText.textContent = 'Fold';
+    }
+  };
 
   /* ==========================================================================
      4. Technical Skills Matrix
@@ -265,7 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (clearBtn) clearBtn.style.display = 'block';
         }
         renderProjects();
-        // Scroll smoothly to projects section
+        // Unfold and scroll smoothly to projects section
+        window.openCollapsibleSection('projects');
         const projSec = document.getElementById('projects');
         if (projSec) projSec.scrollIntoView({ behavior: 'smooth' });
       });

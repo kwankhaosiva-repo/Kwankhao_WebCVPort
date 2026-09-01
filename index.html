@@ -187,177 +187,242 @@
       </div>
     </section>
 
-    <!-- TECHNICAL SKILLS MATRIX -->
-    <section class="section-container" id="skills">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-microchip"></i> Core Competencies</div>
-        <h2 class="section-title">Technical Skills & Technology Matrix</h2>
-        <p class="section-desc">Technologies and tools used across production systems, prototypes, and backend services. Click any skill to highlight related projects.</p>
+    <!-- GLOBAL ACCORDION TOOLBAR -->
+    <div class="global-accordion-toolbar-wrap">
+      <div class="global-accordion-toolbar">
+        <div class="toolbar-info">
+          <i class="fa-solid fa-layer-group"></i> <span>Sections Navigator (Click header to fold/unfold)</span>
+        </div>
+        <div class="toolbar-actions">
+          <button id="expand-all-btn" class="btn btn-xs btn-outline" title="Expand all sections">
+            <i class="fa-solid fa-folder-open"></i> Expand All
+          </button>
+          <button id="collapse-all-btn" class="btn btn-xs btn-outline" title="Collapse all sections">
+            <i class="fa-solid fa-folder"></i> Collapse All
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. TECHNICAL SKILLS MATRIX -->
+    <section class="section-container collapsible-section" id="skills">
+      <div class="section-header collapsible-header" role="button" tabindex="0" aria-expanded="false" title="Click to fold/unfold Technical Skills Matrix">
+        <div class="header-left">
+          <div class="section-tag"><i class="fa-solid fa-microchip"></i> Core Competencies</div>
+          <h2 class="section-title">Technical Skills & Technology Matrix</h2>
+          <p class="section-desc">Technologies and tools used across production systems, prototypes, and backend services.</p>
+        </div>
+        <div class="section-toggle-btn">
+          <span class="toggle-text">Expand</span>
+          <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
+        </div>
       </div>
 
-      <div class="skills-grid" id="skills-matrix-container">
-        <!-- Dynamically rendered via app.js -->
-      </div>
-    </section>
-
-    <!-- STARTUP EXPERIENCE & SOFT SKILLS -->
-    <section class="section-container" id="learnings">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-lightbulb"></i> Startup Growth & Work Ethic</div>
-        <h2 class="section-title">Startup Experience & Core Strengths</h2>
-        <p class="section-desc">Key learnings and engineering habits developed during my first 6 months building AI solutions in a fast-paced startup environment.</p>
-      </div>
-
-      <div class="startup-grid" id="startup-learnings-container">
-        <!-- Dynamically rendered via app.js -->
-      </div>
-    </section>
-
-    <!-- FEATURED PROJECTS SHOWCASE (COMPANY FIRST, THEN INDEPENDENT) -->
-    <section class="section-container" id="projects">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-layer-group"></i> Portfolio Showcase</div>
-        <h2 class="section-title">Projects & Systems Portfolio</h2>
-        <p class="section-desc">Practical systems engineered across industry startup experience and independent technical research.</p>
-      </div>
-
-      <!-- Controls: Category Filters & Real-time Search -->
-      <div class="projects-control-bar">
-        <div class="category-filters" id="category-filters-container">
+      <div class="collapsible-content">
+        <div class="skills-grid" id="skills-matrix-container">
           <!-- Dynamically rendered via app.js -->
         </div>
+      </div>
+    </section>
 
-        <div class="search-box-wrapper">
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="project-search-input" class="project-search-input" placeholder="Search by technology, algorithm, or keyword (e.g. YOLO, Gemini, RAG, OpenVINO, FastAPI, Docker)...">
-          <button id="search-clear-btn" class="search-clear-btn" title="Clear search"><i class="fa-solid fa-circle-xmark"></i></button>
+    <!-- 2. STARTUP EXPERIENCE & SOFT SKILLS -->
+    <section class="section-container collapsible-section" id="learnings">
+      <div class="section-header collapsible-header" role="button" tabindex="0" aria-expanded="false" title="Click to fold/unfold Startup Experience & Soft Skills">
+        <div class="header-left">
+          <div class="section-tag"><i class="fa-solid fa-lightbulb"></i> Startup Growth & Work Ethic</div>
+          <h2 class="section-title">Startup Experience & Core Strengths</h2>
+          <p class="section-desc">Key learnings and engineering habits developed during my first 6 months building AI solutions in a startup.</p>
+        </div>
+        <div class="section-toggle-btn">
+          <span class="toggle-text">Expand</span>
+          <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
         </div>
       </div>
 
-      <!-- Results Indicator -->
-      <div class="results-info-bar">
-        <span id="results-count-text">Showing all projects</span>
-        <button id="reset-filter-btn" class="btn btn-xs btn-outline hidden">Reset Filters</button>
+      <div class="collapsible-content">
+        <div class="startup-grid" id="startup-learnings-container">
+          <!-- Dynamically rendered via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. FEATURED PROJECTS SHOWCASE (COMPANY FIRST, THEN INDEPENDENT) -->
+    <section class="section-container collapsible-section" id="projects">
+      <div class="section-header collapsible-header" role="button" tabindex="0" aria-expanded="false" title="Click to fold/unfold Projects & Systems Portfolio">
+        <div class="header-left">
+          <div class="section-tag"><i class="fa-solid fa-layer-group"></i> Portfolio Showcase</div>
+          <h2 class="section-title">Projects & Systems Portfolio</h2>
+          <p class="section-desc">Practical systems engineered across industry startup experience and independent technical research.</p>
+        </div>
+        <div class="section-toggle-btn">
+          <span class="toggle-text">Expand</span>
+          <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
+        </div>
       </div>
 
-      <!-- ================= SECTION 1: PRODUCTION & INDUSTRY EXPERIENCE (TOP PRIORITY) ================= -->
-      <div class="project-part-section" id="company-projects-part">
-        <div class="part-header">
-          <div class="part-badge company-part-badge">
-            <i class="fa-solid fa-briefcase"></i> Production & Industry Experience
+      <div class="collapsible-content">
+        <!-- Controls: Category Filters & Real-time Search -->
+        <div class="projects-control-bar">
+          <div class="category-filters" id="category-filters-container">
+            <!-- Dynamically rendered via app.js -->
           </div>
-          <h3 class="part-title">Industry Systems & Microservices</h3>
-          <p class="part-desc">Real-time edge computer vision (RTSP/OpenVINO), multi-agent QA testing, VLM web scraping, and backend APIs developed at Yourhome & SKYVIV.</p>
-        </div>
-        <div class="projects-grid" id="company-projects-grid">
-          <!-- Dynamically rendered via app.js -->
-        </div>
-      </div>
 
-      <!-- ================= VISUAL LINE DIVIDER ================= -->
-      <div class="part-divider" id="projects-part-divider">
-        <div class="divider-line"></div>
-        <div class="divider-icon" title="Independent Projects Section"><i class="fa-solid fa-code-branch"></i></div>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- ================= SECTION 2: INDEPENDENT PROJECTS & DEEP DIVES ================= -->
-      <div class="project-part-section" id="personal-projects-part">
-        <div class="part-header">
-          <div class="part-badge personal-part-badge">
-            <i class="fa-solid fa-flask"></i> Independent Projects & Deep Dives
+          <div class="search-box-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="project-search-input" class="project-search-input" placeholder="Search by technology, algorithm, or keyword (e.g. YOLO, Gemini, RAG, OpenVINO, FastAPI, Docker)...">
+            <button id="search-clear-btn" class="search-clear-btn" title="Clear search"><i class="fa-solid fa-circle-xmark"></i></button>
           </div>
-          <h3 class="part-title">Personal Research & Open Source Projects</h3>
-          <p class="part-desc">Independent projects featuring PyTorch deep learning training, Hybrid RAG with Reciprocal Rank Fusion, and LangChain agents with implementation code.</p>
         </div>
-        <div class="projects-grid" id="personal-projects-grid">
+
+        <!-- Results Indicator -->
+        <div class="results-info-bar">
+          <span id="results-count-text">Showing all projects</span>
+          <button id="reset-filter-btn" class="btn btn-xs btn-outline hidden">Reset Filters</button>
+        </div>
+
+        <!-- SECTION 1: PRODUCTION & INDUSTRY EXPERIENCE (TOP PRIORITY) -->
+        <div class="project-part-section" id="company-projects-part">
+          <div class="part-header">
+            <div class="part-badge company-part-badge">
+              <i class="fa-solid fa-briefcase"></i> Production & Industry Experience
+            </div>
+            <h3 class="part-title">Industry Systems & Microservices</h3>
+            <p class="part-desc">Real-time edge computer vision (RTSP/OpenVINO), QA test automation, VLM web scraping, and backend APIs developed at Yourhome & SKYVIV.</p>
+          </div>
+          <div class="projects-grid" id="company-projects-grid">
+            <!-- Dynamically rendered via app.js -->
+          </div>
+        </div>
+
+        <!-- VISUAL LINE DIVIDER -->
+        <div class="part-divider" id="projects-part-divider">
+          <div class="divider-line"></div>
+          <div class="divider-icon" title="Independent Projects Section"><i class="fa-solid fa-code-branch"></i></div>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- SECTION 2: INDEPENDENT PROJECTS & DEEP DIVES -->
+        <div class="project-part-section" id="personal-projects-part">
+          <div class="part-header">
+            <div class="part-badge personal-part-badge">
+              <i class="fa-solid fa-flask"></i> Independent Projects & Deep Dives
+            </div>
+            <h3 class="part-title">Personal Research & Open Source Projects</h3>
+            <p class="part-desc">Independent projects featuring PyTorch deep learning training, Hybrid RAG with Reciprocal Rank Fusion, and LangChain agents with implementation code.</p>
+          </div>
+          <div class="projects-grid" id="personal-projects-grid">
+            <!-- Dynamically rendered via app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. WORK EXPERIENCE TIMELINE -->
+    <section class="section-container collapsible-section" id="experience">
+      <div class="section-header collapsible-header" role="button" tabindex="0" aria-expanded="false" title="Click to fold/unfold Professional Experience">
+        <div class="header-left">
+          <div class="section-tag"><i class="fa-solid fa-briefcase"></i> Work Experience</div>
+          <h2 class="section-title">Professional Experience</h2>
+          <p class="section-desc">Hands-on experience developing edge computer vision, GenAI pipelines, QA automation, and drone geospatial analysis.</p>
+        </div>
+        <div class="section-toggle-btn">
+          <span class="toggle-text">Expand</span>
+          <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
+        </div>
+      </div>
+
+      <div class="collapsible-content">
+        <div class="timeline-container" id="experience-timeline-container">
           <!-- Dynamically rendered via app.js -->
         </div>
       </div>
     </section>
 
-    <!-- WORK EXPERIENCE TIMELINE -->
-    <section class="section-container" id="experience">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-briefcase"></i> Work Experience</div>
-        <h2 class="section-title">Professional Experience</h2>
-        <p class="section-desc">Hands-on experience developing edge computer vision, GenAI pipelines, QA automation, and drone geospatial analysis.</p>
+    <!-- 5. EDUCATION & ACHIEVEMENTS -->
+    <section class="section-container collapsible-section" id="education">
+      <div class="section-header collapsible-header" role="button" tabindex="0" aria-expanded="false" title="Click to fold/unfold Academic Background">
+        <div class="header-left">
+          <div class="section-tag"><i class="fa-solid fa-graduation-cap"></i> Academic Background</div>
+          <h2 class="section-title">Education & Activities</h2>
+          <p class="section-desc">Engineering foundation from Chulalongkorn University and hackathon experiences.</p>
+        </div>
+        <div class="section-toggle-btn">
+          <span class="toggle-text">Expand</span>
+          <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
+        </div>
       </div>
 
-      <div class="timeline-container" id="experience-timeline-container">
-        <!-- Dynamically rendered via app.js -->
-      </div>
-    </section>
-
-    <!-- EDUCATION & ACHIEVEMENTS -->
-    <section class="section-container" id="education">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-graduation-cap"></i> Academic Background</div>
-        <h2 class="section-title">Education & Activities</h2>
-        <p class="section-desc">Engineering foundation from Chulalongkorn University and hackathon experiences.</p>
-      </div>
-
-      <div class="education-grid" id="education-grid-container">
-        <!-- Dynamically rendered via app.js -->
+      <div class="collapsible-content">
+        <div class="education-grid" id="education-grid-container">
+          <!-- Dynamically rendered via app.js -->
+        </div>
       </div>
     </section>
 
-    <!-- CONTACT & HIRE ME SECTION -->
-    <section class="section-container contact-section" id="contact">
-      <div class="contact-card">
-        <div class="contact-glow"></div>
-        <div class="contact-content">
+    <!-- 6. CONTACT & HIRE ME SECTION -->
+    <section class="section-container collapsible-section contact-section" id="contact">
+      <div class="section-header collapsible-header" role="button" tabindex="0" aria-expanded="false" title="Click to fold/unfold Contact & Opportunities">
+        <div class="header-left">
           <div class="section-tag"><i class="fa-solid fa-paper-plane"></i> Contact</div>
-          <h2 class="contact-title">Let's Connect & Collaborate</h2>
-          <p class="contact-desc">
-            Interested in Junior AI Engineer, Computer Vision Engineer, and Full-Stack AI roles. Ready to learn, contribute, and build practical solutions.
-          </p>
+          <h2 class="section-title">Let's Connect & Collaborate</h2>
+          <p class="section-desc">Interested in Junior AI Engineer, Computer Vision Engineer, and Full-Stack AI roles.</p>
+        </div>
+        <div class="section-toggle-btn">
+          <span class="toggle-text">Expand</span>
+          <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
+        </div>
+      </div>
 
-          <div class="contact-channels-grid">
-            <div class="contact-channel-box" onclick="navigator.clipboard.writeText('Kwankhaosiva@gmail.com'); showToast('Email copied to clipboard!');">
-              <div class="channel-icon"><i class="fa-solid fa-envelope"></i></div>
-              <div class="channel-info">
-                <span class="channel-name">Email</span>
-                <span class="channel-value">Kwankhaosiva@gmail.com</span>
+      <div class="collapsible-content">
+        <div class="contact-card" style="margin-top: 20px;">
+          <div class="contact-glow"></div>
+          <div class="contact-content">
+            <div class="contact-channels-grid">
+              <div class="contact-channel-box" onclick="navigator.clipboard.writeText('Kwankhaosiva@gmail.com'); showToast('Email copied to clipboard!');">
+                <div class="channel-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div class="channel-info">
+                  <span class="channel-name">Email</span>
+                  <span class="channel-value">Kwankhaosiva@gmail.com</span>
+                </div>
+                <button class="channel-action-btn" title="Copy email"><i class="fa-solid fa-copy"></i></button>
               </div>
-              <button class="channel-action-btn" title="Copy email"><i class="fa-solid fa-copy"></i></button>
+
+              <div class="contact-channel-box" onclick="navigator.clipboard.writeText('(+66) 95-959-6921'); showToast('Phone number copied to clipboard!');">
+                <div class="channel-icon"><i class="fa-solid fa-phone"></i></div>
+                <div class="channel-info">
+                  <span class="channel-name">Phone</span>
+                  <span class="channel-value">(+66) 95-959-6921</span>
+                </div>
+                <button class="channel-action-btn" title="Copy phone"><i class="fa-solid fa-copy"></i></button>
+              </div>
+
+              <a href="https://linkedin.com/in/kwankhao-sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-channel-box">
+                <div class="channel-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+                <div class="channel-info">
+                  <span class="channel-name">LinkedIn</span>
+                  <span class="channel-value">linkedin.com/in/kwankhao-sivasomboon</span>
+                </div>
+                <span class="channel-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </a>
+
+              <a href="https://github.com/Kwankhao-Sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-channel-box">
+                <div class="channel-icon"><i class="fa-brands fa-github"></i></div>
+                <div class="channel-info">
+                  <span class="channel-name">GitHub</span>
+                  <span class="channel-value">github.com/Kwankhao-Sivasomboon</span>
+                </div>
+                <span class="channel-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </a>
             </div>
 
-            <div class="contact-channel-box" onclick="navigator.clipboard.writeText('(+66) 95-959-6921'); showToast('Phone number copied to clipboard!');">
-              <div class="channel-icon"><i class="fa-solid fa-phone"></i></div>
-              <div class="channel-info">
-                <span class="channel-name">Phone</span>
-                <span class="channel-value">(+66) 95-959-6921</span>
-              </div>
-              <button class="channel-action-btn" title="Copy phone"><i class="fa-solid fa-copy"></i></button>
+            <div class="contact-actions">
+              <a href="mailto:Kwankhaosiva@gmail.com?subject=Opportunity%20-%20Kwankhao%20Sivasomboon" class="btn btn-lg btn-primary">
+                <i class="fa-solid fa-envelope-open-text"></i> Send Email
+              </a>
+              <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-lg btn-secondary">
+                <i class="fa-solid fa-file-pdf"></i> Download Resume
+              </a>
             </div>
-
-            <a href="https://linkedin.com/in/kwankhao-sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-channel-box">
-              <div class="channel-icon"><i class="fa-brands fa-linkedin-in"></i></div>
-              <div class="channel-info">
-                <span class="channel-name">LinkedIn</span>
-                <span class="channel-value">linkedin.com/in/kwankhao-sivasomboon</span>
-              </div>
-              <span class="channel-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-            </a>
-
-            <a href="https://github.com/Kwankhao-Sivasomboon" target="_blank" rel="noopener noreferrer" class="contact-channel-box">
-              <div class="channel-icon"><i class="fa-brands fa-github"></i></div>
-              <div class="channel-info">
-                <span class="channel-name">GitHub</span>
-                <span class="channel-value">github.com/Kwankhao-Sivasomboon</span>
-              </div>
-              <span class="channel-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-            </a>
-          </div>
-
-          <div class="contact-actions">
-            <a href="mailto:Kwankhaosiva@gmail.com?subject=Opportunity%20-%20Kwankhao%20Sivasomboon" class="btn btn-lg btn-primary">
-              <i class="fa-solid fa-envelope-open-text"></i> Send Email
-            </a>
-            <a href="assets/RESUME_Kwankhao_Sivasomboon.pdf" download="RESUME_Kwankhao_Sivasomboon.pdf" class="btn btn-lg btn-secondary">
-              <i class="fa-solid fa-file-pdf"></i> Download Resume
-            </a>
           </div>
         </div>
       </div>
