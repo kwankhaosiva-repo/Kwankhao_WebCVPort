@@ -748,8 +748,8 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = state.resume.experience.map((exp, idx) => `
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-card ${idx === 0 ? 'expanded' : ''}" data-idx="${idx}">
-          <div class="timeline-header" style="cursor: pointer;" title="Click to expand/collapse achievements">
+        <div class="timeline-card expanded" data-idx="${idx}">
+          <div class="timeline-header" style="cursor: pointer;" title="Click to collapse/expand achievements">
             <div>
               <h3 class="timeline-role">${exp.role}</h3>
               <div class="timeline-company">${exp.company} · <span style="color: var(--text-muted); font-size: 0.9rem;">${exp.location}</span></div>
@@ -757,11 +757,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="display: flex; align-items: center; gap: 12px;">
               <span class="timeline-period">${exp.period}</span>
               <span class="timeline-toggle-icon" style="color: var(--accent-cyan); font-size: 0.85rem;">
-                <i class="fa-solid fa-chevron-${idx === 0 ? 'up' : 'down'}"></i>
+                <i class="fa-solid fa-chevron-up"></i>
               </span>
             </div>
           </div>
-          <ul class="timeline-achievements" style="display: ${idx === 0 ? 'flex' : 'none'};">
+          <ul class="timeline-achievements" style="display: flex;">
             ${exp.achievements.map(ach => `
               <li>${ach.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>
             `).join('')}
