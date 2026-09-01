@@ -193,23 +193,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     3.1 Collapsible Section Accordions (Folded by default)
+     3.1 Minimal Linear Bar Sections (Folded by default)
      ========================================================================== */
   function initCollapsibleSections() {
-    const sections = document.querySelectorAll('.collapsible-section');
-    const expandAllBtn = document.getElementById('expand-all-btn');
-    const collapseAllBtn = document.getElementById('collapse-all-btn');
+    const barItems = document.querySelectorAll('.section-bar-item');
 
-    sections.forEach(section => {
-      const header = section.querySelector('.collapsible-header');
-      const toggleText = section.querySelector('.toggle-text');
+    barItems.forEach(item => {
+      const header = item.querySelector('.section-bar-header');
+      const icon = item.querySelector('.bar-icon');
 
       if (!header) return;
 
       header.addEventListener('click', () => {
-        const isOpen = section.classList.toggle('is-open');
+        const isOpen = item.classList.toggle('is-open');
         header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        if (toggleText) toggleText.textContent = isOpen ? 'Fold' : 'Expand';
+        if (icon) icon.textContent = isOpen ? '−' : '+';
       });
 
       // Keyboard accessibility (Enter or Space)
@@ -220,44 +218,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
-
-    // Expand All Button
-    if (expandAllBtn) {
-      expandAllBtn.addEventListener('click', () => {
-        sections.forEach(sec => {
-          sec.classList.add('is-open');
-          const header = sec.querySelector('.collapsible-header');
-          const toggleText = sec.querySelector('.toggle-text');
-          if (header) header.setAttribute('aria-expanded', 'true');
-          if (toggleText) toggleText.textContent = 'Fold';
-        });
-        showToast('All sections expanded');
-      });
-    }
-
-    // Collapse All Button
-    if (collapseAllBtn) {
-      collapseAllBtn.addEventListener('click', () => {
-        sections.forEach(sec => {
-          sec.classList.remove('is-open');
-          const header = sec.querySelector('.collapsible-header');
-          const toggleText = sec.querySelector('.toggle-text');
-          if (header) header.setAttribute('aria-expanded', 'false');
-          if (toggleText) toggleText.textContent = 'Expand';
-        });
-        showToast('All sections folded');
-      });
-    }
   }
 
   window.openCollapsibleSection = function(sectionId) {
-    const sec = document.getElementById(sectionId);
-    if (sec && sec.classList.contains('collapsible-section')) {
-      sec.classList.add('is-open');
-      const header = sec.querySelector('.collapsible-header');
-      const toggleText = sec.querySelector('.toggle-text');
+    const item = document.getElementById(sectionId);
+    if (item && item.classList.contains('section-bar-item')) {
+      item.classList.add('is-open');
+      const header = item.querySelector('.section-bar-header');
+      const icon = item.querySelector('.bar-icon');
       if (header) header.setAttribute('aria-expanded', 'true');
-      if (toggleText) toggleText.textContent = 'Fold';
+      if (icon) icon.textContent = '−';
     }
   };
 
