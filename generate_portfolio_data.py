@@ -273,84 +273,111 @@ COMPANY_PROJECTS = [
 PERSONAL_PROJECTS = [
     {
         "id": "thai-lpr-deep-learning-ocr",
-        "title": "Thai License Plate Recognition (LPR) & OCR Pipeline",
+        "title": "Multi-Country License Plate Recognition (Thai & Lao LPR) & OCR Pipeline",
         "type": "personal",
         "typeLabel": "Independent Project",
         "category": "cv-edge",
         "categoryLabel": "Computer Vision & Deep Learning",
         "badge": "Independent Project",
         "image": "assets/LPR.jpeg",
-        "impact": "3-Stage deep learning pipeline achieving ~90% Thai province OCR classification",
-        "shortSummary": "3-Stage deep learning OCR pipeline combining YOLO11 detection, ResNet-CRNN with CTC Loss, and MobileNetV2 province classification.",
-        "fullDescription": "An end-to-end 3-stage deep learning pipeline built to recognize complex Thai vehicle license plates (featuring Thai script consonants, numerals, and 77 distinct provincial names in small text). Stage 1 uses YOLO11 for plate localization and perspective alignment. Stage 2 employs a custom ResNet-CRNN architecture trained with Connectionist Temporal Classification (CTC Loss) for reading character sequences without per-character bounding boxes. Stage 3 utilizes a fine-tuned MobileNetV2 classifier to identify the 77 Thai provinces.",
+        "impact": "100% Commercially permissive (Apache-2.0/MIT) pipeline achieving 99.10% province accuracy and ~70–90ms CPU latency",
+        "shortSummary": "Commercially permissive (Apache-2.0/MIT) Multi-Country LPR pipeline with 4-corner keypoint rectification, dual-engine OCR (99.58%), and 77-province ResNet34 (99.10%).",
+        "fullDescription": "An enterprise-grade, commercially permissive (Apache-2.0 / MIT / BSD-3) deep learning microservice and interactive web dashboard for real-time Thai and Lao license plate recognition. The pipeline completely eliminates restrictive AGPL copyleft lock-in by using D-FINE-Nano/PicoDet-S for plate detection, a MobileNetV3 4-corner keypoint regressor with subpixel homography unwarping (to canonical 320x160 frontal view), country layout routing (with an inverted 'Flip-and-Detect' workflow for Lao plates), a dual-engine character recognition system combining 50-class MobileNetV2 (99.58% Val Top-1) and ResNet18-BiLSTM-CTC, and a grayscale ResNet34 classifier achieving 99.10% Val Top-1 across all 77 Thai provinces. Enforces Department of Land Transport (DLT) legal syntax rules and spatial gap gating to eliminate mounting screw false positives, exporting cleanly to standalone ONNX (Opset 18) with ~70–90ms end-to-end CPU inference and native C# (.NET) readiness.",
         "highlights": [
-            "Stage 1: YOLO11 object detection trained on diverse Thai vehicle camera angles",
-            "Stage 2: ResNet-CRNN with CTC Loss for Thai alphabet and digit sequence transcription",
-            "Stage 3: Fine-tuned MobileNetV2 model for 77 Thai province classification",
-            "Achieved ~90% province classification accuracy across test validation datasets",
-            "Containerized REST API built with FastAPI and tested on GCP Cloud Run"
+            "100% Commercially Permissive: Engineered with Apache-2.0, MIT, and BSD-3 architectures (D-FINE, PicoDet, MobileNetV3, ResNet), avoiding restrictive AGPL copyleft liability or commercial royalties.",
+            "2-Stage Subpixel Corner Rectification: MobileNetV3 4-corner coordinate regressor (~3.2ms CPU) paired with OpenCV homography unwarping to canonical 320x160 perspective.",
+            "Multi-Country & Flip-and-Detect: Handles Thai and Lao plate geometries with 99.9% layout classifier; vertically inverts Lao plates to reuse component detectors, halving memory footprint.",
+            "Dual-Engine Character OCR: Fused 50-class balanced MobileNetV2 (99.58% Val Top-1) with continuous ResNet18-BiLSTM-CTC sequence model to resolve difficult stroke ambiguities (e.g. ศ vs ผ).",
+            "77-Province ResNet34 Classifier: Grayscale 80x256 ResNet34 capturing tonal Thai vowel accents, delivering 99.10% Val Top-1 across all 77 Thai provinces.",
+            "DLT Legal Syntax Guard: Enforces Thai Department of Land Transport syntax invariants and spatial-gap gating (Method A+C) to prevent screw and rivet artifacts from hallucinating digits.",
+            "Production CPU & ONNX Deployment: Standalone ONNX (Opset 18) export, C# (.NET / OpenCvSharp / OnnxRuntime) cross-platform integration without custom C++ plugins, and Dockerized FastAPI microservice (~70–90ms CPU latency)."
         ],
         "metrics": [
-            {"label": "Province Accuracy", "value": "~90%", "sub": "77 Thai provinces evaluated"},
-            {"label": "Pipeline Stages", "value": "3-Stage", "sub": "YOLO11 + CRNN-CTC + MobileNetV2"},
-            {"label": "Inference Latency", "value": "< 120ms", "sub": "End-to-end pipeline per image"},
-            {"label": "Framework", "value": "PyTorch", "sub": "Custom CNN-RNN-CTC training"}
+            {"label": "Thai Province Top-1", "value": "99.10%", "sub": "77 Thai provinces (ResNet34)"},
+            {"label": "Thai Character Top-1", "value": "99.58%", "sub": "50-class balanced MobileNetV2"},
+            {"label": "End-to-End Latency", "value": "70–90ms", "sub": "Full pipeline on standard CPU"},
+            {"label": "Commercial License", "value": "Permissive", "sub": "100% Apache-2.0 / MIT / BSD-3"}
         ],
         "techStack": [
-            "Python", "PyTorch", "YOLO11", "ResNet-CRNN", "CTC Loss", "MobileNetV2",
-            "OpenCV", "FastAPI", "Docker", "GCP Cloud Run"
+            "Python", "PyTorch", "D-FINE Nano", "PicoDet-S", "MobileNetV3", "ResNet34", "BiLSTM", "CTC Loss",
+            "OpenCV", "ONNX Runtime", "C# (.NET)", "FastAPI", "Docker", "GCP Cloud Run"
         ],
         "architecture": """
-+-----------------+      +------------------------+      +------------------------+
-| Input Image /   | ---> | Stage 1: YOLO11        | ---> | Crop & Perspective     |
-| Vehicle Camera  |      | Plate Detection        |      | Warp Correction        |
-+-----------------+      +------------------------+      +------------------------+
-                                                                     |
-                                  +----------------------------------+
-                                  |
-                                  v
-+-------------------------------------------------+      +------------------------+
-| Stage 2: ResNet-CRNN + CTC Loss (Text/Numbers)  | ---> | JSON Structured Result |
-| Stage 3: MobileNetV2 (77 Province Classifier)   |      | Plate: 1กข 9999 กรุงเทพ |
-+-------------------------------------------------+      +------------------------+
++--------------------+     +----------------------------------+     +-----------------------------+
+| Input Camera Frame | --> | Stage 1: D-FINE / PicoDet Plate  | --> | Stage 1.1: MobileNetV3      |
+| (Image / RTSP)     |     | Bounding Box Localization        |     | 4-Corner Keypoint Regressor |
++--------------------+     +----------------------------------+     +-----------------------------+
+                                                                                  |
+                                          +---------------------------------------+
+                                          | (cv2.warpPerspective to 320x160 Deskewed)
+                                          v
++--------------------+     +----------------------------------+     +-----------------------------+
+| Stage 1.5: Country | --> | Stage 2: Component Segmentation  | --> | Thai Chars Crop /           |
+| Classifier (TH/LA) |     | D-FINE-Nano ('chars' & 'prov')   |     | Inverted Lao Flip-and-Detect|
++--------------------+     +----------------------------------+     +-----------------------------+
+                                                                                  |
+                                          +---------------------------------------+
+                                          |
+                                          v
++-------------------------------------------------------------------------------------------------+
+| Stage 3A: Dual-Engine Character OCR (50-Class MobileNetV2: 99.58% Top-1 + ResNet18-BiLSTM-CTC)   |
+| Stage 3B: Grayscale ResNet34 Province Classifier (77 Thai Provinces: 99.10% Val Top-1)          |
+| Stage 4:  DLT Legal Syntax Validation & Method A+C Spatial Gap Gating                           |
++-------------------------------------------------------------------------------------------------+
+                                          |
+                                          v
++-------------------------------------------------------------------------------------------------+
+| JSON Structured Output: { plate: "1กข 9999", province: "กรุงเทพมหานคร", latency: "78ms" }       |
++-------------------------------------------------------------------------------------------------+
 """,
         "innovations": [
-            "**Decoupled Province Classifier**: Decoupled sequence transcription from province identification, allowing the MobileNetV2 classifier to specialize on subtle font differences in provincial titles.",
-            "**CTC Loss Sequence Alignment**: Eliminated the need for character-level bounding box segmentation by training CRNN end-to-end with Connectionist Temporal Classification."
+            "**Subpixel Keypoint Homography Rectification**: Replaced heavy oriented bounding box (OBB) networks with a lightweight MobileNetV3 4-corner coordinate regressor (~3.2ms), enabling clean ONNX export without custom C++ rotated NMS operators.",
+            "**Lao Flip-and-Detect Workflow**: Vertically inverts Lao plate layouts during detection to map numbers to top rows, directly reusing Thai component segmentation and cutting VRAM footprint in half.",
+            "**Method A+C Spatial Gap Gating & DLT Syntax Invariants**: Enforces Thai vehicle registration grammar rules and physical character spacing checks to eliminate screw head and frame artifact hallucinations."
         ],
         "codeSnippet": {
             "language": "python",
-            "title": "models/lpr_pipeline.py (Three-Stage PyTorch Inference & CTC Decode)",
-            "code": """class ThaiLPRPipeline:
-    def __init__(self, yolo_path: str, crnn_path: str, province_path: str, device='cuda'):
-        self.detector = YOLO(yolo_path)
-        self.ocr_model = CRNN(num_classes=NUM_THAI_CHARS).to(device)
-        self.province_model = MobileNetV2(num_classes=77).to(device)
-        self.device = device
+            "title": "src/api_server.py (Multi-Stage Permissive LPR Pipeline with Subpixel Rectification)",
+            "code": """class MultiCountryLPRPipeline:
+    def __init__(self, config: Config):
+        # 100% Commercially Permissive Architecture (Apache-2.0 / MIT / BSD-3)
+        self.plate_detector = DFineDetector(config.MODEL_1_PATH)       # D-FINE-Nano / PicoDet-S
+        self.corner_regressor = CornerRegressor(config.CORNER_PATH)   # MobileNetV3 Keypoint (8 coords)
+        self.country_cls = CountryClassifier(config.COUNTRY_PATH)     # MobileNetV3-Small (TH vs LA)
+        self.comp_detector = DFineDetector(config.MODEL_2_PATH)       # 'plate_char' & 'province'
+        self.char_cls = MobileNetV2CharClassifier(num_classes=50)     # 99.58% Val Top-1
+        self.ctc_ocr = ResNetBiLSTMCTC(num_classes=71)                # Continuous sequence OCR
+        self.thai_prov_model = ResNet34Grayscale(num_classes=77)      # 99.10% Val Top-1 (80x256)
 
-    def predict(self, image_np: np.ndarray) -> dict:
-        # Stage 1: Bounding Box Detection
-        results = self.detector(image_np, conf=0.5)
-        if not results or len(results[0].boxes) == 0:
-            return {"status": "no_plate_found"}
+    def process_frame(self, frame: np.ndarray) -> dict:
+        # Stage 1: Plate Localization & Smart 12% Margin Padding
+        plate_box = self.plate_detector.predict(frame)
+        plate_crop = extract_margin_crop(frame, plate_box, margin=0.12)
 
-        box = results[0].boxes[0].xyxy[0].cpu().numpy().astype(int)
-        plate_crop = image_np[box[1]:box[3], box[0]:box[2]]
+        # Stage 1.1: 4-Corner Continuous Coordinate Regression (3.2ms)
+        corners = self.corner_regressor.predict(plate_crop) # [TL, TR, BR, BL]
+        canonical_plate = cv2.warpPerspective(plate_crop, cv2.getPerspectiveTransform(corners, TARGET_320x160))
 
-        # Stage 2: ResNet-CRNN OCR for Thai Consonants and Numbers
-        tensor_crop = preprocess_ocr(plate_crop).to(self.device)
-        ocr_logits = self.ocr_model(tensor_crop)
-        plate_text = ctc_decode(ocr_logits, THAI_CHAR_MAP)
+        # Stage 1.5: Country / Layout Classifier (99.9% Accuracy)
+        is_lao = self.country_cls.predict(canonical_plate) == 1
 
-        # Stage 3: MobileNetV2 77 Province Classification
-        prov_tensor = preprocess_province(plate_crop).to(self.device)
-        prov_logits = self.province_model(prov_tensor)
-        province_name = PROVINCE_MAP[prov_logits.argmax().item()]
+        # Stage 2: Flip-and-Detect Workflow for Inverted Lao Geometry
+        detect_target = cv2.flip(canonical_plate, 0) if is_lao else canonical_plate
+        components = self.comp_detector.predict(detect_target)
+
+        # Stage 3A & 3B: Dual-Engine Character OCR + 77-Province Classification
+        chars_crop = invert_box(components['chars'], canonical_plate.shape) if is_lao else components['chars']
+        chars_text = self.dual_engine_recognize(chars_crop)  # Method A+C Spatial Fusion
+        province_name = self.classify_province(components['province'], is_lao=is_lao)
+
+        # Stage 4: DLT Legal Syntax Invariant Guard
+        validated_plate = PlateLabelValidator.validate_format(chars_text)
 
         return {
-            "plate_number": plate_text,
+            "country": "LA" if is_lao else "TH",
+            "plate_number": validated_plate,
             "province": province_name,
-            "confidence": float(ocr_logits.max().item())
+            "latency_ms": 78.4
         }"""
         },
         "featured": True
@@ -715,6 +742,26 @@ RESUME_DATA = {
             ]
         }
     ],
+    "projects": [
+        {
+            "name": "Multi-Country License Plate Recognition (Thai & Lao) API",
+            "type": "Personal Project",
+            "period": "Aug 2025 – Dec 2025",
+            "bullet": "Engineered an enterprise Multi-Country LPR pipeline (Thai & Lao) using 100% commercially permissive models (Apache-2.0/MIT); implemented 2-stage MobileNetV3 4-corner keypoint rectification, dual-engine OCR (50-class MobileNetV2 at 99.58% Top-1 and ResNet-CTC), and a grayscale ResNet34 classifier achieving 99.10% Top-1 accuracy across 77 Thai provinces; enforced DLT legal syntax and exported to standalone ONNX (~70–90ms CPU latency) deployed via FastAPI and Docker."
+        },
+        {
+            "name": "LINE Stock Analysis AI Agent",
+            "type": "Personal Project",
+            "period": "Dec 2025 – Feb 2026",
+            "bullet": "Built a Gemini 2.5 Flash assistant integrating Thai and US market data, technical indicators, news, user risk profiles, PostgreSQL/SQLAlchemy, scheduled alerts, webhook deduplication, and asynchronous background processing."
+        },
+        {
+            "name": "Hybrid RAG & Thai Legal Retrieval",
+            "type": "Personal Project",
+            "period": "2025 – 2026",
+            "bullet": "Implemented document Q&A with LangChain, ChromaDB, multilingual embeddings, and Gemini/Ollama; built a Thai legal retriever using dense search, BM25, RRF, metadata filters, query expansion, and LLM-as-a-judge evaluation."
+        }
+    ],
     "competitions": [
         {
             "name": "Hackathon: Sustainability Waste Management",
@@ -750,7 +797,7 @@ def main():
             "totalProjects": len(ALL_PROJECTS),
             "companyProjectsCount": len(COMPANY_PROJECTS),
             "personalProjectsCount": len(PERSONAL_PROJECTS),
-            "ocrAccuracy": "~90%",
+            "ocrAccuracy": "99.10%",
             "ragGrounding": "93.8%",
             "sttLatency": "< 320ms"
         }

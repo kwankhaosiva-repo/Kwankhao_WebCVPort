@@ -929,6 +929,27 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
+        ${(r.projects && r.projects.length > 0) ? `
+        <div>
+          <h3 style="font-size: 1.1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; margin-bottom: 12px; color: var(--accent-cyan);">
+            SELECTED PROJECTS
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            ${r.projects.map(proj => `
+              <div>
+                <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem;">
+                  <span>${proj.name}</span>
+                  <span style="color: var(--text-muted); font-size: 0.85rem;">${proj.period}</span>
+                </div>
+                <p style="margin-top: 6px; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+                  ${proj.bullet}
+                </p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
         <div>
           <h3 style="font-size: 1.1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; margin-bottom: 12px; color: var(--accent-cyan);">
             EDUCATION
