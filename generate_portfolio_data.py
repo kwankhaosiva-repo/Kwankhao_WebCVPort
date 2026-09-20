@@ -280,21 +280,21 @@ PERSONAL_PROJECTS = [
         "categoryLabel": "Computer Vision & Deep Learning",
         "badge": "Independent Project",
         "image": "assets/LPR.jpeg",
-        "impact": "100% commercially permissive (Apache-2.0/MIT) LPR system live on GCP Cloud Run: 99.20% province accuracy, 99.58% character Top-1, and ~75–95ms CPU latency",
-        "shortSummary": "Commercially permissive (Apache-2.0/MIT) Multi-Country LPR system deployed on GCP Cloud Run with 4-corner keypoint rectification, dual-engine OCR (99.58%), and 77-province ResNet18 (99.20%).",
-        "fullDescription": "An enterprise-grade, commercially permissive (Apache-2.0 / MIT / BSD-3) deep learning microservice and interactive web dashboard for real-time Thai and Lao license plate recognition, rebuilt as a v2 production system and deployed to Google Cloud Run. The pipeline completely eliminates restrictive AGPL copyleft lock-in by using D-FINE-Nano/PicoDet-S for plate detection, a MobileNetV3 4-corner keypoint regressor with subpixel homography unwarping (to canonical 320x160 frontal view), country layout routing (with an inverted 'Flip-and-Detect' workflow for Lao plates), and an RF-DETR-Base character box detector feeding a dual-engine character recognition system combining 50-class balanced MobileNetV2 (99.58% Val Top-1 / 99.89% Top-3) and ResNet18-BiLSTM-CTC. A compact grayscale ResNet18 province classifier (64x256, 42.9 MB, ~5ms CPU) achieves 99.20% Val Top-1 across all 77 Thai provinces. Enforces Department of Land Transport (DLT) legal syntax rules and spatial gap gating to eliminate mounting screw false positives, exports cleanly to standalone ONNX (Opset 18) with ~75–95ms end-to-end CPU inference and native C# (.NET) readiness, and persists every recognition to dual cloud storage (Firestore + BigQuery) via a zero-latency async worker.",
+        "impact": "100% commercially permissive (Apache-2.0/MIT) LPR system live on GCP Cloud Run: 99.46% province accuracy, 99.58% character Top-1, and ~75–95ms CPU latency",
+        "shortSummary": "Commercially permissive (Apache-2.0/MIT) Multi-Country LPR system deployed on GCP Cloud Run with 4-corner keypoint rectification, dual-engine OCR (99.58%), and 77-province ResNet18 (99.46%).",
+        "fullDescription": "An enterprise-grade, commercially permissive (Apache-2.0 / MIT / BSD-3) deep learning microservice and interactive web dashboard for real-time Thai and Lao license plate recognition, rebuilt as a v2 production system and deployed to Google Cloud Run. The pipeline completely eliminates restrictive AGPL copyleft lock-in by using D-FINE-Nano/PicoDet-S for plate detection, a MobileNetV3 4-corner keypoint regressor with subpixel homography unwarping (to canonical 320x160 frontal view), country layout routing (with an inverted 'Flip-and-Detect' workflow for Lao plates), and an RF-DETR-Base character box detector feeding a dual-engine character recognition system combining 50-class balanced MobileNetV2 (99.58% Val Top-1 / 99.89% Top-3) and ResNet18-BiLSTM-CTC. A compact grayscale ResNet18 province classifier (64x256, 42.9 MB, ~5ms CPU) achieves 99.46% Val Top-1 across all 77 Thai provinces. Enforces Department of Land Transport (DLT) legal syntax rules and spatial gap gating to eliminate mounting screw false positives, exports cleanly to standalone ONNX (Opset 18) with ~75–95ms end-to-end CPU inference and native C# (.NET) readiness, and persists every recognition to dual cloud storage (Firestore + BigQuery) via a zero-latency async worker.",
         "highlights": [
             "100% Commercially Permissive: Engineered with Apache-2.0, MIT, and BSD-3 architectures (D-FINE, PicoDet, RF-DETR, MobileNetV3, ResNet), avoiding restrictive AGPL copyleft liability or commercial royalties.",
             "2-Stage Subpixel Corner Rectification: MobileNetV3 4-corner coordinate regressor (~3.2ms CPU) paired with OpenCV homography unwarping to canonical 320x160 perspective.",
             "Multi-Country & Flip-and-Detect: Handles Thai and Lao plate geometries with 99.9% layout classifier; vertically inverts Lao plates to reuse component detectors, halving memory footprint.",
             "Dual-Engine Character OCR: RF-DETR-Base char box detection feeding a fused 50-class balanced MobileNetV2 (99.58% Val Top-1 / 99.89% Top-3) and continuous ResNet18-BiLSTM-CTC sequence model to resolve difficult stroke ambiguities (e.g. ศ vs ผ).",
-            "77-Province ResNet18 Classifier: Compact grayscale 64x256 ResNet18 (42.9 MB, ~5ms CPU) capturing tonal Thai vowel accents, delivering 99.20% Val Top-1 across all 77 Thai provinces.",
+            "77-Province ResNet18 Classifier: Compact grayscale 64x256 ResNet18 (42.9 MB, ~5ms CPU) capturing tonal Thai vowel accents, delivering 99.46% Val Top-1 across all 77 Thai provinces.",
             "DLT Legal Syntax Guard: Enforces Thai Department of Land Transport syntax invariants and spatial-gap gating (Method A+C) to prevent screw and rivet artifacts from hallucinating digits.",
             "GCP Cloud-Native Production Deployment: Dockerized FastAPI microservice on Cloud Run (~75–95ms CPU latency) with Cloud Run native auto-detection and zero-latency async persistence to dual cloud storage (Firestore documents + BigQuery analytics rows).",
             "Cross-Platform ONNX & C# Ready: Standalone ONNX (Opset 18) export with C# (.NET / OpenCvSharp / OnnxRuntime) integration requiring zero custom C++ plugins."
         ],
         "metrics": [
-            {"label": "Thai Province Top-1", "value": "99.20%", "sub": "77 Thai provinces (ResNet18, 64x256)"},
+            {"label": "Thai Province Top-1", "value": "99.46%", "sub": "77 Thai provinces (ResNet18, 64x256)"},
             {"label": "Thai Character Top-1", "value": "99.58%", "sub": "50-class balanced MobileNetV2 (99.89% Top-3)"},
             {"label": "End-to-End Latency", "value": "75–95ms", "sub": "Full pipeline on standard CPU"},
             {"label": "Cloud Deployment", "value": "GCP Live", "sub": "Cloud Run + Firestore + BigQuery"}
@@ -323,7 +323,7 @@ PERSONAL_PROJECTS = [
 +-------------------------------------------------------------------------------------------------+
 | Stage 3A: RF-DETR-Base Char Boxes + Dual-Engine OCR (50-Class MobileNetV2: 99.58% Top-1          |
 |           + ResNet18-BiLSTM-CTC)                                                                 |
-| Stage 3B: Grayscale ResNet18 Province Classifier (77 Thai Provinces: 99.20% Val Top-1, 42.9 MB)  |
+| Stage 3B: Grayscale ResNet18 Province Classifier (77 Thai Provinces: 99.46% Val Top-1, 42.9 MB)  |
 | Stage 4:  DLT Legal Syntax Validation & Method A+C Spatial Gap Gating                           |
 +-------------------------------------------------------------------------------------------------+
                                           |
@@ -352,7 +352,7 @@ PERSONAL_PROJECTS = [
         self.char_box_detector = RFDetector(config.MODEL_3A_PATH)     # RF-DETR-Base char boxes
         self.char_cls = MobileNetV2CharClassifier(num_classes=50)     # 99.58% Val Top-1 / 99.89% Top-3
         self.ctc_ocr = ResNetBiLSTMCTC(num_classes=71)                # Continuous sequence OCR
-        self.thai_prov_model = ResNet18Grayscale(num_classes=77)      # 99.20% Val Top-1 (64x256, 42.9 MB)
+        self.thai_prov_model = ResNet18Grayscale(num_classes=77)      # 99.46% Val Top-1 (64x256, 42.9 MB)
         self.cloud_storage = CloudStorageManager(config)              # Firestore + BigQuery async worker
 
     def process_frame(self, frame: np.ndarray) -> dict:
@@ -757,7 +757,7 @@ RESUME_DATA = {
             "name": "Multi-Country License Plate Recognition (Thai & Lao) API",
             "type": "Personal Project",
             "period": "Aug 2025 – Dec 2025",
-            "bullet": "Engineered an enterprise Multi-Country LPR system (Thai & Lao) using 100% commercially permissive models (Apache-2.0/MIT); implemented 2-stage MobileNetV3 4-corner keypoint rectification, RF-DETR character localization, and dual-engine OCR (50-class MobileNetV2 at 99.58% Top-1 and ResNet-CTC) with a compact grayscale ResNet18 classifier achieving 99.20% Top-1 across 77 Thai provinces; enforced DLT legal syntax, deployed the Dockerized FastAPI system to GCP Cloud Run (~75–95ms CPU latency), and persisted results via async workers to Firestore and BigQuery."
+            "bullet": "Engineered an enterprise Multi-Country LPR system (Thai & Lao) using 100% commercially permissive models (Apache-2.0/MIT); implemented 2-stage MobileNetV3 4-corner keypoint rectification, RF-DETR character localization, and dual-engine OCR (50-class MobileNetV2 at 99.58% Top-1 and ResNet-CTC) with a compact grayscale ResNet18 classifier achieving 99.46% Top-1 across 77 Thai provinces; enforced DLT legal syntax, deployed the Dockerized FastAPI system to GCP Cloud Run (~75–95ms CPU latency), and persisted results via async workers to Firestore and BigQuery."
         },
         {
             "name": "LINE Stock Analysis AI Agent",
@@ -807,7 +807,7 @@ def main():
             "totalProjects": len(ALL_PROJECTS),
             "companyProjectsCount": len(COMPANY_PROJECTS),
             "personalProjectsCount": len(PERSONAL_PROJECTS),
-            "ocrAccuracy": "99.20%",
+            "ocrAccuracy": "99.46%",
             "ragGrounding": "93.8%",
             "sttLatency": "< 320ms"
         }
